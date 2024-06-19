@@ -51,20 +51,32 @@ jobs:
     - name: Check for models directory and contents
       run: ls -R models
 
-    - name: Lint with flake8
-      run: venv/bin/python -m flake8 src tests
+    - name: Activate virtual environment and lint with flake8
+      run: |
+        source venv/bin/activate
+        python -m flake8 src tests
 
-    - name: List installed packages before running tests
-      run: venv/bin/pip list
+    - name: Activate virtual environment and list installed packages before running tests
+      run: |
+        source venv/bin/activate
+        pip list
 
-    - name: Print Python version before running tests
-      run: venv/bin/python --version
+    - name: Activate virtual environment and print Python version before running tests
+      run: |
+        source venv/bin/activate
+        python --version
 
-    - name: Print Python path before running tests
-      run: venv/bin/python -c "import sys; print(sys.path)"
+    - name: Activate virtual environment and print Python path before running tests
+      run: |
+        source venv/bin/activate
+        python -c "import sys; print(sys.path)"
 
-    - name: Run tests with pytest
-      run: venv/bin/python -m pytest
+    - name: Activate virtual environment and run tests with pytest
+      run: |
+        source venv/bin/activate
+        python -m pytest
 
-    - name: Test prediction functionality
-      run: venv/bin/python scripts/predict_job_level.py
+    - name: Activate virtual environment and test prediction functionality
+      run: |
+        source venv/bin/activate
+        python scripts/predict_job_level.py
