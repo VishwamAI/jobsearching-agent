@@ -4,6 +4,7 @@ import pandas as pd
 import time
 import logging
 import os
+import re
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -33,7 +34,8 @@ def google_job_search(query, num_pages=5):
                 job_listings.append({
                     'job_title': job_title,
                     'company_name': company_name,
-                    'location': location
+                    'location': location,
+                    'job_level': categorize_job_title(job_title)
                 })
 
             time.sleep(2)  # Sleep to avoid being blocked
@@ -43,6 +45,17 @@ def google_job_search(query, num_pages=5):
             continue
 
     return job_listings
+
+def categorize_job_title(title):
+    title = title.lower()
+    if re.search(r'\b(intern|junior|entry|assistant|trainee)\b', title):
+        return 'Entry-level'
+    elif re.search(r'\b(mid|senior|lead|manager|specialist)\b', title):
+        return 'Mid-level'
+    elif re.search(r'\b(director|vp|vice president|chief|head|principal)\b', title):
+        return 'Advanced-level'
+    else:
+        return 'Unknown'
 
 def save_to_csv(job_listings, filename='../data/google_job_listings.csv'):
     os.makedirs(os.path.dirname(filename), exist_ok=True)
