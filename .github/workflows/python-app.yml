@@ -24,37 +24,57 @@ jobs:
     - name: Make CI/CD workflow script executable
       run: chmod +x ./scripts/ci_cd_workflow.sh
 
-    - name: Create and activate virtual environment
+    - name: Create, activate virtual environment, and install dependencies
       run: |
         python -m venv venv
         source venv/bin/activate
-
-    - name: Upgrade pip and install dependencies
-      run: |
-        source venv/bin/activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
-    - name: Install Spacy and download the model
-      run: |
-        source venv/bin/activate
-        python -m pip install spacy
-        python -m spacy download en_core_web_sm
 
     - name: List installed packages
       run: |
         source venv/bin/activate
         pip list
 
+    - name: Check for pandas installation
+      run: |
+        source venv/bin/activate
+        python -c "import pandas; print(pandas.__version__)"
+
+    - name: Print Python interpreter location
+      run: |
+        source venv/bin/activate
+        which python
+
+    - name: Print Python path
+      run: |
+        source venv/bin/activate
+        python -c "import sys; print(sys.path)"
+
     - name: Lint with flake8
       run: |
         source venv/bin/activate
-        flake8 src tests
+        python -m flake8 src tests
+
+    - name: List installed packages before running tests
+      run: |
+        source venv/bin/activate
+        pip list
+
+    - name: Print Python version before running tests
+      run: |
+        source venv/bin/activate
+        python --version
+
+    - name: Print Python path before running tests
+      run: |
+        source venv/bin/activate
+        python -c "import sys; print(sys.path)"
 
     - name: Run tests with pytest
       run: |
         source venv/bin/activate
-        pytest
+        python -m pytest
 
     - name: Test prediction functionality
       run: |

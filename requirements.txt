@@ -8,3 +8,4 @@ flake8==3.9.2
 en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0.tar.gz
 pydantic==1.7.4
 pytest==6.2.4
+pandas==1.2.4
