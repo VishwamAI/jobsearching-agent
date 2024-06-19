@@ -31,6 +31,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Install scikit-learn
+      run: |
+        source venv/bin/activate
+        pip install scikit-learn
+
     - name: List installed packages
       run: |
         source venv/bin/activate
