@@ -22,4 +22,5 @@ jobs:
 
     - name: Run CI/CD workflow script
       run: |
+        chmod +x ./scripts/ci_cd_workflow.sh
         ./scripts/ci_cd_workflow.sh
