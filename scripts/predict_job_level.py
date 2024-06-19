@@ -7,7 +7,7 @@ def preprocess_input_data(input_data):
     df = pd.DataFrame([input_data])
 
     # Select relevant columns
-    df = df[['job_title', 'grade', 'jurisdictional_classification', 'negotiating_unit', 'agency_description']]
+    df = df[['job_title', 'jurisdictional_classification', 'negotiating_unit', 'agency_description']]
 
     # Combine relevant text columns into a single column for feature extraction
     df['combined_text'] = df['job_title'] + ' ' + df['jurisdictional_classification'] + ' ' + df['negotiating_unit'] + ' ' + df['agency_description']
@@ -20,9 +20,6 @@ def preprocess_input_data(input_data):
 
     # Convert the TF-IDF matrix to a DataFrame
     feature_df = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names_out())
-
-    # Add the grade column to the feature DataFrame
-    feature_df['grade'] = df['grade']
 
     # Convert all columns to numeric, coercing errors to NaN
     feature_df = feature_df.apply(pd.to_numeric, errors='coerce')
