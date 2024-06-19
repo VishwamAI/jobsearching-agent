@@ -13,7 +13,7 @@ def preprocess_input_data(input_data):
     df['combined_text'] = df['job_title'] + ' ' + df['jurisdictional_classification'] + ' ' + df['negotiating_unit'] + ' ' + df['agency_description']
 
     # Initialize the TF-IDF vectorizer
-    vectorizer = joblib.load('/home/ubuntu/jobsearching-agent/models/tfidf_vectorizer.pkl')
+    vectorizer = joblib.load('models/tfidf_vectorizer.pkl')
 
     # Transform the combined text data
     X = vectorizer.transform(df['combined_text'])
@@ -34,7 +34,7 @@ def preprocess_input_data(input_data):
 
 def predict_job_level(input_data):
     # Load the trained model
-    model = joblib.load('/home/ubuntu/jobsearching-agent/models/job_matching_model.pkl')
+    model = joblib.load('models/job_matching_model.pkl')
 
     # Preprocess the input data
     preprocessed_data = preprocess_input_data(input_data)
@@ -44,7 +44,7 @@ def predict_job_level(input_data):
 
     # Decode the predicted job level if it was encoded
     le = LabelEncoder()
-    le.classes_ = joblib.load('/home/ubuntu/jobsearching-agent/models/label_encoder_classes.pkl')
+    le.classes_ = joblib.load('models/label_encoder_classes.pkl')
     job_level_pred = le.inverse_transform(job_level_pred)
 
     return job_level_pred[0]
