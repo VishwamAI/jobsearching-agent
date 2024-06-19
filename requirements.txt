@@ -1,10 +1,10 @@
-beautifulsoup4
-requests
-nltk
-spacy==3.0.0
-sumy
-googlesearch-python
-flake8
+beautifulsoup4==4.9.3
+requests==2.25.1
+nltk==3.5
+spacy==3.0.6
+sumy==0.8.1
+googlesearch-python==1.1.0
+flake8==3.9.2
 en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0.tar.gz
 pydantic==1.7.4
-pytest
+pytest==6.2.4

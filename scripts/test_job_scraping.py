@@ -23,20 +23,12 @@ def test_scrape_job_listings():
     description_selector = "div.job-description"
 
     # Simulate the scraping process using the mock HTML data
-    job_listings = []
-    for job_element in soup.select(title_selector):
-        try:
-            title = job_element.text.strip()
-            description = job_element.select_one(description_selector).text.strip()
-        except AttributeError:
-            continue
-
-        job_listings.append({
-            'title': title,
-            'description': description
-        })
+    job_listings = scrape_job_listings(mock_html, title_selector, description_selector, is_url=False)
 
     # Print job listings for debugging
+    print("Parsed job descriptions:", [desc.get_text() for desc in soup.select(description_selector)])
+    print("Parsed job titles:", [title.get_text() for title in soup.select(title_selector)])
+    print("Job listings HTML:", soup.prettify())
     print("Scraped job listings:", job_listings)
 
     # Expected results
@@ -73,20 +65,12 @@ def test_scrape_job_listings_with_error():
     description_selector = "div.job-description"
 
     # Simulate the scraping process using the mock HTML data
-    job_listings = []
-    for job_element in soup.select(title_selector):
-        try:
-            title = job_element.text.strip()
-            description = job_element.select_one(description_selector).text.strip()
-        except AttributeError:
-            continue
-
-        job_listings.append({
-            'title': title,
-            'description': description
-        })
+    job_listings = scrape_job_listings(mock_html, title_selector, description_selector, is_url=False)
 
     # Print job listings for debugging
+    print("Parsed job descriptions:", [desc.get_text() for desc in soup.select(description_selector)])
+    print("Parsed job titles:", [title.get_text() for title in soup.select(title_selector)])
+    print("Job listings HTML:", soup.prettify())
     print("Scraped job listings with error:", job_listings)
 
     # Expected results
@@ -94,6 +78,10 @@ def test_scrape_job_listings_with_error():
         {
             'title': 'Software Engineer',
             'description': 'Develop and maintain software applications.'
+        },
+        {
+            'title': 'Data Scientist',
+            'description': 'No description provided.'
         }
     ]
 
