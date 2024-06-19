@@ -27,8 +27,9 @@ jobs:
     - name: Create, activate virtual environment, and install dependencies
       run: |
         python -m venv venv
-        venv/bin/python -m pip install --upgrade pip
-        venv/bin/python -m pip install -r requirements.txt
+        source venv/bin/activate
+        python -m pip install --upgrade pip
+        python -m pip install -r requirements.txt
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages
 
@@ -37,45 +38,27 @@ jobs:
 
     - name: Check for pandas installation
       run: venv/bin/python -c "import pandas; print(pandas.__version__)"
-      env:
-        PYTHONPATH: venv/lib/python3.8/site-packages
 
     - name: Print Python interpreter location
       run: venv/bin/python -c "import sys; print(sys.executable)"
-      env:
-        PYTHONPATH: venv/lib/python3.8/site-packages
 
     - name: Print Python path
       run: venv/bin/python -c "import sys; print(sys.path)"
-      env:
-        PYTHONPATH: venv/lib/python3.8/site-packages
 
     - name: Lint with flake8
       run: venv/bin/python -m flake8 src tests
-      env:
-        PYTHONPATH: venv/lib/python3.8/site-packages
 
     - name: List installed packages before running tests
       run: venv/bin/pip list
-      env:
-        PYTHONPATH: venv/lib/python3.8/site-packages
 
     - name: Print Python version before running tests
       run: venv/bin/python --version
-      env:
-        PYTHONPATH: venv/lib/python3.8/site-packages
 
     - name: Print Python path before running tests
       run: venv/bin/python -c "import sys; print(sys.path)"
-      env:
-        PYTHONPATH: venv/lib/python3.8/site-packages
 
     - name: Run tests with pytest
       run: venv/bin/python -m pytest
-      env:
-        PYTHONPATH: venv/lib/python3.8/site-packages
 
     - name: Test prediction functionality
       run: venv/bin/python scripts/predict_job_level.py
-      env:
-        PYTHONPATH: venv/lib/python3.8/site-packages
