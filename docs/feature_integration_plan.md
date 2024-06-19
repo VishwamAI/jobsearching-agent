@@ -69,5 +69,8 @@ This document outlines the plan for integrating key features from "whitecarrot.i
 - Ensure the output file path is correct and writable.
 - Verify that the necessary dependencies are installed and functioning correctly.
 
+## Alternative Strategy for Job Listings Data
+Due to the CAPTCHA verification encountered on Indeed, we need to explore alternative methods for gathering job listings data that are both legal and permissible. One approach is to leverage Google's search capabilities to find job listings from sources that do not require CAPTCHA verification or from websites that provide job listings in a more accessible format. This involves constructing search queries that target job listings and processing the search results to extract relevant information.
+
 ## Conclusion
 This plan outlines the steps needed to integrate key features from "whitecarrot.io" into the job searching agent. By following this plan, we aim to develop a comprehensive and advanced AI job searching agent that meets the user's requirements and provides a seamless experience for both candidates and recruiters.
