@@ -48,6 +48,9 @@ jobs:
     - name: Print Python path
       run: venv/bin/python -c "import sys; print(sys.path)"
 
+    - name: Check for models directory and contents
+      run: ls -R models
+
     - name: Lint with flake8
       run: venv/bin/python -m flake8 src tests
 
