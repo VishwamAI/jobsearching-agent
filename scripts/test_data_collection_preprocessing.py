@@ -1,11 +1,11 @@
 import unittest
 import pandas as pd
 from unittest.mock import patch, Mock
-from data_collection_preprocessing import fetch_job_listings, preprocess_job_data
+from scripts.data_collection_preprocessing import fetch_job_listings, preprocess_job_data
 
 class TestDataCollectionPreprocessing(unittest.TestCase):
 
-    @patch('data_collection_preprocessing.requests.get')
+    @patch('scripts.data_collection_preprocessing.requests.get')
     def test_fetch_job_listings_success(self, mock_get):
         mock_response = Mock()
         expected_data = {'jobs': [{'title': 'Software Engineer', 'description': 'Develop software', 'requirements': 'Python', 'qualifications': 'BSc in Computer Science'}]}
@@ -18,7 +18,7 @@ class TestDataCollectionPreprocessing(unittest.TestCase):
         result = fetch_job_listings(api_url, headers)
         self.assertEqual(result, expected_data)
 
-    @patch('data_collection_preprocessing.requests.get')
+    @patch('scripts.data_collection_preprocessing.requests.get')
     def test_fetch_job_listings_failure(self, mock_get):
         mock_response = Mock()
         mock_response.status_code = 404

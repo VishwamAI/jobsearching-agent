@@ -6,12 +6,22 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
 # Add the scripts directory to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../scripts')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts")))
 
 from create_db_schema import Base, Candidate, Job, Watchlist, InterviewSchedule
-from candidate_management import add_candidate, get_candidate_by_email, update_candidate, delete_candidate, add_to_watchlist, remove_from_watchlist, schedule_interview, update_interview_status
+from candidate_management import (
+    add_candidate,
+    get_candidate_by_email,
+    update_candidate,
+    delete_candidate,
+    add_to_watchlist,
+    remove_from_watchlist,
+    schedule_interview,
+    update_interview_status,
+)
 
-DATABASE_URL = 'sqlite:///../data/test_jobsearching_agent.db'
+DATABASE_URL = "sqlite:///../data/test_jobsearching_agent.db"
+
 
 class TestCandidateManagement(unittest.TestCase):
 
@@ -35,7 +45,9 @@ class TestCandidateManagement(unittest.TestCase):
         self.session.commit()
 
     def test_add_candidate(self):
-        candidate = add_candidate("John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+        )
         self.assertIsNotNone(candidate)
         self.assertEqual(candidate.first_name, "John")
         self.assertEqual(candidate.last_name, "Doe")
@@ -49,20 +61,28 @@ class TestCandidateManagement(unittest.TestCase):
         self.assertEqual(candidate.last_name, "Doe")
 
     def test_update_candidate(self):
-        candidate = add_candidate("John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+        )
         updated_candidate = update_candidate(candidate.id, phone="0987654321")
         self.assertIsNotNone(updated_candidate)
         self.assertEqual(updated_candidate.phone, "0987654321")
 
     def test_delete_candidate(self):
-        candidate = add_candidate("John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+        )
         deleted_candidate = delete_candidate(candidate.id)
         self.assertIsNotNone(deleted_candidate)
         self.assertIsNone(get_candidate_by_email("john.doe@example.com"))
 
     def test_add_to_watchlist(self):
-        candidate = add_candidate("John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf")
-        job = Job(title="Software Engineer", description="Develop software", location="Remote")
+        candidate = add_candidate(
+            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+        )
+        job = Job(
+            title="Software Engineer", description="Develop software", location="Remote"
+        )
         self.session.add(job)
         self.session.commit()
         watchlist_entry = add_to_watchlist(candidate.id, job.id)
@@ -71,8 +91,12 @@ class TestCandidateManagement(unittest.TestCase):
         self.assertEqual(watchlist_entry.job_id, job.id)
 
     def test_remove_from_watchlist(self):
-        candidate = add_candidate("John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf")
-        job = Job(title="Software Engineer", description="Develop software", location="Remote")
+        candidate = add_candidate(
+            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+        )
+        job = Job(
+            title="Software Engineer", description="Develop software", location="Remote"
+        )
         self.session.add(job)
         self.session.commit()
         add_to_watchlist(candidate.id, job.id)
@@ -82,25 +106,38 @@ class TestCandidateManagement(unittest.TestCase):
         self.assertEqual(removed_watchlist_entry.job_id, job.id)
 
     def test_schedule_interview(self):
-        candidate = add_candidate("John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf")
-        job = Job(title="Software Engineer", description="Develop software", location="Remote")
+        candidate = add_candidate(
+            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+        )
+        job = Job(
+            title="Software Engineer", description="Develop software", location="Remote"
+        )
         self.session.add(job)
         self.session.commit()
-        interview_schedule = schedule_interview(candidate.id, job.id, datetime.now(), "Scheduled")
+        interview_schedule = schedule_interview(
+            candidate.id, job.id, datetime.now(), "Scheduled"
+        )
         self.assertIsNotNone(interview_schedule)
         self.assertEqual(interview_schedule.candidate_id, candidate.id)
         self.assertEqual(interview_schedule.job_id, job.id)
         self.assertEqual(interview_schedule.status, "Scheduled")
 
     def test_update_interview_status(self):
-        candidate = add_candidate("John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf")
-        job = Job(title="Software Engineer", description="Develop software", location="Remote")
+        candidate = add_candidate(
+            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+        )
+        job = Job(
+            title="Software Engineer", description="Develop software", location="Remote"
+        )
         self.session.add(job)
         self.session.commit()
-        interview_schedule = schedule_interview(candidate.id, job.id, datetime.now(), "Scheduled")
+        interview_schedule = schedule_interview(
+            candidate.id, job.id, datetime.now(), "Scheduled"
+        )
         updated_interview = update_interview_status(interview_schedule.id, "Completed")
         self.assertIsNotNone(updated_interview)
         self.assertEqual(updated_interview.status, "Completed")
+
 
 if __name__ == "__main__":
     unittest.main()
