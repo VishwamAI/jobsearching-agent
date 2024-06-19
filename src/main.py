@@ -88,9 +88,9 @@ def main():
 
     # Apply job level categorization
     print("Applying job level categorization...")
-    input_csv = './data/preprocessed_job_listings.csv'
+    input_csv = '../data/preprocessed_job_listings.csv'
     df = redefine_job_levels(input_csv)
-    output_csv = './data/preprocessed_job_listings_updated.csv'
+    output_csv = '../data/preprocessed_job_listings_updated.csv'
     df.to_csv(output_csv, index=False)
     print(f"Updated job levels saved to {output_csv}")
 
