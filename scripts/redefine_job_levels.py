@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 
-def redefine_job_levels(input_csv, output_csv):
+def redefine_job_levels(input_csv):
     # Read the CSV file
     df = pd.read_csv(input_csv, low_memory=False)
 
@@ -42,11 +42,11 @@ def redefine_job_levels(input_csv, output_csv):
     # Apply dynamic categorization to job titles
     df['dynamic_job_level'] = df['job_title'].apply(categorize_job_title)
 
-    # Save the updated DataFrame to a new CSV file
-    df.to_csv(output_csv, index=False)
-    print(f"Updated job levels saved to {output_csv}")
+    return df
 
 if __name__ == "__main__":
     input_csv = './data/preprocessed_job_listings.csv'
     output_csv = './data/preprocessed_job_listings_updated.csv'
-    redefine_job_levels(input_csv, output_csv)
+    df = redefine_job_levels(input_csv)
+    df.to_csv(output_csv, index=False)
+    print(f"Updated job levels saved to {output_csv}")
