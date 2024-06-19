@@ -3,6 +3,10 @@ import os
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+# Append the parent directory to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from scripts.create_db_schema import Base, Candidate
 from scripts.candidate_management_system import (
     add_candidate,
@@ -15,9 +19,6 @@ from scripts.candidate_management_system import (
     update_interview_status,
 )
 from scripts.redefine_job_levels import redefine_job_levels
-
-# Append the parent directory to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 DATABASE_URL = "sqlite:///../data/jobsearching_agent.db"
 
