@@ -30,10 +30,12 @@ def scrape_job_listings(content, title_selector, description_selector, is_url=Tr
     job_listings = []
 
     # Extract job titles and descriptions from the page
-    for job_element in soup.select(title_selector):
+    for job_listing in soup.select("div.job-listing"):
         try:
-            title = job_element.text.strip()
-            description = job_element.select_one(description_selector).text.strip()
+            title_element = job_listing.select_one(title_selector)
+            description_element = job_listing.select_one(description_selector)
+            title = title_element.text.strip() if title_element else "No title provided."
+            description = description_element.text.strip() if description_element else "No description provided."
         except AttributeError:
             print("Error parsing job element, skipping...")
             continue
