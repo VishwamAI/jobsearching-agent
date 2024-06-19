@@ -74,9 +74,9 @@ jobs:
     - name: Run tests with pytest
       run: |
         source venv/bin/activate
-        venv/bin/python -m pytest
+        python -m pytest
 
     - name: Test prediction functionality
       run: |
         source venv/bin/activate
-        venv/bin/python scripts/predict_job_level.py
+        python scripts/predict_job_level.py
