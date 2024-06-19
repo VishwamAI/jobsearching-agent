@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -13,17 +14,39 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.8'
 
     - name: Make CI/CD workflow script executable
       run: chmod +x ./scripts/ci_cd_workflow.sh
 
-    - name: Source virtual environment and run CI/CD workflow script
+    - name: Create and activate virtual environment
       run: |
-        source ./venv/bin/activate
-        ./scripts/ci_cd_workflow.sh
+        python -m venv venv
+        source venv/bin/activate
+
+    - name: Upgrade pip and install dependencies
+      run: |
+        source venv/bin/activate
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Install Spacy and download the model
+      run: |
+        source venv/bin/activate
+        python -m pip install spacy
+        python -m spacy download en_core_web_sm
+
+    - name: Lint with flake8
+      run: |
+        source venv/bin/activate
+        flake8 src tests
+
+    - name: Run tests with pytest
+      run: |
+        source venv/bin/activate
+        pytest
