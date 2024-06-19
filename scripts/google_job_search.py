@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import time
 import logging
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -23,7 +24,17 @@ def google_job_search(query, num_pages=5):
 
             for result in soup.find_all('div', class_='BNeawe vvjwJb AP7Wnd'):
                 job_title = result.get_text()
-                job_listings.append({'job_title': job_title})
+                company_name_elem = result.find_next('div', class_='BNeawe UPmit AP7Wnd')
+                location_elem = result.find_next('div', class_='BNeawe tAd8D AP7Wnd')
+
+                company_name = company_name_elem.get_text() if company_name_elem else 'N/A'
+                location = location_elem.get_text() if location_elem else 'N/A'
+
+                job_listings.append({
+                    'job_title': job_title,
+                    'company_name': company_name,
+                    'location': location
+                })
 
             time.sleep(2)  # Sleep to avoid being blocked
 
@@ -33,7 +44,8 @@ def google_job_search(query, num_pages=5):
 
     return job_listings
 
-def save_to_csv(job_listings, filename='data/google_job_listings.csv'):
+def save_to_csv(job_listings, filename='../data/google_job_listings.csv'):
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
     df = pd.DataFrame(job_listings)
     df.to_csv(filename, index=False)
     logging.info(f"Job listings saved to {filename}")
