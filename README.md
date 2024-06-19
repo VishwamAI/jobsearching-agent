@@ -11,6 +11,9 @@ This repository contains the code for the jobsearching-agent, an advanced AI job
 - Summarization
 - Model training and evaluation
 - CI/CD workflows
+- Virtual interview scheduling
+- Application tracking system
+- Job watchlist management
 
 ## How to Earn the Galaxy Brain Badge on GitHub
 
@@ -55,6 +58,20 @@ The `scrape_job_listings.py` script can be used to scrape job listings from a jo
    python scripts/scrape_job_listings.py
    ```
 3. The scraped job listings will be saved to `data/job_listings.csv`.
+
+## Advanced Features
+
+### Virtual Interview Scheduling
+
+The jobsearching-agent includes a feature to schedule and conduct virtual interviews. This feature integrates with video conferencing tools to facilitate seamless interview scheduling.
+
+### Application Tracking System
+
+The agent provides a dashboard to track the progress of job applications through various stages such as shortlisted, applied, CV sent, interviewing, and offer.
+
+### Job Watchlist Management
+
+Candidates can add jobs to a watchlist and manage their job search process effectively.
 
 ## Contributing
 
