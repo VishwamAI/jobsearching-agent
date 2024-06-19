@@ -4,9 +4,15 @@
 python -m venv venv
 source venv/bin/activate
 
+# Print current working directory
+echo "Current working directory: $(pwd)"
+
 # Upgrade pip and install dependencies
 python -m pip install --upgrade pip
 pip install -r requirements.txt
+
+# List installed packages
+pip list
 
 # Install Spacy and download the model
 python -m pip install spacy
