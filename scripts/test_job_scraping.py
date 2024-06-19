@@ -23,18 +23,7 @@ def test_scrape_job_listings():
     description_selector = "div.job-description"
 
     # Simulate the scraping process using the mock HTML data
-    job_listings = []
-    for job_element in soup.select(title_selector):
-        try:
-            title = job_element.text.strip()
-            description = job_element.select_one(description_selector).text.strip()
-        except AttributeError:
-            continue
-
-        job_listings.append({
-            'title': title,
-            'description': description
-        })
+    job_listings = scrape_job_listings(mock_html, title_selector, description_selector)
 
     # Print job listings for debugging
     print("Scraped job listings:", job_listings)
@@ -73,18 +62,7 @@ def test_scrape_job_listings_with_error():
     description_selector = "div.job-description"
 
     # Simulate the scraping process using the mock HTML data
-    job_listings = []
-    for job_element in soup.select(title_selector):
-        try:
-            title = job_element.text.strip()
-            description = job_element.select_one(description_selector).text.strip()
-        except AttributeError:
-            continue
-
-        job_listings.append({
-            'title': title,
-            'description': description
-        })
+    job_listings = scrape_job_listings(mock_html, title_selector, description_selector)
 
     # Print job listings for debugging
     print("Scraped job listings with error:", job_listings)
