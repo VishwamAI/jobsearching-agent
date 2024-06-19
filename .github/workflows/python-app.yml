@@ -36,6 +36,11 @@ jobs:
         source venv/bin/activate
         pip list
 
+    - name: Check for pandas installation
+      run: |
+        source venv/bin/activate
+        python -c "import pandas; print(pandas.__version__)"
+
     - name: Lint with flake8
       run: |
         source venv/bin/activate
