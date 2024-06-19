@@ -20,7 +20,10 @@ jobs:
       with:
         python-version: '3.8'
 
-    - name: Run CI/CD workflow script
+    - name: Make CI/CD workflow script executable
+      run: chmod +x ./scripts/ci_cd_workflow.sh
+
+    - name: Source virtual environment and run CI/CD workflow script
       run: |
-        chmod +x ./scripts/ci_cd_workflow.sh
+        source ./venv/bin/activate
         ./scripts/ci_cd_workflow.sh
