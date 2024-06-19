@@ -79,4 +79,4 @@ jobs:
     - name: Test prediction functionality
       run: |
         source venv/bin/activate
-        python scripts/predict_job_level.py
+        venv/bin/python scripts/predict_job_level.py
