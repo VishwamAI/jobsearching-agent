@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from create_db_schema import Candidate, Job, Application, Base
+from scripts.create_db_schema import Candidate, Job, Application, Base
 from sqlalchemy.exc import SQLAlchemyError
 
 DATABASE_URL = 'sqlite:///../data/jobsearching_agent.db'
