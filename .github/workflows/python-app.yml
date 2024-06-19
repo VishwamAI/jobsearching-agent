@@ -61,6 +61,16 @@ jobs:
         source venv/bin/activate
         pip list
 
+    - name: Print Python version before running tests
+      run: |
+        source venv/bin/activate
+        python --version
+
+    - name: Print Python path before running tests
+      run: |
+        source venv/bin/activate
+        python -c "import sys; print(sys.path)"
+
     - name: Run tests with pytest
       run: |
         source venv/bin/activate
