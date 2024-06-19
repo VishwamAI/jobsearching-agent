@@ -55,3 +55,8 @@ jobs:
       run: |
         source venv/bin/activate
         pytest
+
+    - name: Test prediction functionality
+      run: |
+        source venv/bin/activate
+        python scripts/predict_job_level.py
