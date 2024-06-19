@@ -65,6 +65,6 @@ def train_model(input_csv, model_output):
     print(f"Trained model saved to {model_output}")
 
 if __name__ == "__main__":
-    input_csv = '../data/job_listings_features_encoded.csv'
+    input_csv = '../data/preprocessed_job_listings.csv'
     model_output = '../models/job_matching_model.pkl'
     train_model(input_csv, model_output)
