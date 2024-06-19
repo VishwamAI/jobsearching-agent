@@ -26,9 +26,9 @@ def test_scrape_job_listings():
     job_listings = scrape_job_listings(mock_html, title_selector, description_selector, is_url=False)
 
     # Print job listings for debugging
-print("Parsed job descriptions:", [desc.get_text() for desc in soup.select(description_selector)])
-print("Parsed job titles:", [title.get_text() for title in soup.select(title_selector)])
-print("Job listings HTML:", soup.prettify())
+    print("Parsed job descriptions:", [desc.get_text() for desc in soup.select(description_selector)])
+    print("Parsed job titles:", [title.get_text() for title in soup.select(title_selector)])
+    print("Job listings HTML:", soup.prettify())
     print("Scraped job listings:", job_listings)
 
     # Expected results
@@ -68,9 +68,9 @@ def test_scrape_job_listings_with_error():
     job_listings = scrape_job_listings(mock_html, title_selector, description_selector, is_url=False)
 
     # Print job listings for debugging
-print("Parsed job descriptions:", [desc.get_text() for desc in soup.select(description_selector)])
-print("Parsed job titles:", [title.get_text() for title in soup.select(title_selector)])
-print("Job listings HTML:", soup.prettify())
+    print("Parsed job descriptions:", [desc.get_text() for desc in soup.select(description_selector)])
+    print("Parsed job titles:", [title.get_text() for title in soup.select(title_selector)])
+    print("Job listings HTML:", soup.prettify())
     print("Scraped job listings with error:", job_listings)
 
     # Expected results
