@@ -23,11 +23,12 @@ def google_job_search(query, num_pages=5):
             response.raise_for_status()
             soup = BeautifulSoup(response.text, 'html.parser')
 
-            for result in soup.find_all('div', class_='BNeawe vvjwJb AP7Wnd'):
-                job_title = result.get_text()
-                company_name_elem = result.find_next('div', class_='BNeawe UPmit AP7Wnd')
-                location_elem = result.find_next('div', class_='BNeawe tAd8D AP7Wnd')
+            for result in soup.find_all('div', class_='BjJfJf PUpOsf'):
+                job_title_elem = result.find('div', class_='BjJfJf PUpOsf')
+                company_name_elem = result.find('div', class_='vNEEBe')
+                location_elem = result.find('div', class_='Qk80Jf')
 
+                job_title = job_title_elem.get_text() if job_title_elem else 'N/A'
                 company_name = company_name_elem.get_text() if company_name_elem else 'N/A'
                 location = location_elem.get_text() if location_elem else 'N/A'
 
