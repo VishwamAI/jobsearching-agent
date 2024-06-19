@@ -2,17 +2,16 @@ import sys
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
-# Append the parent directory to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-from scripts.create_db_schema import Base, Candidate, Job, Application
+from scripts.create_db_schema import Base, Candidate
 from scripts.candidate_management import (
     add_candidate,
     get_candidate_by_email,
     update_candidate,
     delete_candidate,
 )
+
+# Append the parent directory to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 DATABASE_URL = "sqlite:///../data/jobsearching_agent.db"
 
@@ -49,7 +48,8 @@ def main():
     candidate = update_candidate(candidate_id=candidate.id, phone="0987654321")
     if candidate:
         print(
-            f"Candidate updated: {candidate.first_name} {candidate.last_name}, Phone: {candidate.phone}"
+            f"Candidate updated: {candidate.first_name} {candidate.last_name}, "
+            f"Phone: {candidate.phone}"
         )
 
     print("Deleting candidate...")
