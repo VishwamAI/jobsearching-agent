@@ -31,12 +31,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Install Spacy and download the model
-      run: |
-        source venv/bin/activate
-        python -m pip install spacy
-        python -m spacy download en_core_web_sm
-
     - name: List installed packages
       run: |
         source venv/bin/activate
