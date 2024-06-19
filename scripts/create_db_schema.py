@@ -14,6 +14,8 @@ class Candidate(Base):
     resume = Column(String, nullable=True)
     applications = relationship('Application', back_populates='candidate')
     watchlist = relationship('Watchlist', back_populates='candidate')
+    responses = relationship('CandidateResponse', back_populates='candidate')
+    evaluations = relationship('CandidateEvaluation', back_populates='candidate')
 
 class Job(Base):
     __tablename__ = 'jobs'
@@ -23,6 +25,7 @@ class Job(Base):
     location = Column(String, nullable=True)
     applications = relationship('Application', back_populates='job')
     watchlist = relationship('Watchlist', back_populates='job')
+    screening_questions = relationship('ScreeningQuestion', back_populates='job')
 
 class Application(Base):
     __tablename__ = 'applications'
@@ -52,6 +55,32 @@ class InterviewSchedule(Base):
     status = Column(String, nullable=False)
     candidate = relationship('Candidate')
     job = relationship('Job')
+
+class ScreeningQuestion(Base):
+    __tablename__ = 'screening_questions'
+    id = Column(Integer, primary_key=True)
+    job_id = Column(Integer, ForeignKey('jobs.id'), nullable=False)
+    question_text = Column(String, nullable=False)
+    job = relationship('Job', back_populates='screening_questions')
+    responses = relationship('CandidateResponse', back_populates='question')
+
+class CandidateResponse(Base):
+    __tablename__ = 'candidate_responses'
+    id = Column(Integer, primary_key=True)
+    candidate_id = Column(Integer, ForeignKey('candidates.id'), nullable=False)
+    question_id = Column(Integer, ForeignKey('screening_questions.id'), nullable=False)
+    response_text = Column(String, nullable=False)
+    candidate = relationship('Candidate', back_populates='responses')
+    question = relationship('ScreeningQuestion', back_populates='responses')
+
+class CandidateEvaluation(Base):
+    __tablename__ = 'candidate_evaluations'
+    id = Column(Integer, primary_key=True)
+    candidate_id = Column(Integer, ForeignKey('candidates.id'), nullable=False)
+    evaluator_name = Column(String, nullable=False)
+    score = Column(Integer, nullable=False)
+    feedback = Column(String, nullable=True)
+    candidate = relationship('Candidate', back_populates='evaluations')
 
 def create_database():
     engine = create_engine('sqlite:///../data/jobsearching_agent.db')
