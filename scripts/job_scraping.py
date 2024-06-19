@@ -26,6 +26,7 @@ def scrape_job_listings(content, title_selector, description_selector, is_url=Tr
         html_content = content
 
     soup = BeautifulSoup(html_content, 'html.parser')
+    print(f"Debug: Soup object created - {soup.prettify()}")
 
     job_listings = []
 

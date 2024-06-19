@@ -43,6 +43,9 @@ def test_scrape_job_listings():
         }
     ]
 
+    # Print expected job listings for debugging
+    print("Expected job listings:", expected_job_listings)
+
     assert job_listings == expected_job_listings
 
 def test_scrape_job_listings_with_error():
@@ -84,6 +87,9 @@ def test_scrape_job_listings_with_error():
             'description': 'No description provided.'
         }
     ]
+
+    # Print expected job listings for debugging
+    print("Expected job listings with error:", expected_job_listings)
 
     assert job_listings == expected_job_listings
 
