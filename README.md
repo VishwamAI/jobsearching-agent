@@ -59,6 +59,50 @@ The `scrape_job_listings.py` script can be used to scrape job listings from a jo
    ```
 3. The scraped job listings will be saved to `data/job_listings.csv`.
 
+## Using the Candidate Management System
+
+The `candidate_management_system.py` script can be used to manage candidate data, including adding, retrieving, updating, and deleting candidates, as well as managing the watchlist and scheduling interviews. Follow these steps to use the script:
+
+1. Add a new candidate:
+   ```bash
+   python scripts/candidate_management_system.py add_candidate "John" "Doe" "john.doe@example.com" "1234567890" "resume.pdf"
+   ```
+
+2. Retrieve a candidate by email:
+   ```bash
+   python scripts/candidate_management_system.py get_candidate_by_email "john.doe@example.com"
+   ```
+
+3. Update a candidate's information:
+   ```bash
+   python scripts/candidate_management_system.py update_candidate 1 phone="0987654321"
+   ```
+
+4. Delete a candidate:
+   ```bash
+   python scripts/candidate_management_system.py delete_candidate 1
+   ```
+
+5. Add a job to the watchlist:
+   ```bash
+   python scripts/candidate_management_system.py add_to_watchlist 1 1
+   ```
+
+6. Remove a job from the watchlist:
+   ```bash
+   python scripts/candidate_management_system.py remove_from_watchlist 1 1
+   ```
+
+7. Schedule an interview:
+   ```bash
+   python scripts/candidate_management_system.py schedule_interview 1 1 "2024-06-20 10:00:00" "Scheduled"
+   ```
+
+8. Update interview status:
+   ```bash
+   python scripts/candidate_management_system.py update_interview_status 1 "Completed"
+   ```
+
 ## Advanced Features
 
 ### Virtual Interview Scheduling
