@@ -46,6 +46,11 @@ jobs:
         source venv/bin/activate
         which python
 
+    - name: Print Python path
+      run: |
+        source venv/bin/activate
+        python -c "import sys; print(sys.path)"
+
     - name: Lint with flake8
       run: |
         source venv/bin/activate
