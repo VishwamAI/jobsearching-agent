@@ -45,6 +45,17 @@ To get started with the jobsearching-agent, follow these steps:
    pytest
    ```
 
+## Using the Web Scraping Script
+
+The `scrape_job_listings.py` script can be used to scrape job listings from a job board and save them to a CSV file. Follow these steps to use the script:
+
+1. Update the `job_board_url` variable in the script with the URL of the job board you want to scrape.
+2. Run the script:
+   ```bash
+   python scripts/scrape_job_listings.py
+   ```
+3. The scraped job listings will be saved to `data/job_listings.csv`.
+
 ## Contributing
 
 We welcome contributions to the jobsearching-agent project. Please follow these steps to contribute:
