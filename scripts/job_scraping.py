@@ -36,6 +36,7 @@ def scrape_job_listings(content, title_selector, description_selector, is_url=Tr
             description_element = job_listing.select_one(description_selector)
             title = title_element.text.strip() if title_element else "No title provided."
             description = description_element.text.strip() if description_element else "No description provided."
+            print(f"Debug: Found job listing - Title: {title}, Description: {description}")
         except AttributeError:
             print("Error parsing job element, skipping...")
             continue
@@ -45,6 +46,7 @@ def scrape_job_listings(content, title_selector, description_selector, is_url=Tr
             'description': description
         })
 
+    print(f"Debug: Final job listings - {job_listings}")
     return job_listings
 
 if __name__ == "__main__":
