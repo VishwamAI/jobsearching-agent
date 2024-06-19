@@ -36,6 +36,9 @@ def test_scrape_job_listings():
             'description': description
         })
 
+    # Print job listings for debugging
+    print("Scraped job listings:", job_listings)
+
     # Expected results
     expected_job_listings = [
         {
@@ -82,6 +85,9 @@ def test_scrape_job_listings_with_error():
             'title': title,
             'description': description
         })
+
+    # Print job listings for debugging
+    print("Scraped job listings with error:", job_listings)
 
     # Expected results
     expected_job_listings = [
