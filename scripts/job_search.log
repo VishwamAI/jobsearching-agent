@@ -1,0 +1,6 @@
+2024-06-19 16:22:59,900 - INFO - Fetching URL: https://www.google.com/search?q=software engineer jobs&start=0
+2024-06-19 16:23:02,290 - INFO - Fetching URL: https://www.google.com/search?q=software engineer jobs&start=10
+2024-06-19 16:23:04,707 - INFO - Fetching URL: https://www.google.com/search?q=software engineer jobs&start=20
+2024-06-19 16:23:07,086 - INFO - Fetching URL: https://www.google.com/search?q=software engineer jobs&start=30
+2024-06-19 16:23:09,673 - INFO - Fetching URL: https://www.google.com/search?q=software engineer jobs&start=40
+2024-06-19 16:23:12,153 - INFO - Job listings saved to ../data/google_job_listings.csv

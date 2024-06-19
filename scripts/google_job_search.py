@@ -7,7 +7,7 @@ import os
 import re
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='job_search.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def google_job_search(query, num_pages=5):
     job_listings = []
@@ -24,7 +24,7 @@ def google_job_search(query, num_pages=5):
             soup = BeautifulSoup(response.text, 'html.parser')
 
             for result in soup.find_all('div', class_='BjJfJf PUpOsf'):
-                job_title_elem = result.find('div', class_='BjJfJf PUpOsf')
+                job_title_elem = result.find('h3')
                 company_name_elem = result.find('div', class_='vNEEBe')
                 location_elem = result.find('div', class_='Qk80Jf')
 
@@ -38,6 +38,13 @@ def google_job_search(query, num_pages=5):
                     'location': location,
                     'job_level': categorize_job_title(job_title)
                 })
+
+                if not job_title_elem:
+                    logging.warning(f"Missing job title for result: {result}")
+                if not company_name_elem:
+                    logging.warning(f"Missing company name for result: {result}")
+                if not location_elem:
+                    logging.warning(f"Missing location for result: {result}")
 
             time.sleep(2)  # Sleep to avoid being blocked
 
