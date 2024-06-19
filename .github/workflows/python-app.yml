@@ -20,13 +20,6 @@ jobs:
       with:
         python-version: '3.8'
 
-    - name: Create and activate virtual environment, install dependencies, and run all steps
+    - name: Run CI/CD workflow script
       run: |
-        python -m venv venv
-        source venv/bin/activate
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        python -m pip install spacy
-        python -m spacy download en_core_web_sm
-        flake8 src tests
-        pytest
+        ./scripts/ci_cd_workflow.sh
