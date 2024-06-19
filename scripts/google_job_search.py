@@ -5,6 +5,7 @@ import time
 import logging
 import os
 import re
+import json
 
 # Configure logging
 logging.basicConfig(filename='job_search.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -23,14 +24,22 @@ def google_job_search(query, num_pages=5):
             response.raise_for_status()
             soup = BeautifulSoup(response.text, 'html.parser')
 
+            # Print statement to check if the HTML content is fetched
+            print(f"Fetched HTML content for URL: {url}")
+
             for result in soup.find_all('div', class_='BjJfJf PUpOsf'):
-                job_title_elem = result.find('h3')
+                job_title_elem = result.find('div', class_='BjJfJf PUpOsf')
                 company_name_elem = result.find('div', class_='vNEEBe')
                 location_elem = result.find('div', class_='Qk80Jf')
 
                 job_title = job_title_elem.get_text() if job_title_elem else 'N/A'
                 company_name = company_name_elem.get_text() if company_name_elem else 'N/A'
                 location = location_elem.get_text() if location_elem else 'N/A'
+
+                # Print statements for debugging
+                print(f"Job Title: {job_title}")
+                print(f"Company Name: {company_name}")
+                print(f"Location: {location}")
 
                 job_listings.append({
                     'job_title': job_title,
@@ -71,7 +80,13 @@ def save_to_csv(job_listings, filename='../data/google_job_listings.csv'):
     df.to_csv(filename, index=False)
     logging.info(f"Job listings saved to {filename}")
 
+def save_json_to_csv(json_filename, csv_filename):
+    with open(json_filename, 'r') as json_file:
+        job_listings = json.load(json_file)
+    save_to_csv(job_listings, csv_filename)
+
 if __name__ == "__main__":
     query = "software engineer jobs"
     job_listings = google_job_search(query)
     save_to_csv(job_listings)
+    save_json_to_csv('../data/job_listings.json', '../data/google_job_listings.csv')
