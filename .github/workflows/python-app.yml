@@ -30,10 +30,6 @@ jobs:
         source venv/bin/activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
-    - name: Install scikit-learn
-      run: |
-        source venv/bin/activate
         pip install scikit-learn
 
     - name: List installed packages
@@ -79,9 +75,9 @@ jobs:
     - name: Run tests with pytest
       run: |
         source venv/bin/activate
-        python -m pytest
+        venv/bin/python -m pytest
 
     - name: Test prediction functionality
       run: |
         source venv/bin/activate
-        python scripts/predict_job_level.py
+        venv/bin/python scripts/predict_job_level.py
