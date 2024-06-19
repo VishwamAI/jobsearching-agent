@@ -20,29 +20,13 @@ jobs:
       with:
         python-version: '3.8'
 
-    - name: Create and activate virtual environment
+    - name: Create and activate virtual environment, install dependencies, and run all steps
       run: |
         python -m venv venv
         source venv/bin/activate
-
-    - name: Install dependencies
-      run: |
-        source venv/bin/activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
-    - name: Install Spacy model
-      run: |
-        source venv/bin/activate
         python -m pip install spacy
         python -m spacy download en_core_web_sm
-
-    - name: Lint with flake8
-      run: |
-        source venv/bin/activate
         flake8 src tests
-
-    - name: Run tests
-      run: |
-        source venv/bin/activate
         pytest
