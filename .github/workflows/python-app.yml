@@ -45,12 +45,12 @@ jobs:
     - name: Lint with flake8
       run: |
         source venv/bin/activate
-        flake8 src tests
+        python -m flake8 src tests
 
     - name: Run tests with pytest
       run: |
         source venv/bin/activate
-        pytest
+        python -m pytest
 
     - name: Test prediction functionality
       run: |
