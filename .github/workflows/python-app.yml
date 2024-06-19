@@ -24,13 +24,9 @@ jobs:
     - name: Make CI/CD workflow script executable
       run: chmod +x ./scripts/ci_cd_workflow.sh
 
-    - name: Create and activate virtual environment
+    - name: Create, activate virtual environment, and install dependencies
       run: |
         python -m venv venv
-        source venv/bin/activate
-
-    - name: Upgrade pip and install dependencies
-      run: |
         source venv/bin/activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt
