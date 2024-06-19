@@ -19,7 +19,11 @@ def train_model(input_csv, model_output):
 
     # Drop rows with NaN values in any column
     X.dropna(inplace=True)
-    y = y[X.index]  # Ensure target variable matches the filtered features
+    X.reset_index(drop=True, inplace=True)
+
+    # Drop NaN values from the target variable
+    y.dropna(inplace=True)
+    y.reset_index(drop=True, inplace=True)
 
     # Encode the target variable if it contains categorical data
     if y.dtype == 'object':
@@ -30,13 +34,12 @@ def train_model(input_csv, model_output):
 
     # Initialize the TF-IDF vectorizer
     vectorizer = TfidfVectorizer(max_features=1000)
-    X_combined_text = df['job_title'] + ' ' + df['jurisdictional_classification'] + ' ' + df['negotiating_unit'] + ' ' + df['agency_description']
+    X_combined_text = df.apply(lambda row: ' '.join(row.values.astype(str)), axis=1)
     X_tfidf = vectorizer.fit_transform(X_combined_text)
     X_tfidf_df = pd.DataFrame(X_tfidf.toarray(), columns=vectorizer.get_feature_names_out())
-    X_tfidf_df['grade'] = df['grade']
     X = X_tfidf_df.apply(pd.to_numeric, errors='coerce')
     X.dropna(inplace=True)
-    y = y[X.index]
+    X.reset_index(drop=True, inplace=True)
 
     # Save the TF-IDF vectorizer
     joblib.dump(vectorizer, '../models/tfidf_vectorizer.pkl')
@@ -62,6 +65,6 @@ def train_model(input_csv, model_output):
     print(f"Trained model saved to {model_output}")
 
 if __name__ == "__main__":
-    input_csv = '../data/job_listings_features_encoded.csv'
+    input_csv = '../data/preprocessed_job_listings.csv'
     model_output = '../models/job_matching_model.pkl'
     train_model(input_csv, model_output)

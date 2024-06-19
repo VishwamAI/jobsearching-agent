@@ -7,22 +7,19 @@ def preprocess_input_data(input_data):
     df = pd.DataFrame([input_data])
 
     # Select relevant columns
-    df = df[['job_title', 'grade', 'jurisdictional_classification', 'negotiating_unit', 'agency_description']]
+    df = df[['job_title', 'jurisdictional_classification', 'negotiating_unit', 'agency_description']]
 
     # Combine relevant text columns into a single column for feature extraction
     df['combined_text'] = df['job_title'] + ' ' + df['jurisdictional_classification'] + ' ' + df['negotiating_unit'] + ' ' + df['agency_description']
 
     # Initialize the TF-IDF vectorizer
-    vectorizer = joblib.load('/home/ubuntu/jobsearching-agent/models/tfidf_vectorizer.pkl')
+    vectorizer = joblib.load('models/tfidf_vectorizer.pkl')
 
     # Transform the combined text data
     X = vectorizer.transform(df['combined_text'])
 
     # Convert the TF-IDF matrix to a DataFrame
     feature_df = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names_out())
-
-    # Add the grade column to the feature DataFrame
-    feature_df['grade'] = df['grade']
 
     # Convert all columns to numeric, coercing errors to NaN
     feature_df = feature_df.apply(pd.to_numeric, errors='coerce')
@@ -34,7 +31,7 @@ def preprocess_input_data(input_data):
 
 def predict_job_level(input_data):
     # Load the trained model
-    model = joblib.load('/home/ubuntu/jobsearching-agent/models/job_matching_model.pkl')
+    model = joblib.load('models/job_matching_model.pkl')
 
     # Preprocess the input data
     preprocessed_data = preprocess_input_data(input_data)
@@ -44,7 +41,7 @@ def predict_job_level(input_data):
 
     # Decode the predicted job level if it was encoded
     le = LabelEncoder()
-    le.classes_ = joblib.load('/home/ubuntu/jobsearching-agent/models/label_encoder_classes.pkl')
+    le.classes_ = joblib.load('models/label_encoder_classes.pkl')
     job_level_pred = le.inverse_transform(job_level_pred)
 
     return job_level_pred[0]
