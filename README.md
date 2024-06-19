@@ -58,3 +58,7 @@ We welcome contributions to the jobsearching-agent project. Please follow these 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Note
+
+This is a minor update to trigger the CI/CD pipeline.
