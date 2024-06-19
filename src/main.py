@@ -14,6 +14,7 @@ from scripts.candidate_management_system import (
     schedule_interview,
     update_interview_status,
 )
+from scripts.redefine_job_levels import redefine_job_levels
 
 # Append the parent directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -83,6 +84,14 @@ def main():
     updated_interview = update_interview_status(interview_id=interview_schedule.id, status="Completed")
     if updated_interview:
         print(f"Interview status updated to: {updated_interview.status}")
+
+    # Apply job level categorization
+    print("Applying job level categorization...")
+    input_csv = './data/preprocessed_job_listings.csv'
+    df = redefine_job_levels(input_csv)
+    output_csv = './data/preprocessed_job_listings_updated.csv'
+    df.to_csv(output_csv, index=False)
+    print(f"Updated job levels saved to {output_csv}")
 
 
 if __name__ == "__main__":
