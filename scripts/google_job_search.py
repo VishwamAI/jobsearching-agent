@@ -13,18 +13,11 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Configure logging
-logging.basicConfig(filename='job_search.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='/home/ubuntu/jobsearching-agent/logs/job_search.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def google_job_search(query, num_pages=5):
     job_listings = []
     base_url = "https://www.google.com/search?q="
-
-    # Set up Selenium WebDriver
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
     for page in range(num_pages):
         start = page * 10
@@ -32,21 +25,27 @@ def google_job_search(query, num_pages=5):
         logging.info(f"Fetching URL: {url}")
 
         try:
-            driver.get(url)
-            time.sleep(5)  # Wait for the page to load
+            response = requests.get(url)
+            if response.status_code != 200:
+                logging.error(f"Failed to retrieve page {page}. Status code: {response.status_code}")
+                break
 
-            results = driver.find_elements(By.CSS_SELECTOR, 'div[aria-label="Jobs list"] div[tabindex="-1"]')
+            soup = BeautifulSoup(response.content, 'html.parser')
+            results = soup.select('div[aria-label="Jobs list"] div[tabindex="-1"]')
+
             for result in results:
                 try:
-                    job_title_elem = result.find_element(By.CSS_SELECTOR, 'h2 span')
-                    company_name_elem = result.find_element(By.CSS_SELECTOR, 'div[data-attrid="title"]')
-                    location_elem = result.find_element(By.CSS_SELECTOR, 'div[data-attrid="subtitle"]')
-                    url_elem = result.find_element(By.CSS_SELECTOR, 'a')
+                    job_title_elem = result.select_one('div[role="heading"]')
+                    job_title = job_title_elem.text.strip() if job_title_elem else 'N/A'
 
-                    job_title = job_title_elem.text if job_title_elem else 'N/A'
-                    company_name = company_name_elem.text if company_name_elem else 'N/A'
-                    location = location_elem.text if location_elem else 'N/A'
-                    url = url_elem.get_attribute('href') if url_elem else 'N/A'
+                    company_name_elem = result.select_one('div[role="heading"] + div span')
+                    company_name = company_name_elem.text.strip() if company_name_elem else 'N/A'
+
+                    location_elem = result.select_one('div[role="heading"] + div + div span')
+                    location = location_elem.text.strip() if location_elem else 'N/A'
+
+                    url_elem = result.select_one('a')
+                    url = url_elem['href'] if url_elem else 'N/A'
 
                     # Log the extracted elements
                     logging.info(f"Extracted job title: {job_title}")
@@ -73,7 +72,6 @@ def google_job_search(query, num_pages=5):
             logging.error(f"Error fetching URL: {url} - {e}")
             continue
 
-    driver.quit()
     return job_listings
 
 def categorize_job_title(title):
