@@ -3,3 +3,9 @@ __pycache__/
 
 # Ignore virtual environment directories
 venv/
+
+# Ignore log files
+*.log
+
+# Ignore downloaded package files
+*.deb
