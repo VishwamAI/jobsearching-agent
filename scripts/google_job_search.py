@@ -25,23 +25,27 @@ def google_job_search(query, num_pages=5):
         logging.info(f"Fetching URL: {url}")
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            })
             if response.status_code != 200:
                 logging.error(f"Failed to retrieve page {page}. Status code: {response.status_code}")
                 break
 
-            soup = BeautifulSoup(response.content, 'html.parser')
-            results = soup.select('div[aria-label="Jobs list"] div[tabindex="-1"]')
+            html_content = response.content
+            logging.info(f"HTML content: {html_content[:5000]}")  # Log the first 5000 characters of the HTML content
+            soup = BeautifulSoup(html_content, 'html.parser')
+            results = soup.select('div[jsname="Q4LuWd"]')
 
             for result in results:
                 try:
                     job_title_elem = result.select_one('div[role="heading"]')
                     job_title = job_title_elem.text.strip() if job_title_elem else 'N/A'
 
-                    company_name_elem = result.select_one('div[role="heading"] + div span')
+                    company_name_elem = result.select_one('div[class*="BjJfJf"]')
                     company_name = company_name_elem.text.strip() if company_name_elem else 'N/A'
 
-                    location_elem = result.select_one('div[role="heading"] + div + div span')
+                    location_elem = result.select_one('div[class*="Qk80Jf"]')
                     location = location_elem.text.strip() if location_elem else 'N/A'
 
                     url_elem = result.select_one('a')
