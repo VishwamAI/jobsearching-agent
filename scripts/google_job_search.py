@@ -26,12 +26,12 @@ def google_job_search(query, num_pages=5):
 
             for result in soup.find_all('div', class_='BjJfJf PUpOsf'):
                 job_title_elem = result.find('h2') or result.find('h3')
-                company_name_elem = result.find('div', class_='vNEEBe') or result.find('span', class_='vNEEBe')
-                location_elem = result.find('div', class_='Qk80Jf') or result.find('span', class_='Qk80Jf')
+                company_name_elem = result.find('span', class_='vNEEBe') or result.find('div', class_='vNEEBe')
+                location_elem = result.find('span', class_='Qk80Jf') or result.find('div', class_='Qk80Jf')
 
                 job_title = job_title_elem.get_text() if job_title_elem else 'N/A'
-                company_name = company_name_elem.get_text() if company_name_elem else 'N/A'
-                location = location_elem.get_text() if location_elem else 'N/A'
+                company_name = job_title_elem.find_next('span').get_text() if job_title_elem else 'N/A'
+                location = job_title_elem.find_next('div').get_text() if job_title_elem else 'N/A'
 
                 # Exclude irrelevant elements
                 if job_title != 'N/A' and company_name != 'N/A' and location != 'N/A':
