@@ -24,29 +24,23 @@ def google_job_search(query, num_pages=5):
             response.raise_for_status()
             soup = BeautifulSoup(response.text, 'html.parser')
 
-            # Print statement to check if the HTML content is fetched
-            print(f"Fetched HTML content for URL: {url}")
-
             for result in soup.find_all('div', class_='BjJfJf PUpOsf'):
-                job_title_elem = result.find('div', class_='BjJfJf PUpOsf')
-                company_name_elem = result.find('div', class_='vNEEBe')
-                location_elem = result.find('div', class_='Qk80Jf')
+                job_title_elem = result.find('h2') or result.find('h3')
+                company_name_elem = result.find('div', class_='vNEEBe') or result.find('span', class_='vNEEBe')
+                location_elem = result.find('div', class_='Qk80Jf') or result.find('span', class_='Qk80Jf')
 
                 job_title = job_title_elem.get_text() if job_title_elem else 'N/A'
                 company_name = company_name_elem.get_text() if company_name_elem else 'N/A'
                 location = location_elem.get_text() if location_elem else 'N/A'
 
-                # Print statements for debugging
-                print(f"Job Title: {job_title}")
-                print(f"Company Name: {company_name}")
-                print(f"Location: {location}")
-
-                job_listings.append({
-                    'job_title': job_title,
-                    'company_name': company_name,
-                    'location': location,
-                    'job_level': categorize_job_title(job_title)
-                })
+                # Exclude irrelevant elements
+                if job_title != 'N/A' and company_name != 'N/A' and location != 'N/A':
+                    job_listings.append({
+                        'job_title': job_title,
+                        'company_name': company_name,
+                        'location': location,
+                        'job_level': categorize_job_title(job_title)
+                    })
 
                 if not job_title_elem:
                     logging.warning(f"Missing job title for result: {result}")
