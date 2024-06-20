@@ -84,6 +84,12 @@ def save_to_csv(job_listings, filename='../data/google_job_listings.csv'):
     df.to_csv(filename, index=False)
     logging.info(f"Job listings saved to {filename}")
 
+def save_to_json(job_listings, filename='../data/job_listings.json'):
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    with open(filename, 'w') as json_file:
+        json.dump(job_listings, json_file, indent=4)
+    logging.info(f"Job listings saved to {filename}")
+
 def save_json_to_csv(json_filename, csv_filename):
     with open(json_filename, 'r') as json_file:
         job_listings = json.load(json_file)
@@ -92,5 +98,5 @@ def save_json_to_csv(json_filename, csv_filename):
 if __name__ == "__main__":
     query = "software engineer jobs"
     job_listings = google_job_search(query)
-    save_to_csv(job_listings)
+    save_to_json(job_listings)
     save_json_to_csv('../data/job_listings.json', '../data/google_job_listings.csv')
