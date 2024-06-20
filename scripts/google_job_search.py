@@ -38,9 +38,9 @@ def google_job_search(query, num_pages=5):
             results = driver.find_elements(By.CSS_SELECTOR, 'div[aria-label="Jobs list"] div[tabindex="-1"]')
             for result in results:
                 try:
-                    job_title_elem = result.find_element(By.CSS_SELECTOR, 'div[role="heading"]')
-                    company_name_elem = result.find_element(By.CSS_SELECTOR, 'div[data-company]')
-                    location_elem = result.find_element(By.CSS_SELECTOR, 'div[data-location]')
+                    job_title_elem = result.find_element(By.CSS_SELECTOR, 'h2 span')
+                    company_name_elem = result.find_element(By.CSS_SELECTOR, 'div[data-attrid="title"]')
+                    location_elem = result.find_element(By.CSS_SELECTOR, 'div[data-attrid="subtitle"]')
                     url_elem = result.find_element(By.CSS_SELECTOR, 'a')
 
                     job_title = job_title_elem.text if job_title_elem else 'N/A'
