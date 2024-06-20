@@ -6,6 +6,11 @@ import logging
 import os
 import re
 import json
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 # Configure logging
 logging.basicConfig(filename='job_search.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -14,47 +19,52 @@ def google_job_search(query, num_pages=5):
     job_listings = []
     base_url = "https://www.google.com/search?q="
 
+    # Set up Selenium WebDriver
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+
     for page in range(num_pages):
         start = page * 10
         url = f"{base_url}{query}&start={start}"
         logging.info(f"Fetching URL: {url}")
 
         try:
-            response = requests.get(url)
-            response.raise_for_status()
-            soup = BeautifulSoup(response.text, 'html.parser')
+            driver.get(url)
+            time.sleep(2)  # Wait for the page to load
 
-            for result in soup.find_all('div', class_='BjJfJf PUpOsf'):
-                job_title_elem = result.find('h2') or result.find('h3')
-                company_name_elem = result.find('span', class_='vNEEBe') or result.find('div', class_='vNEEBe')
-                location_elem = result.find('span', class_='Qk80Jf') or result.find('div', class_='Qk80Jf')
+            results = driver.find_elements(By.CSS_SELECTOR, 'div[aria-label="Jobs list"] div[tabindex="-1"]')
+            for result in results:
+                try:
+                    job_title_elem = result.find_element(By.CSS_SELECTOR, 'div[devin-id="238"], div[devin-id="253"], div[devin-id="267"], div[devin-id="282"], div[devin-id="297"]')
+                    company_name_elem = result.find_element(By.CSS_SELECTOR, 'div[devin-id="240"], div[devin-id="255"], div[devin-id="269"], div[devin-id="284"], div[devin-id="299"]')
+                    location_elem = result.find_element(By.CSS_SELECTOR, 'div[devin-id="241"], div[devin-id="256"], div[devin-id="270"], div[devin-id="285"], div[devin-id="300"]')
 
-                job_title = job_title_elem.get_text() if job_title_elem else 'N/A'
-                company_name = job_title_elem.find_next('span').get_text() if job_title_elem else 'N/A'
-                location = job_title_elem.find_next('div').get_text() if job_title_elem else 'N/A'
+                    job_title = job_title_elem.text if job_title_elem else 'N/A'
+                    company_name = company_name_elem.text if company_name_elem else 'N/A'
+                    location = location_elem.text if location_elem else 'N/A'
 
-                # Exclude irrelevant elements
-                if job_title != 'N/A' and company_name != 'N/A' and location != 'N/A':
-                    job_listings.append({
-                        'job_title': job_title,
-                        'company_name': company_name,
-                        'location': location,
-                        'job_level': categorize_job_title(job_title)
-                    })
+                    # Exclude irrelevant elements
+                    if job_title != 'N/A' and company_name != 'N/A' and location != 'N/A':
+                        job_listings.append({
+                            'job_title': job_title,
+                            'company_name': company_name,
+                            'location': location,
+                            'job_level': categorize_job_title(job_title)
+                        })
 
-                if not job_title_elem:
-                    logging.warning(f"Missing job title for result: {result}")
-                if not company_name_elem:
-                    logging.warning(f"Missing company name for result: {result}")
-                if not location_elem:
-                    logging.warning(f"Missing location for result: {result}")
+                except Exception as e:
+                    logging.warning(f"Error processing result: {e}")
 
             time.sleep(2)  # Sleep to avoid being blocked
 
-        except requests.RequestException as e:
+        except Exception as e:
             logging.error(f"Error fetching URL: {url} - {e}")
             continue
 
+    driver.quit()
     return job_listings
 
 def categorize_job_title(title):
