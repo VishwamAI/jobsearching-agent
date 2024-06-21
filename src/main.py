@@ -16,11 +16,16 @@ from scripts.candidate_management_system import (
 )
 from scripts.redefine_job_levels import redefine_job_levels
 
-DATABASE_URL = "sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/jobsearching_agent.db"
+DATABASE_URL = (
+    "sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/"
+    "jobsearching_agent.db"
+)
 
 
 def initialize_database():
-    if not os.path.exists("/home/runner/work/jobsearching-agent/jobsearching-agent/data"):
+    if not os.path.exists(
+        "/home/runner/work/jobsearching-agent/jobsearching-agent/data"
+    ):
         os.makedirs("/home/runner/work/jobsearching-agent/jobsearching-agent/data")
     engine = create_engine(DATABASE_URL)
     Base.metadata.create_all(engine)
@@ -116,9 +121,15 @@ def main():
 
     # Apply job level categorization
     print("Applying job level categorization...")
-    input_csv = "/home/runner/work/jobsearching-agent/jobsearching-agent/data/preprocessed_job_listings.csv"
+    input_csv = (
+        "/home/runner/work/jobsearching-agent/jobsearching-agent/data/"
+        "preprocessed_job_listings.csv"
+    )
     df = redefine_job_levels(input_csv)
-    output_csv = "/home/runner/work/jobsearching-agent/jobsearching-agent/data/preprocessed_job_listings_updated.csv"
+    output_csv = (
+        "/home/runner/work/jobsearching-agent/jobsearching-agent/data/"
+        "preprocessed_job_listings_updated.csv"
+    )
     df.to_csv(output_csv, index=False)
     print(f"Updated job levels saved to {output_csv}")
 
