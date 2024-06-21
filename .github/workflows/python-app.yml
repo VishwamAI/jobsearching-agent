@@ -83,6 +83,7 @@ jobs:
         python -m pytest
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
+        DATABASE_URL: sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db
 
     - name: Activate virtual environment and test prediction functionality
       run: |
@@ -90,3 +91,4 @@ jobs:
         python scripts/predict_job_level.py
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
+        DATABASE_URL: sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db
