@@ -1,0 +1,49 @@
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.5649226Z 
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.5649527Z =================================== FAILURES ===================================
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.5651603Z __________________ TestCandidateManagement.test_add_candidate __________________
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.5652335Z 
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.5652800Z self = <sqlalchemy.engine.base.Connection object at 0x7f7b1f4946a0>
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.5654151Z dialect = <sqlalchemy.dialects.sqlite.pysqlite.SQLiteDialect_pysqlite object at 0x7f7b1f5e9970>
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.5656537Z constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.base.SQLiteExecutionContext'>>
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.5658592Z statement = 'INSERT INTO candidates (first_name, last_name, email, phone, resume) VALUES (?, ?, ?, ?, ?)'
+--
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.6554284Z During handling of the above exception, another exception occurred:
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.6554809Z 
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.6555337Z self = <tests.test_candidate_management.TestCandidateManagement testMethod=test_add_candidate>
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.6556040Z 
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.6556198Z     def test_add_candidate(self):
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.6556823Z         unique_email = self.generate_unique_email("john.doe@example.com")
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.6557477Z >       candidate = add_candidate(
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.6557933Z             "John", "Doe", unique_email,
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.6558533Z             self.generate_unique_phone("1234567890"), "resume.pdf"
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.6559092Z         )
+--
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8218328Z Generated unique email: john.doe8787f2@example.com
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8218442Z Generated unique phone: 123419e33f005c
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8218695Z _______________ TestCandidateManagementSystem.test_add_candidate _______________
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8218701Z 
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8219103Z self = <tests.test_candidate_management_system.TestCandidateManagementSystem testMethod=test_add_candidate>
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8219115Z 
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8219219Z     def test_add_candidate(self):
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8219439Z         candidate = add_candidate(
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8219640Z             "John", "Doe", generate_unique_email("john.doe@example.com"),
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8219808Z             generate_unique_phone("1234567890"), "resume.pdf"
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8219893Z         )
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8220029Z         print(f"Candidate added: {candidate}")
+--
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8253868Z Database tables dropped and session closed.
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8254042Z =========================== short test summary info ============================
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8254374Z FAILED tests/test_candidate_management.py::TestCandidateManagement::test_add_candidate
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8254687Z FAILED tests/test_candidate_management.py::TestCandidateManagement::test_add_to_watchlist
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8255001Z FAILED tests/test_candidate_management.py::TestCandidateManagement::test_delete_candidate
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8255346Z FAILED tests/test_candidate_management.py::TestCandidateManagement::test_get_candidate_by_email
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8255683Z FAILED tests/test_candidate_management.py::TestCandidateManagement::test_remove_from_watchlist
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8256018Z FAILED tests/test_candidate_management.py::TestCandidateManagement::test_schedule_interview
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8256329Z FAILED tests/test_candidate_management.py::TestCandidateManagement::test_update_candidate
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8256674Z FAILED tests/test_candidate_management.py::TestCandidateManagement::test_update_interview_status
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8257041Z FAILED tests/test_candidate_management_system.py::TestCandidateManagementSystem::test_add_candidate
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8257414Z FAILED tests/test_candidate_management_system.py::TestCandidateManagementSystem::test_add_to_watchlist
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8257952Z FAILED tests/test_candidate_management_system.py::TestCandidateManagementSystem::test_auto_apply_to_jobs
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8258378Z FAILED tests/test_candidate_management_system.py::TestCandidateManagementSystem::test_delete_candidate
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8258780Z FAILED tests/test_candidate_management_system.py::TestCandidateManagementSystem::test_get_candidate_by_email
+build	Activate virtual environment and run tests with pytest	2024-06-21T16:25:56.8259188Z FAILED tests/test_candidate_management_system.py::TestCandidateManagementSystem::test_remove_from_watchlist
