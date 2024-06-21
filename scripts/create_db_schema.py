@@ -89,7 +89,7 @@ def create_database():
     engine = create_engine(database_url)
     db_path = database_url.split('///')[-1]
     directory = os.path.dirname(db_path)
-    if directory and not os.path.exists(directory):
+    if (directory and not os.path.exists(directory)):
         print(f"Directory does not exist: {directory}. Creating directory.")
         os.makedirs(directory)
     else:
@@ -97,15 +97,6 @@ def create_database():
     try:
         Base.metadata.create_all(engine)
         print("Database schema created successfully.")
-        # Diagnostic output to verify table creation
-        with engine.connect() as connection:
-            result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
-            tables = result.fetchall()
-            print(f"Tables in the database: {tables}")
-            if ('candidates',) in tables:
-                print("Candidates table created successfully.")
-            else:
-                print("Candidates table not found.")
     except Exception as e:
         print(f"Error creating database schema: {e}")
 
