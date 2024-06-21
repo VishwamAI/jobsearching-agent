@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
+import os
 
 Base = declarative_base()
 
@@ -83,7 +84,8 @@ class CandidateEvaluation(Base):
     candidate = relationship('Candidate', back_populates='evaluations')
 
 def create_database():
-    engine = create_engine('sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db')
+    database_url = os.getenv('DATABASE_URL', 'sqlite:///default.db')
+    engine = create_engine(database_url)
     Base.metadata.create_all(engine)
 
 if __name__ == "__main__":
