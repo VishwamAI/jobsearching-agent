@@ -83,9 +83,10 @@ class TestCandidateManagementSystem(unittest.TestCase):
     def test_update_candidate(self):
         candidate = add_candidate("John", "Doe", generate_unique_email("john.doe3@example.com"), generate_unique_phone("1234567892"), "resume.pdf")
         print(f"Candidate added: {candidate}")
-        updated_candidate = update_candidate(candidate.id, phone="0987654321")
+        updated_phone = generate_unique_phone("0987654321")
+        updated_candidate = update_candidate(candidate.id, phone=updated_phone)
         self.assertIsNotNone(updated_candidate)
-        self.assertEqual(updated_candidate.phone, "0987654321")
+        self.assertEqual(updated_candidate.phone, updated_phone)
 
     def test_delete_candidate(self):
         candidate = add_candidate("John", "Doe", generate_unique_email("john.doe4@example.com"), generate_unique_phone("1234567893"), "resume.pdf")
@@ -141,6 +142,7 @@ class TestCandidateManagementSystem(unittest.TestCase):
         ]
         result = auto_apply_to_jobs(candidate.id, job_listings)
         self.assertTrue(result)
+        self.session.refresh(candidate)  # Refresh the session to ensure it is up-to-date
         applications = self.session.query(Application).filter_by(candidate_id=candidate.id).all()
         self.assertEqual(len(applications), 2)
         for application in applications:
