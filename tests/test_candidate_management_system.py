@@ -32,7 +32,8 @@ def generate_unique_phone(base_phone):
 
 
 DATABASE_URL = (
-    "sqlite:////home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db"
+    "sqlite:////home/runner/work/jobsearching-agent/jobsearching-agent/data/"
+    "test_jobsearching_agent.db"
 )
 
 

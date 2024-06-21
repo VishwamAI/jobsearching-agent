@@ -19,7 +19,8 @@ from scripts.candidate_management import (
 )
 
 DATABASE_URL = (
-    "sqlite:////home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db"
+    "sqlite:////home/runner/work/jobsearching-agent/jobsearching-agent/data/"
+    "test_jobsearching_agent.db"
 )
 
 
