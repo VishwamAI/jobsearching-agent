@@ -58,21 +58,23 @@ class TestCandidateManagement(unittest.TestCase):
         return unique_email
 
     def test_add_candidate(self):
+        unique_email = self.generate_unique_email("john.doe@example.com")
         candidate = add_candidate(
-            "John", "Doe", self.generate_unique_email("john.doe@example.com"), self.generate_unique_phone("1234567890"), "resume.pdf"
+            "John", "Doe", unique_email, self.generate_unique_phone("1234567890"), "resume.pdf"
         )
         self.assertIsNotNone(candidate)
         self.assertEqual(candidate.first_name, "John")
         self.assertEqual(candidate.last_name, "Doe")
-        self.assertEqual(candidate.email, self.generate_unique_email("john.doe@example.com"))
+        self.assertEqual(candidate.email, unique_email)
 
     def test_get_candidate_by_email(self):
-        add_candidate("John", "Doe", self.generate_unique_email("john.doe@example.com"), self.generate_unique_phone("1234567890"), "resume.pdf")
-        candidate = get_candidate_by_email("john.doe@example.com")
+        unique_email = self.generate_unique_email("john.doe@example.com")
+        add_candidate("John", "Doe", unique_email, self.generate_unique_phone("1234567890"), "resume.pdf")
+        candidate = get_candidate_by_email(unique_email)
         self.assertIsNotNone(candidate)
         self.assertEqual(candidate.first_name, "John")
         self.assertEqual(candidate.last_name, "Doe")
-        self.assertEqual(candidate.email, self.generate_unique_email("john.doe@example.com"))
+        self.assertEqual(candidate.email, unique_email)
 
     def test_update_candidate(self):
         candidate = add_candidate(
@@ -85,12 +87,13 @@ class TestCandidateManagement(unittest.TestCase):
         self.assertEqual(updated_candidate.phone, new_phone)
 
     def test_delete_candidate(self):
+        unique_email = self.generate_unique_email("john.doe@example.com")
         candidate = add_candidate(
-            "John", "Doe", self.generate_unique_email("john.doe@example.com"), self.generate_unique_phone("1234567890"), "resume.pdf"
+            "John", "Doe", unique_email, self.generate_unique_phone("1234567890"), "resume.pdf"
         )
         deleted_candidate = delete_candidate(candidate.id)
         self.assertIsNotNone(deleted_candidate)
-        self.assertIsNone(get_candidate_by_email(self.generate_unique_email("john.doe@example.com")))
+        self.assertIsNone(get_candidate_by_email(unique_email))
 
     def test_add_to_watchlist(self):
         candidate = add_candidate(
