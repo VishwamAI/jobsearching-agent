@@ -1,12 +1,12 @@
+import pytest
+from job_scraping import scrape_job_listings
+
 import sys
 import os
 
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts"))
 )
-
-import pytest
-from job_scraping import scrape_job_listings
 
 
 def test_scrape_job_listings():

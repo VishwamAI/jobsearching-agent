@@ -1,15 +1,14 @@
 import os
 import sys
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts"))
-)
-
 import unittest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import uuid
+
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts"))
+)
 
 from create_db_schema import (
     Base, Candidate, Job, Watchlist, InterviewSchedule
@@ -26,6 +25,7 @@ from candidate_management import (
 )
 
 DATABASE_URL = "sqlite:///../data/test_jobsearching_agent.db"
+
 
 class TestCandidateManagement(unittest.TestCase):
 
