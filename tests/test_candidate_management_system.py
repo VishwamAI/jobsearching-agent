@@ -77,7 +77,7 @@ class TestCandidateManagementSystem(unittest.TestCase):
             generate_unique_phone("1234567890"), "resume.pdf"
         )
         print(f"Candidate added: {candidate}")
-        self.assertIsNotNone(candidate)
+        self.assertIsNotNone(candidate, "Failed to add candidate.")
         self.assertEqual(candidate.first_name, "John")
         self.assertEqual(candidate.last_name, "Doe")
         self.assertEqual(
@@ -86,14 +86,15 @@ class TestCandidateManagementSystem(unittest.TestCase):
 
     def test_get_candidate_by_email(self):
         email = generate_unique_email("john.doe2@example.com")
-        add_candidate(
+        candidate = add_candidate(
             "John", "Doe", email, generate_unique_phone("1234567891"),
             "resume.pdf"
         )
+        self.assertIsNotNone(candidate, "Failed to add candidate.")
         self.session.commit()
         candidate = get_candidate_by_email(email)
         print(f"Candidate retrieved: {candidate}")
-        self.assertIsNotNone(candidate)
+        self.assertIsNotNone(candidate, "Failed to retrieve candidate by email.")
         self.assertEqual(candidate.first_name, "John")
         self.assertEqual(candidate.last_name, "Doe")
 
@@ -102,12 +103,13 @@ class TestCandidateManagementSystem(unittest.TestCase):
             "John", "Doe", generate_unique_email("john.doe3@example.com"),
             generate_unique_phone("1234567892"), "resume.pdf"
         )
+        self.assertIsNotNone(candidate, "Failed to add candidate.")
         print(f"Candidate added: {candidate}")
         updated_phone = generate_unique_phone("0987654321")
         updated_candidate = update_candidate(
             candidate.id, phone=updated_phone
         )
-        self.assertIsNotNone(updated_candidate)
+        self.assertIsNotNone(updated_candidate, "Failed to update candidate.")
         self.assertEqual(updated_candidate.phone, updated_phone)
 
     def test_delete_candidate(self):
@@ -115,9 +117,10 @@ class TestCandidateManagementSystem(unittest.TestCase):
             "John", "Doe", generate_unique_email("john.doe4@example.com"),
             generate_unique_phone("1234567893"), "resume.pdf"
         )
+        self.assertIsNotNone(candidate, "Failed to add candidate.")
         print(f"Candidate added: {candidate}")
         deleted_candidate = delete_candidate(candidate.id)
-        self.assertIsNotNone(deleted_candidate)
+        self.assertIsNotNone(deleted_candidate, "Failed to delete candidate.")
         self.assertIsNone(get_candidate_by_email("john.doe4@example.com"))
 
     def test_add_to_watchlist(self):
@@ -125,9 +128,10 @@ class TestCandidateManagementSystem(unittest.TestCase):
             "John", "Doe", generate_unique_email("john.doe5@example.com"),
             generate_unique_phone("1234567894"), "resume.pdf"
         )
+        self.assertIsNotNone(candidate, "Failed to add candidate.")
         print(f"Candidate added: {candidate}")
         watchlist_entry = add_to_watchlist(candidate.id, 1)
-        self.assertIsNotNone(watchlist_entry)
+        self.assertIsNotNone(watchlist_entry, "Failed to add to watchlist.")
         self.assertEqual(watchlist_entry.candidate_id, candidate.id)
         self.assertEqual(watchlist_entry.job_id, 1)
 
@@ -136,10 +140,11 @@ class TestCandidateManagementSystem(unittest.TestCase):
             "John", "Doe", generate_unique_email("john.doe6@example.com"),
             generate_unique_phone("1234567895"), "resume.pdf"
         )
+        self.assertIsNotNone(candidate, "Failed to add candidate.")
         print(f"Candidate added: {candidate}")
         add_to_watchlist(candidate.id, 1)
         removed_watchlist_entry = remove_from_watchlist(candidate.id, 1)
-        self.assertIsNotNone(removed_watchlist_entry)
+        self.assertIsNotNone(removed_watchlist_entry, "Failed to remove from watchlist.")
         self.assertIsNone(
             self.session.query(Watchlist).filter_by(
                 candidate_id=candidate.id, job_id=1
@@ -151,11 +156,12 @@ class TestCandidateManagementSystem(unittest.TestCase):
             "John", "Doe", generate_unique_email("john.doe7@example.com"),
             generate_unique_phone("1234567896"), "resume.pdf"
         )
+        self.assertIsNotNone(candidate, "Failed to add candidate.")
         print(f"Candidate added: {candidate}")
         interview_schedule = schedule_interview(
             candidate.id, 1, datetime.now(), "Scheduled"
         )
-        self.assertIsNotNone(interview_schedule)
+        self.assertIsNotNone(interview_schedule, "Failed to schedule interview.")
         self.assertEqual(interview_schedule.candidate_id, candidate.id)
         self.assertEqual(interview_schedule.job_id, 1)
         self.assertEqual(interview_schedule.status, "Scheduled")
@@ -165,14 +171,16 @@ class TestCandidateManagementSystem(unittest.TestCase):
             "John", "Doe", generate_unique_email("john.doe8@example.com"),
             generate_unique_phone("1234567897"), "resume.pdf"
         )
+        self.assertIsNotNone(candidate, "Failed to add candidate.")
         print(f"Candidate added: {candidate}")
         interview_schedule = schedule_interview(
             candidate.id, 1, datetime.now(), "Scheduled"
         )
+        self.assertIsNotNone(interview_schedule, "Failed to schedule interview.")
         updated_interview = update_interview_status(
             interview_schedule.id, "Completed"
         )
-        self.assertIsNotNone(updated_interview)
+        self.assertIsNotNone(updated_interview, "Failed to update interview status.")
         self.assertEqual(updated_interview.status, "Completed")
 
     def test_auto_apply_to_jobs(self):
