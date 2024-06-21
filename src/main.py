@@ -2,13 +2,12 @@ import sys
 import os
 from datetime import datetime
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 import uuid
 
 # Append the parent directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from scripts.create_db_schema import Base, Candidate
+from scripts.create_db_schema import Base
 from scripts.candidate_management_system import (
     add_candidate,
     get_candidate_by_email,
@@ -85,12 +84,19 @@ def main():
 
     # Example usage of interview scheduling functions
     print("Scheduling an interview for candidate...")
-    interview_schedule = schedule_interview(candidate_id=candidate.id, job_id=1, interview_date=datetime.now(), status="Scheduled")
+    interview_schedule = schedule_interview(
+        candidate_id=candidate.id, job_id=1, interview_date=datetime.now(), status="Scheduled"
+    )
     if interview_schedule:
-        print(f"Interview scheduled for candidate ID: {interview_schedule.candidate_id} for job ID: {interview_schedule.job_id}")
+        print(
+            f"Interview scheduled for candidate ID: {interview_schedule.candidate_id} "
+            f"for job ID: {interview_schedule.job_id}"
+        )
 
     print("Updating interview status...")
-    updated_interview = update_interview_status(interview_id=interview_schedule.id, status="Completed")
+    updated_interview = update_interview_status(
+        interview_id=interview_schedule.id, status="Completed"
+    )
     if updated_interview:
         print(f"Interview status updated to: {updated_interview.status}")
 

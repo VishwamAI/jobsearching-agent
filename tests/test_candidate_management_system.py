@@ -24,7 +24,6 @@ def generate_unique_email(base_email):
 def generate_unique_phone(base_phone):
     unique_id = uuid.uuid4().hex[:10]
     unique_phone = f"{base_phone[:4]}{unique_id}"
-    print(f"Generated unique phone: {unique_phone}")
     return unique_phone
 
 DATABASE_URL = 'sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db'
@@ -161,7 +160,9 @@ class TestCandidateManagementSystem(unittest.TestCase):
         interview_schedule = schedule_interview(
             candidate.id, 1, datetime.now(), "Scheduled"
         )
-        updated_interview = update_interview_status(interview_schedule.id, "Completed")
+        updated_interview = update_interview_status(
+            interview_schedule.id, "Completed"
+        )
         self.assertIsNotNone(updated_interview)
         self.assertEqual(updated_interview.status, "Completed")
 
@@ -172,7 +173,10 @@ class TestCandidateManagementSystem(unittest.TestCase):
         for candidate in candidates_before:
             print(candidate)
 
-        candidate = add_candidate("John", "Doe", generate_unique_email("john.doe9@example.com"), generate_unique_phone("1234567898"), "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", generate_unique_email("john.doe9@example.com"),
+            generate_unique_phone("1234567898"), "resume.pdf"
+        )
         self.session.flush()
         self.assertIsNotNone(candidate, "Candidate was not added successfully.")
         self.assertIsNotNone(candidate.id, "Candidate ID is None after addition.")
@@ -200,7 +204,9 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.assertTrue(result)
 
         # Query the applications using the same session
-        applications = self.session.query(Application).filter_by(candidate_id=candidate.id).all()
+        applications = self.session.query(Application).filter_by(
+            candidate_id=candidate.id
+        ).all()
         self.assertEqual(len(applications), 2)
         for application in applications:
             self.assertEqual(application.status, 'Submitted')
