@@ -2,15 +2,10 @@ import unittest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from scripts.create_db_schema import (
-    Base, Candidate, Watchlist, InterviewSchedule, Job, Application
+    Base, Candidate, Job, Application
 )
 from scripts.candidate_management_system import (
     add_candidate,
-    get_candidate_by_email,
-    update_candidate,
-    delete_candidate,
-    add_to_watchlist,
-    remove_from_watchlist,
     schedule_interview,
     update_interview_status,
     auto_apply_to_jobs
@@ -49,7 +44,8 @@ class TestCandidateManagementSystem(unittest.TestCase):
     def test_add_candidate(self):
         candidate = add_candidate(
             "John", "Doe", self.generate_unique_email("john.doe@example.com"),
-            self.generate_unique_phone("1234567890"), "resume.pdf", self.session
+            self.generate_unique_phone("1234567890"), "resume.pdf",
+            self.session
         )
         print(f"Candidate added: {candidate}")
         self.assertIsNotNone(candidate)
@@ -62,7 +58,8 @@ class TestCandidateManagementSystem(unittest.TestCase):
     def test_update_interview_status(self):
         candidate = add_candidate(
             "John", "Doe", self.generate_unique_email("john.doe8@example.com"),
-            self.generate_unique_phone("1234567897"), "resume.pdf", self.session
+            self.generate_unique_phone("1234567897"), "resume.pdf",
+            self.session
         )
         print(f"Candidate added: {candidate}")
         interview_schedule = schedule_interview(
@@ -83,7 +80,8 @@ class TestCandidateManagementSystem(unittest.TestCase):
 
         candidate = add_candidate(
             "John", "Doe", self.generate_unique_email("john.doe9@example.com"),
-            self.generate_unique_phone("1234567898"), "resume.pdf", self.session
+            self.generate_unique_phone("1234567898"), "resume.pdf",
+            self.session
         )
         self.session.flush()
         self.assertIsNotNone(
