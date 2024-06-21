@@ -52,26 +52,35 @@ def main():
     print("Retrieving candidate by email...")
     candidate = get_candidate_by_email(email="john.doe@example.com")
     if candidate:
-        print(f"Candidate retrieved: {candidate.first_name} {candidate.last_name}")
+        print(
+            f"Candidate retrieved: {candidate.first_name} "
+            f"{candidate.last_name}"
+        )
 
     print("Updating candidate information...")
     candidate = update_candidate(candidate_id=candidate.id, phone="0987654321")
     if candidate:
         print(
-            f"Candidate updated: {candidate.first_name} {candidate.last_name}, "
-            f"Phone: {candidate.phone}"
+            f"Candidate updated: {candidate.first_name} "
+            f"{candidate.last_name}, Phone: {candidate.phone}"
         )
 
     print("Deleting candidate...")
     candidate = delete_candidate(candidate_id=candidate.id)
     if candidate:
-        print(f"Candidate deleted: {candidate.first_name} {candidate.last_name}")
+        print(
+            f"Candidate deleted: {candidate.first_name} "
+            f"{candidate.last_name}"
+        )
 
     # Example usage of watchlist management functions
     print("Adding candidate to watchlist...")
     watchlist_entry = add_to_watchlist(candidate_id=candidate.id, job_id=1)
     if watchlist_entry:
-        print(f"Candidate added to watchlist for job ID: {watchlist_entry.job_id}")
+        print(
+            f"Candidate added to watchlist for job ID: "
+            f"{watchlist_entry.job_id}"
+        )
 
     print("Removing candidate from watchlist...")
     removed_watchlist_entry = remove_from_watchlist(
