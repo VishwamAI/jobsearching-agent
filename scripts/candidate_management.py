@@ -5,7 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 import sqlite3
 
-DATABASE_URL = "sqlite:///:memory:"
+DATABASE_URL = "sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db"
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
