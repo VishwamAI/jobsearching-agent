@@ -93,7 +93,7 @@ jobs:
         python scripts/create_db_schema.py
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
-        DATABASE_URL: sqlite:///data/test_jobsearching_agent.db
+        DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
 
     - name: Activate virtual environment and run tests with pytest
       run: |
@@ -101,7 +101,7 @@ jobs:
         python -m pytest
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
-        DATABASE_URL: sqlite:///data/test_jobsearching_agent.db
+        DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
 
     - name: Activate virtual environment and test prediction functionality
       run: |
@@ -109,4 +109,4 @@ jobs:
         python scripts/predict_job_level.py
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
-        DATABASE_URL: sqlite:///data/test_jobsearching_agent.db
+        DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
