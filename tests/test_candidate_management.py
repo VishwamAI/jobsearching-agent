@@ -89,7 +89,9 @@ class TestCandidateManagement(unittest.TestCase):
         )
         self.assertIsNotNone(candidate)
         new_phone = self.generate_unique_phone("0987654321")
-        updated_candidate = update_candidate(candidate.id, phone=new_phone, session=self.session)
+        updated_candidate = update_candidate(
+            candidate.id, phone=new_phone, session=self.session
+        )
         self.assertIsNotNone(updated_candidate)
         self.assertEqual(updated_candidate.phone, new_phone)
 
@@ -100,9 +102,13 @@ class TestCandidateManagement(unittest.TestCase):
             self.generate_unique_phone("1234567890"), "resume.pdf",
             session=self.session
         )
-        deleted_candidate = delete_candidate(candidate.id, session=self.session)
+        deleted_candidate = delete_candidate(
+            candidate.id, session=self.session
+        )
         self.assertIsNotNone(deleted_candidate)
-        self.assertIsNone(get_candidate_by_email(unique_email, session=self.session))
+        self.assertIsNone(
+            get_candidate_by_email(unique_email, session=self.session)
+        )
 
     def test_add_to_watchlist(self):
         candidate = add_candidate(
@@ -117,7 +123,9 @@ class TestCandidateManagement(unittest.TestCase):
         )
         self.session.add(job)
         self.session.commit()
-        watchlist_entry = add_to_watchlist(candidate.id, job.id, session=self.session)
+        watchlist_entry = add_to_watchlist(
+            candidate.id, job.id, session=self.session
+        )
         self.assertIsNotNone(watchlist_entry)
         self.assertEqual(watchlist_entry.candidate_id, candidate.id)
         self.assertEqual(watchlist_entry.job_id, job.id)
@@ -136,7 +144,9 @@ class TestCandidateManagement(unittest.TestCase):
         self.session.add(job)
         self.session.commit()
         add_to_watchlist(candidate.id, job.id, session=self.session)
-        removed_watchlist_entry = remove_from_watchlist(candidate.id, job.id, session=self.session)
+        removed_watchlist_entry = remove_from_watchlist(
+            candidate.id, job.id, session=self.session
+        )
         self.assertIsNotNone(removed_watchlist_entry)
         self.assertEqual(removed_watchlist_entry.candidate_id, candidate.id)
         self.assertEqual(removed_watchlist_entry.job_id, job.id)
