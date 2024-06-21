@@ -83,9 +83,8 @@ jobs:
     - name: Set permissions for data directory
       run: chmod -R 777 /home/runner/work/jobsearching-agent/jobsearching-agent/data
 
-    - name: Print contents of data directory before running tests
-      run: |
-        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+    - name: Print contents of data directory before setting up database schema
+      run: ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
 
     - name: Activate virtual environment and set up database schema
       run: |
