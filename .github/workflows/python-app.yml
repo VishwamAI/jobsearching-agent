@@ -78,14 +78,14 @@ jobs:
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
 
     - name: Create data directory
-      run: mkdir -p data
+      run: mkdir -p /home/runner/work/jobsearching-agent/jobsearching-agent/data
 
     - name: Set permissions for data directory
-      run: chmod -R 777 data
+      run: chmod -R 777 /home/runner/work/jobsearching-agent/jobsearching-agent/data
 
     - name: Print contents of data directory before running tests
       run: |
-        ls -la data/
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
 
     - name: Activate virtual environment and set up database schema
       run: |
