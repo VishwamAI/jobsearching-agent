@@ -2,9 +2,9 @@ name: Python application
 
 on:
   push:
-    branches: [ main, setup-project-structure ]
+    branches: [ main, setup-project-structure, feature/auto-apply ]
   pull_request:
-    branches: [ main, setup-project-structure ]
+    branches: [ main, setup-project-structure, feature/auto-apply ]
   workflow_dispatch:
 
 jobs:
