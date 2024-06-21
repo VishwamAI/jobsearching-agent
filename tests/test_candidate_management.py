@@ -43,6 +43,13 @@ class TestCandidateManagement(unittest.TestCase):
                 "Candidates table was not created successfully."
             )
 
+        # Additional diagnostics
+        print(f"Database URL: {DATABASE_URL}")
+        with cls.engine.connect() as connection:
+            result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            tables = result.fetchall()
+            print("Tables in the database after setup:", tables)
+
     @classmethod
     def tearDownClass(cls):
         Base.metadata.drop_all(cls.engine)
