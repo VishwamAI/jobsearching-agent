@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from create_db_schema import Candidate, Job, Application, Base, Watchlist, InterviewSchedule
+from scripts.create_db_schema import Candidate, Job, Application, Base, Watchlist, InterviewSchedule
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 
@@ -8,96 +8,103 @@ DATABASE_URL = 'sqlite:///../data/jobsearching_agent.db'
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
-session = Session()
 
 def add_candidate(first_name, last_name, email, phone=None, resume=None):
-    try:
-        candidate = Candidate(first_name=first_name, last_name=last_name, email=email, phone=phone, resume=resume)
-        session.add(candidate)
-        session.commit()
-        return candidate
-    except SQLAlchemyError as e:
-        session.rollback()
-        print(f"Error adding candidate: {e}")
-        return None
+    with Session() as session:
+        try:
+            candidate = Candidate(first_name=first_name, last_name=last_name, email=email, phone=phone, resume=resume)
+            session.add(candidate)
+            session.commit()
+            return candidate
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Error adding candidate: {e}")
+            return None
 
 def get_candidate_by_email(email):
-    try:
-        return session.query(Candidate).filter_by(email=email).first()
-    except SQLAlchemyError as e:
-        print(f"Error retrieving candidate: {e}")
-        return None
+    with Session() as session:
+        try:
+            return session.query(Candidate).filter_by(email=email).first()
+        except SQLAlchemyError as e:
+            print(f"Error retrieving candidate: {e}")
+            return None
 
 def update_candidate(candidate_id, **kwargs):
-    try:
-        candidate = session.query(Candidate).filter_by(id=candidate_id).first()
-        if candidate:
-            for key, value in kwargs.items():
-                setattr(candidate, key, value)
-            session.commit()
-        return candidate
-    except SQLAlchemyError as e:
-        session.rollback()
-        print(f"Error updating candidate: {e}")
-        return None
+    with Session() as session:
+        try:
+            candidate = session.query(Candidate).filter_by(id=candidate_id).first()
+            if candidate:
+                for key, value in kwargs.items():
+                    setattr(candidate, key, value)
+                session.commit()
+            return candidate
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Error updating candidate: {e}")
+            return None
 
 def delete_candidate(candidate_id):
-    try:
-        candidate = session.query(Candidate).filter_by(id=candidate_id).first()
-        if candidate:
-            session.delete(candidate)
-            session.commit()
-        return candidate
-    except SQLAlchemyError as e:
-        session.rollback()
-        print(f"Error deleting candidate: {e}")
-        return None
+    with Session() as session:
+        try:
+            candidate = session.query(Candidate).filter_by(id=candidate_id).first()
+            if candidate:
+                session.delete(candidate)
+                session.commit()
+            return candidate
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Error deleting candidate: {e}")
+            return None
 
 def add_to_watchlist(candidate_id, job_id):
-    try:
-        watchlist_entry = Watchlist(candidate_id=candidate_id, job_id=job_id, added_date=datetime.now())
-        session.add(watchlist_entry)
-        session.commit()
-        return watchlist_entry
-    except SQLAlchemyError as e:
-        session.rollback()
-        print(f"Error adding to watchlist: {e}")
-        return None
+    with Session() as session:
+        try:
+            watchlist_entry = Watchlist(candidate_id=candidate_id, job_id=job_id, added_date=datetime.now())
+            session.add(watchlist_entry)
+            session.commit()
+            return watchlist_entry
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Error adding to watchlist: {e}")
+            return None
 
 def remove_from_watchlist(candidate_id, job_id):
-    try:
-        watchlist_entry = session.query(Watchlist).filter_by(candidate_id=candidate_id, job_id=job_id).first()
-        if watchlist_entry:
-            session.delete(watchlist_entry)
-            session.commit()
-        return watchlist_entry
-    except SQLAlchemyError as e:
-        session.rollback()
-        print(f"Error removing from watchlist: {e}")
-        return None
+    with Session() as session:
+        try:
+            watchlist_entry = session.query(Watchlist).filter_by(candidate_id=candidate_id, job_id=job_id).first()
+            if watchlist_entry:
+                session.delete(watchlist_entry)
+                session.commit()
+            return watchlist_entry
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Error removing from watchlist: {e}")
+            return None
 
 def schedule_interview(candidate_id, job_id, interview_date, status):
-    try:
-        interview_schedule = InterviewSchedule(candidate_id=candidate_id, job_id=job_id, interview_date=interview_date, status=status)
-        session.add(interview_schedule)
-        session.commit()
-        return interview_schedule
-    except SQLAlchemyError as e:
-        session.rollback()
-        print(f"Error scheduling interview: {e}")
-        return None
+    with Session() as session:
+        try:
+            interview_schedule = InterviewSchedule(candidate_id=candidate_id, job_id=job_id, interview_date=interview_date, status=status)
+            session.add(interview_schedule)
+            session.commit()
+            return interview_schedule
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Error scheduling interview: {e}")
+            return None
 
 def update_interview_status(interview_id, status):
-    try:
-        interview_schedule = session.query(InterviewSchedule).filter_by(id=interview_id).first()
-        if interview_schedule:
-            interview_schedule.status = status
-            session.commit()
-        return interview_schedule
-    except SQLAlchemyError as e:
-        session.rollback()
-        print(f"Error updating interview status: {e}")
-        return None
+    with Session() as session:
+        try:
+            interview_schedule = session.query(InterviewSchedule).filter_by(id=interview_id).first()
+            if interview_schedule:
+                interview_schedule.status = status
+                session.commit()
+            return interview_schedule
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Error updating interview status: {e}")
+            return None
 
 if __name__ == "__main__":
     # Example usage

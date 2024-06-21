@@ -2,9 +2,9 @@ name: Python application
 
 on:
   push:
-    branches: [ main, setup-project-structure ]
+    branches: [ main, setup-project-structure, feature/auto-apply ]
   pull_request:
-    branches: [ main, setup-project-structure ]
+    branches: [ main, setup-project-structure, feature/auto-apply ]
   workflow_dispatch:
 
 jobs:
@@ -34,7 +34,7 @@ jobs:
         python -m pip install pandas
         python -m pip install scikit-learn==1.3.2
       env:
-        PYTHONPATH: venv/lib/python3.8/site-packages
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
     - name: List installed packages
       run: venv/bin/pip list
@@ -55,6 +55,8 @@ jobs:
       run: |
         source venv/bin/activate
         python -m flake8 src tests
+      env:
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
     - name: Activate virtual environment and list installed packages before running tests
       run: |
@@ -71,12 +73,20 @@ jobs:
         source venv/bin/activate
         python -c "import sys; print(sys.path)"
 
+    - name: Print DATABASE_URL before running tests
+      run: |
+        echo "DATABASE_URL=${{ env.DATABASE_URL }}"
+
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
         python -m pytest
+      env:
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
     - name: Activate virtual environment and test prediction functionality
       run: |
         source venv/bin/activate
         python scripts/predict_job_level.py
+      env:
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./

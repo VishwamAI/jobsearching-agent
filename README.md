@@ -6,15 +6,13 @@ This repository contains the code for the jobsearching-agent, an advanced AI job
 
 ## Features
 
-- Web scraping
-- Natural Language Processing (NLP)
-- Summarization
-- Model training and evaluation
-- CI/CD workflows
-- Virtual interview scheduling
-- Application tracking system
-- Job watchlist management
-- Auto-applying to job listings
+- **Job Searching**: The agent can search for job listings across various platforms using customizable search criteria.
+- **Job Categorization**: The agent categorizes job listings based on predefined categories to help users find relevant jobs quickly.
+- **Auto-Applying**: The agent can automatically apply to job listings that match the user's criteria. This feature includes:
+  - **Resume Submission**: Automatically submits the user's resume to job listings.
+  - **Cover Letter Customization**: Customizes cover letters based on the job description and user profile.
+  - **Application Tracking**: Tracks the status of job applications and provides updates to the user.
+  - **Error Handling**: Includes robust error handling to ensure that applications are submitted correctly and retries in case of failures.
 
 ## How to Earn the Galaxy Brain Badge on GitHub
 
