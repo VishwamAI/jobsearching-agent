@@ -85,7 +85,12 @@ class CandidateEvaluation(Base):
 
 def create_database():
     database_url = os.getenv('DATABASE_URL', 'sqlite:///default.db')
+    print(f"Using DATABASE_URL: {database_url}")
     engine = create_engine(database_url)
+    if not os.path.exists(os.path.dirname(database_url.split('///')[-1])):
+        print(f"Directory does not exist: {os.path.dirname(database_url.split('///')[-1])}")
+    else:
+        print(f"Directory exists: {os.path.dirname(database_url.split('///')[-1])}")
     Base.metadata.create_all(engine)
 
 if __name__ == "__main__":
