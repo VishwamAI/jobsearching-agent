@@ -1,4 +1,12 @@
 import pytest
+import sys
+import os
+
+# Add the scripts directory to the Python path
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts"))
+)
+
 from job_scraping import scrape_job_listings
 
 
