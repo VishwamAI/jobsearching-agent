@@ -18,7 +18,7 @@ from candidate_management import (
     update_interview_status,
 )
 
-DATABASE_URL = "sqlite:///../data/test_jobsearching_agent.db"
+DATABASE_URL = "sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db"
 
 
 class TestCandidateManagement(unittest.TestCase):
