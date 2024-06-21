@@ -1,5 +1,4 @@
 import pytest
-from bs4 import BeautifulSoup
 from job_scraping import scrape_job_listings
 
 
@@ -10,11 +9,15 @@ def test_scrape_job_listings():
     <body>
         <div class="job-listing">
             <h2 class="job-title">Software Engineer</h2>
-            <div class="job-description">Develop and maintain software applications.</div>
+            <div class="job-description">
+                Develop and maintain software applications.
+            </div>
         </div>
         <div class="job-listing">
             <h2 class="job-title">Data Scientist</h2>
-            <div class="job-description">Analyze and interpret complex data sets.</div>
+            <div class="job-description">
+                Analyze and interpret complex data sets.
+            </div>
         </div>
     </body>
     </html>
@@ -49,7 +52,9 @@ def test_scrape_job_listings_with_error():
     <body>
         <div class="job-listing">
             <h2 class="job-title">Software Engineer</h2>
-            <div class="job-description">Develop and maintain software applications.</div>
+            <div class="job-description">
+                Develop and maintain software applications.
+            </div>
         </div>
         <div class="job-listing">
             <h2 class="job-title">Data Scientist</h2>
