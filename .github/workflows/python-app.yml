@@ -77,6 +77,9 @@ jobs:
       run: |
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
 
+    - name: Create data directory
+      run: mkdir -p data
+
     - name: Print contents of data directory before running tests
       run: |
         ls -la data/
