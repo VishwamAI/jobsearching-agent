@@ -4,7 +4,7 @@ from scripts.create_db_schema import Candidate, Job, Application, Base, Watchlis
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 
-DATABASE_URL = 'sqlite:///../data/jobsearching_agent.db'
+DATABASE_URL = "sqlite:///:memory:"
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
