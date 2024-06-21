@@ -26,6 +26,7 @@ class TestCandidateManagement(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        print(f"Using DATABASE_URL in tests: {DATABASE_URL}")
         cls.engine = create_engine(DATABASE_URL)
         Base.metadata.create_all(cls.engine)
         cls.Session = sessionmaker(bind=cls.engine)
