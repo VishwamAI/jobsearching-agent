@@ -14,6 +14,7 @@ This repository contains the code for the jobsearching-agent, an advanced AI job
 - Virtual interview scheduling
 - Application tracking system
 - Job watchlist management
+- Auto-applying to job listings
 
 ## How to Earn the Galaxy Brain Badge on GitHub
 
@@ -116,6 +117,10 @@ The agent provides a dashboard to track the progress of job applications through
 ### Job Watchlist Management
 
 Candidates can add jobs to a watchlist and manage their job search process effectively.
+
+### Auto-Applying to Job Listings
+
+The jobsearching-agent includes a feature to automatically apply to job listings across various online platforms. This feature uses predefined candidate information to submit applications and updates the application status in the database.
 
 ## Contributing
 
