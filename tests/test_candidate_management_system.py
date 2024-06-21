@@ -23,7 +23,9 @@ def generate_unique_email(base_email):
 
 def generate_unique_phone(base_phone):
     unique_id = uuid.uuid4().hex[:10]
-    return f"{base_phone[:4]}{unique_id}"
+    unique_phone = f"{base_phone[:4]}{unique_id}"
+    print(f"Generated unique phone: {unique_phone}")
+    return unique_phone
 
 DATABASE_URL = 'sqlite:///../data/test_jobsearching_agent.db'
 
@@ -51,6 +53,16 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.session.query(Application).delete()
         self.session.commit()
         print("Database tables cleared.")
+        remaining_candidates = self.session.query(Candidate).all()
+        print(f"Remaining candidates after setup: {remaining_candidates}")
+        remaining_watchlists = self.session.query(Watchlist).all()
+        print(f"Remaining watchlists after setup: {remaining_watchlists}")
+        remaining_interviews = self.session.query(InterviewSchedule).all()
+        print(f"Remaining interviews after setup: {remaining_interviews}")
+        remaining_jobs = self.session.query(Job).all()
+        print(f"Remaining jobs after setup: {remaining_jobs}")
+        remaining_applications = self.session.query(Application).all()
+        print(f"Remaining applications after setup: {remaining_applications}")
 
     def test_add_candidate(self):
         candidate = add_candidate("John", "Doe", generate_unique_email("john.doe@example.com"), generate_unique_phone("1234567890"), "resume.pdf")
