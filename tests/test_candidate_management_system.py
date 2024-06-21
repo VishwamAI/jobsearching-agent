@@ -16,6 +16,8 @@ import uuid
 DATABASE_URL = "sqlite:///:memory:"
 
 # Adding a comment to trigger CI/CD workflow
+
+
 class TestCandidateManagementSystem(unittest.TestCase):
 
     @classmethod
