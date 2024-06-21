@@ -110,12 +110,14 @@ def auto_apply_to_jobs(candidate_id, job_listings):
         if not candidate:
             print(f"Candidate with ID {candidate_id} not found.")
             return None
+        print(f"Candidate found: {candidate}")
 
         for job in job_listings:
             job_id = job.get('id')
             if not job_id:
                 print(f"Job ID not found for job: {job}")
                 continue
+            print(f"Processing job ID: {job_id}")
 
             application = Application(
                 candidate_id=candidate_id,
@@ -125,6 +127,7 @@ def auto_apply_to_jobs(candidate_id, job_listings):
             )
             session.add(application)
             session.commit()
+            print(f"Application created for job ID {job_id} with status 'Pending'")
 
             # Simulate application submission process
             # This is where you would add code to fill out and submit the application form
@@ -134,6 +137,7 @@ def auto_apply_to_jobs(candidate_id, job_listings):
             # Update application status to 'Submitted'
             application.status = 'Submitted'
             session.commit()
+            print(f"Application status updated to 'Submitted' for job ID {job_id}")
 
         return True
     except SQLAlchemyError as e:
