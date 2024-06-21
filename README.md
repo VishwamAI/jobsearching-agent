@@ -13,6 +13,7 @@ This repository contains the code for the jobsearching-agent, an advanced AI job
   - **Cover Letter Customization**: Customizes cover letters based on the job description and user profile.
   - **Application Tracking**: Tracks the status of job applications and provides updates to the user.
   - **Error Handling**: Includes robust error handling to ensure that applications are submitted correctly and retries in case of failures.
+  - For more details, see the "Advanced Features" section below.
 
 ## How to Earn the Galaxy Brain Badge on GitHub
 
