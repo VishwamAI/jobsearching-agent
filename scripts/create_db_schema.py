@@ -102,6 +102,10 @@ def create_database():
             result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
             tables = result.fetchall()
             print(f"Tables in the database: {tables}")
+            if ('candidates',) in tables:
+                print("Candidates table created successfully.")
+            else:
+                print("Candidates table not found.")
     except Exception as e:
         print(f"Error creating database schema: {e}")
 
