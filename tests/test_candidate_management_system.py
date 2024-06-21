@@ -144,8 +144,12 @@ class TestCandidateManagementSystem(unittest.TestCase):
         )
         self.assertIsNotNone(candidate, "Failed to add candidate.")
         print(f"Candidate added: {candidate}")
-        add_to_watchlist(candidate.id, 1)
-        removed_watchlist_entry = remove_from_watchlist(candidate.id, 1)
+        add_to_watchlist(
+            candidate.id, 1
+        )
+        removed_watchlist_entry = remove_from_watchlist(
+            candidate.id, 1
+        )
         self.assertIsNotNone(
             removed_watchlist_entry, "Failed to remove from watchlist."
         )
