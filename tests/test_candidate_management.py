@@ -4,6 +4,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+import uuid
 
 # Add the scripts directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts")))
@@ -44,9 +45,15 @@ class TestCandidateManagement(unittest.TestCase):
         self.session.query(InterviewSchedule).delete()
         self.session.commit()
 
+    def generate_unique_phone(self, base_phone):
+        unique_id = uuid.uuid4().hex[:10]
+        unique_phone = f"{base_phone[:4]}{unique_id}"
+        print(f"Generated unique phone: {unique_phone}")
+        return unique_phone
+
     def test_add_candidate(self):
         candidate = add_candidate(
-            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+            "John", "Doe", "john.doe@example.com", self.generate_unique_phone("1234567890"), "resume.pdf"
         )
         self.assertIsNotNone(candidate)
         self.assertEqual(candidate.first_name, "John")
@@ -54,7 +61,7 @@ class TestCandidateManagement(unittest.TestCase):
         self.assertEqual(candidate.email, "john.doe@example.com")
 
     def test_get_candidate_by_email(self):
-        add_candidate("John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf")
+        add_candidate("John", "Doe", "john.doe@example.com", self.generate_unique_phone("1234567890"), "resume.pdf")
         candidate = get_candidate_by_email("john.doe@example.com")
         self.assertIsNotNone(candidate)
         self.assertEqual(candidate.first_name, "John")
@@ -62,15 +69,15 @@ class TestCandidateManagement(unittest.TestCase):
 
     def test_update_candidate(self):
         candidate = add_candidate(
-            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+            "John", "Doe", "john.doe@example.com", self.generate_unique_phone("1234567890"), "resume.pdf"
         )
-        updated_candidate = update_candidate(candidate.id, phone="0987654321")
+        updated_candidate = update_candidate(candidate.id, phone=self.generate_unique_phone("0987654321"))
         self.assertIsNotNone(updated_candidate)
-        self.assertEqual(updated_candidate.phone, "0987654321")
+        self.assertEqual(updated_candidate.phone, self.generate_unique_phone("0987654321"))
 
     def test_delete_candidate(self):
         candidate = add_candidate(
-            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+            "John", "Doe", "john.doe@example.com", self.generate_unique_phone("1234567890"), "resume.pdf"
         )
         deleted_candidate = delete_candidate(candidate.id)
         self.assertIsNotNone(deleted_candidate)
@@ -78,7 +85,7 @@ class TestCandidateManagement(unittest.TestCase):
 
     def test_add_to_watchlist(self):
         candidate = add_candidate(
-            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+            "John", "Doe", "john.doe@example.com", self.generate_unique_phone("1234567890"), "resume.pdf"
         )
         job = Job(
             title="Software Engineer", description="Develop software", location="Remote"
@@ -92,7 +99,7 @@ class TestCandidateManagement(unittest.TestCase):
 
     def test_remove_from_watchlist(self):
         candidate = add_candidate(
-            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+            "John", "Doe", "john.doe@example.com", self.generate_unique_phone("1234567890"), "resume.pdf"
         )
         job = Job(
             title="Software Engineer", description="Develop software", location="Remote"
@@ -107,7 +114,7 @@ class TestCandidateManagement(unittest.TestCase):
 
     def test_schedule_interview(self):
         candidate = add_candidate(
-            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+            "John", "Doe", "john.doe@example.com", self.generate_unique_phone("1234567890"), "resume.pdf"
         )
         job = Job(
             title="Software Engineer", description="Develop software", location="Remote"
@@ -124,7 +131,7 @@ class TestCandidateManagement(unittest.TestCase):
 
     def test_update_interview_status(self):
         candidate = add_candidate(
-            "John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf"
+            "John", "Doe", "john.doe@example.com", self.generate_unique_phone("1234567890"), "resume.pdf"
         )
         job = Job(
             title="Software Engineer", description="Develop software", location="Remote"

@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import uuid
 
 # Append the parent directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
@@ -31,6 +32,13 @@ def initialize_database():
     print("Database initialized successfully.")
 
 
+def generate_unique_phone(base_phone):
+    unique_id = uuid.uuid4().hex[:10]
+    unique_phone = f"{base_phone[:4]}{unique_id}"
+    print(f"Generated unique phone: {unique_phone}")
+    return unique_phone
+
+
 def main():
     initialize_database()
 
@@ -40,7 +48,7 @@ def main():
         first_name="John",
         last_name="Doe",
         email="john.doe@example.com",
-        phone="1234567890",
+        phone=generate_unique_phone("1234567890"),
         resume="path/to/resume.pdf",
     )
     if candidate:
