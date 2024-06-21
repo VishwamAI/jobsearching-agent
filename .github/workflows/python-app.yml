@@ -75,8 +75,12 @@ jobs:
       run: |
         source venv/bin/activate
         python -m pytest
+      env:
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./
 
     - name: Activate virtual environment and test prediction functionality
       run: |
         source venv/bin/activate
         python scripts/predict_job_level.py
+      env:
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./
