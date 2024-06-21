@@ -39,11 +39,11 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.session.commit()
 
     def test_add_candidate(self):
-        candidate = add_candidate("John", "Doe", "john.doe1@example.com", "1234567890", "resume.pdf")
+        candidate = add_candidate("John", "Doe", "john.doe_unique@example.com", "1234567899", "resume.pdf")
         self.assertIsNotNone(candidate)
         self.assertEqual(candidate.first_name, "John")
         self.assertEqual(candidate.last_name, "Doe")
-        self.assertEqual(candidate.email, "john.doe1@example.com")
+        self.assertEqual(candidate.email, "john.doe_unique@example.com")
 
     def test_get_candidate_by_email(self):
         add_candidate("John", "Doe", "john.doe2@example.com", "1234567891", "resume.pdf")
@@ -95,6 +95,11 @@ class TestCandidateManagementSystem(unittest.TestCase):
 
     def test_auto_apply_to_jobs(self):
         candidate = add_candidate("John", "Doe", "john.doe9@example.com", "1234567898", "resume.pdf")
+        job1 = Job(id=1, title='Software Engineer', company='Company A', location='Location A', description='Job Description A')
+        job2 = Job(id=2, title='Data Scientist', company='Company B', location='Location B', description='Job Description B')
+        self.session.add(job1)
+        self.session.add(job2)
+        self.session.commit()
         job_listings = [
             {'id': 1, 'title': 'Software Engineer'},
             {'id': 2, 'title': 'Data Scientist'}
