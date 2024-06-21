@@ -32,9 +32,12 @@ class TestCandidateManagement(unittest.TestCase):
         cls.Session = sessionmaker(bind=cls.engine)
         cls.session = cls.Session()
 
-        # Check if the candidates table exists
+        # Diagnostic print statements
         from sqlalchemy import inspect
         inspector = inspect(cls.engine)
+        tables = inspector.get_table_names()
+        print(f"Tables in the database at test setup: {tables}")
+
         if not inspector.has_table('candidates'):
             raise RuntimeError(
                 "Candidates table was not created successfully."
