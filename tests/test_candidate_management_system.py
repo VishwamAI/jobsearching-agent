@@ -48,8 +48,7 @@ class TestCandidateManagementSystem(unittest.TestCase):
     def test_add_candidate(self):
         candidate = add_candidate(
             "John", "Doe", self.generate_unique_email("john.doe@example.com"),
-            self.generate_unique_phone("1234567890"), "resume.pdf",
-            self.session
+            self.generate_unique_phone("1234567890"), self.session
         )
         print(f"Candidate added: {candidate}")
         self.assertIsNotNone(candidate)
@@ -62,8 +61,7 @@ class TestCandidateManagementSystem(unittest.TestCase):
     def test_update_interview_status(self):
         candidate = add_candidate(
             "John", "Doe", self.generate_unique_email("john.doe8@example.com"),
-            self.generate_unique_phone("1234567897"), "resume.pdf",
-            self.session
+            self.generate_unique_phone("1234567897"), self.session
         )
         print(f"Candidate added: {candidate}")
         interview_schedule = schedule_interview(
@@ -84,8 +82,7 @@ class TestCandidateManagementSystem(unittest.TestCase):
 
         candidate = add_candidate(
             "John", "Doe", self.generate_unique_email("john.doe9@example.com"),
-            self.generate_unique_phone("1234567898"), "resume.pdf",
-            self.session
+            self.generate_unique_phone("1234567898"), self.session
         )
         self.session.flush()
         self.assertIsNotNone(
