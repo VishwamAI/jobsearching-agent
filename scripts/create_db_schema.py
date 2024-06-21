@@ -93,8 +93,11 @@ def create_database():
         os.makedirs(directory)
     else:
         print(f"Directory exists: {directory}")
-    Base.metadata.create_all(engine)
+    try:
+        Base.metadata.create_all(engine)
+        print("Database schema created successfully.")
+    except Exception as e:
+        print(f"Error creating database schema: {e}")
 
 if __name__ == "__main__":
     create_database()
-    print("Database schema created successfully.")
