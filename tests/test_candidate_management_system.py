@@ -2,7 +2,9 @@ import unittest
 from datetime import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from scripts.create_db_schema import Base, Candidate, Watchlist, InterviewSchedule, Job, Application
+from scripts.create_db_schema import (
+    Base, Candidate, Watchlist, InterviewSchedule, Job, Application
+)
 from scripts.candidate_management_system import (
     add_candidate,
     get_candidate_by_email,
@@ -17,14 +19,17 @@ from scripts.candidate_management_system import (
 
 import uuid
 
+
 def generate_unique_email(base_email):
     unique_id = uuid.uuid4().hex[:6]
     return f"{base_email.split('@')[0]}_{unique_id}@{base_email.split('@')[1]}"
+
 
 def generate_unique_phone(base_phone):
     unique_id = uuid.uuid4().hex[:10]
     unique_phone = f"{base_phone[:4]}{unique_id}"
     return unique_phone
+
 
 DATABASE_URL = 'sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db'
 
@@ -189,8 +194,10 @@ class TestCandidateManagementSystem(unittest.TestCase):
         for candidate in candidates_after:
             print(candidate)
 
-        job1 = Job(id=1, title='Software Engineer', description='Job Description A', location='Location A')
-        job2 = Job(id=2, title='Data Scientist', description='Job Description B', location='Location B')
+        job1 = Job(id=1, title='Software Engineer', description='Job Description A',
+                   location='Location A')
+        job2 = Job(id=2, title='Data Scientist', description='Job Description B',
+                   location='Location B')
         self.session.add(job1)
         self.session.add(job2)
         self.session.commit()
@@ -210,6 +217,7 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.assertEqual(len(applications), 2)
         for application in applications:
             self.assertEqual(application.status, 'Submitted')
+
 
 if __name__ == "__main__":
     unittest.main()
