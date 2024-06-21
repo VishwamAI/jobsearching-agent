@@ -107,6 +107,7 @@ def update_interview_status(interview_id, status):
 
 def auto_apply_to_jobs(candidate_id, job_listings, session):
     try:
+        print(f"Querying candidate with ID: {candidate_id}")
         candidate = session.query(Candidate).filter_by(id=candidate_id).first()
         if not candidate:
             print(f"Candidate with ID {candidate_id} not found.")
