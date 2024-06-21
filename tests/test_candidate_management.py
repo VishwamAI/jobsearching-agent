@@ -65,6 +65,15 @@ class TestCandidateManagement(unittest.TestCase):
         self.session.query(Watchlist).delete()
         self.session.query(InterviewSchedule).delete()
         self.session.commit()
+        # Diagnostic print statement to check session status and table accessibility
+        print("Session status before test:")
+        with self.engine.connect() as connection:
+            result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            tables = result.fetchall()
+            print("Tables in the database before test:", tables)
+            result = connection.execute("SELECT * FROM candidates;")
+            candidates = result.fetchall()
+            print("Contents of the candidates table before test:", candidates)
 
     def generate_unique_phone(self, base_phone):
         unique_id = uuid.uuid4().hex[:10]
