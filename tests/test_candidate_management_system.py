@@ -31,7 +31,9 @@ def generate_unique_phone(base_phone):
     return unique_phone
 
 
-DATABASE_URL = 'sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db'
+DATABASE_URL = (
+    'sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db'
+)
 
 
 class TestCandidateManagementSystem(unittest.TestCase):
@@ -187,8 +189,12 @@ class TestCandidateManagementSystem(unittest.TestCase):
             generate_unique_phone("1234567898"), "resume.pdf"
         )
         self.session.flush()
-        self.assertIsNotNone(candidate, "Candidate was not added successfully.")
-        self.assertIsNotNone(candidate.id, "Candidate ID is None after addition.")
+        self.assertIsNotNone(
+            candidate, "Candidate was not added successfully."
+        )
+        self.assertIsNotNone(
+            candidate.id, "Candidate ID is None after addition."
+        )
         print(f"Candidate added: {candidate}")
         print(f"Candidate ID: {candidate.id}")
         print(f"Session ID after adding candidate: {id(self.session)}")
@@ -214,7 +220,9 @@ class TestCandidateManagementSystem(unittest.TestCase):
             {'id': 1, 'title': 'Software Engineer'},
             {'id': 2, 'title': 'Data Scientist'}
         ]
-        print(f"Session ID before calling auto_apply_to_jobs: {id(self.session)}")
+        print(
+            f"Session ID before calling auto_apply_to_jobs: {id(self.session)}"
+        )
         result = auto_apply_to_jobs(candidate.id, job_listings, self.session)
         self.assertTrue(result)
 

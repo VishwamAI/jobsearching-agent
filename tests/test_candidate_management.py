@@ -6,7 +6,9 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import uuid
 
-from create_db_schema import Base, Candidate, Job, Watchlist, InterviewSchedule
+from create_db_schema import (
+    Base, Candidate, Job, Watchlist, InterviewSchedule
+)
 from candidate_management import (
     add_candidate,
     get_candidate_by_email,
