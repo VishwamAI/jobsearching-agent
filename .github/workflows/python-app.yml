@@ -87,6 +87,14 @@ jobs:
       run: |
         ls -la data/
 
+    - name: Activate virtual environment and set up database schema
+      run: |
+        source venv/bin/activate
+        python scripts/create_db_schema.py
+      env:
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
+        DATABASE_URL: sqlite:///data/test_jobsearching_agent.db
+
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
