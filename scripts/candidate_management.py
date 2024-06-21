@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from create_db_schema import Candidate, Job, Application, Base, Watchlist, InterviewSchedule
+from scripts.create_db_schema import Candidate, Job, Application, Base, Watchlist, InterviewSchedule
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 

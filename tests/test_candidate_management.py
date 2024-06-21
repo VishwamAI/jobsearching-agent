@@ -4,10 +4,10 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import uuid
 
-from create_db_schema import (
+from scripts.create_db_schema import (
     Base, Candidate, Job, Watchlist, InterviewSchedule
 )
-from candidate_management import (
+from scripts.candidate_management import (
     add_candidate,
     get_candidate_by_email,
     update_candidate,
@@ -18,7 +18,7 @@ from candidate_management import (
     update_interview_status,
 )
 
-DATABASE_URL = "sqlite:///data/test_jobsearching_agent.db"
+DATABASE_URL = "sqlite:///:memory:"
 
 
 class TestCandidateManagement(unittest.TestCase):
