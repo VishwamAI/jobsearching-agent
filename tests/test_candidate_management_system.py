@@ -80,7 +80,9 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.assertIsNotNone(candidate)
         self.assertEqual(candidate.first_name, "John")
         self.assertEqual(candidate.last_name, "Doe")
-        self.assertEqual(candidate.email.split('@')[0].startswith("john.doe"), True)
+        self.assertEqual(
+            candidate.email.split('@')[0].startswith("john.doe"), True
+        )
 
     def test_get_candidate_by_email(self):
         email = generate_unique_email("john.doe2@example.com")
@@ -102,7 +104,9 @@ class TestCandidateManagementSystem(unittest.TestCase):
         )
         print(f"Candidate added: {candidate}")
         updated_phone = generate_unique_phone("0987654321")
-        updated_candidate = update_candidate(candidate.id, phone=updated_phone)
+        updated_candidate = update_candidate(
+            candidate.id, phone=updated_phone
+        )
         self.assertIsNotNone(updated_candidate)
         self.assertEqual(updated_candidate.phone, updated_phone)
 
@@ -194,10 +198,14 @@ class TestCandidateManagementSystem(unittest.TestCase):
         for candidate in candidates_after:
             print(candidate)
 
-        job1 = Job(id=1, title='Software Engineer', description='Job Description A',
-                   location='Location A')
-        job2 = Job(id=2, title='Data Scientist', description='Job Description B',
-                   location='Location B')
+        job1 = Job(
+            id=1, title='Software Engineer', description='Job Description A',
+            location='Location A'
+        )
+        job2 = Job(
+            id=2, title='Data Scientist', description='Job Description B',
+            location='Location B'
+        )
         self.session.add(job1)
         self.session.add(job2)
         self.session.commit()
