@@ -9,3 +9,9 @@ venv/
 
 # Ignore downloaded package files
 *.deb
+
+# Ignore pytest cache files
+.pytest_cache/
+
+# Ignore test output files
+test_output/
