@@ -74,7 +74,9 @@ def main():
         print(f"Candidate added to watchlist for job ID: {watchlist_entry.job_id}")
 
     print("Removing candidate from watchlist...")
-    removed_watchlist_entry = remove_from_watchlist(candidate_id=candidate.id, job_id=1)
+    removed_watchlist_entry = remove_from_watchlist(
+        candidate_id=candidate.id, job_id=1
+    )
     if removed_watchlist_entry:
         print(
             f"Candidate removed from watchlist for job ID: "
