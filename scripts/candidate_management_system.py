@@ -14,6 +14,7 @@ def add_candidate(first_name, last_name, email, phone=None, resume=None):
     try:
         candidate = Candidate(first_name=first_name, last_name=last_name, email=email, phone=phone, resume=resume)
         session.add(candidate)
+        session.flush()
         session.commit()
         return candidate
     except SQLAlchemyError as e:
@@ -104,7 +105,7 @@ def update_interview_status(interview_id, status):
         print(f"Error updating interview status: {e}")
         return None
 
-def auto_apply_to_jobs(candidate_id, job_listings):
+def auto_apply_to_jobs(candidate_id, job_listings, session):
     try:
         candidate = session.query(Candidate).filter_by(id=candidate_id).first()
         if not candidate:
@@ -126,8 +127,7 @@ def auto_apply_to_jobs(candidate_id, job_listings):
                 status='Pending'
             )
             session.add(application)
-            session.commit()
-            print(f"Application created for job ID {job_id} with status 'Pending'")
+            print(f"Application created for job ID {job_id} with status 'Pending', Application ID: {application.id}")
 
             # Simulate application submission process
             # This is where you would add code to fill out and submit the application form
@@ -136,8 +136,17 @@ def auto_apply_to_jobs(candidate_id, job_listings):
 
             # Update application status to 'Submitted'
             application.status = 'Submitted'
-            session.commit()
-            print(f"Application status updated to 'Submitted' for job ID {job_id}")
+
+        session.flush()  # Ensure all objects are persisted and IDs are generated
+        for application in session.query(Application).filter_by(candidate_id=candidate_id).all():
+            print(f"Application ID after flush: {application.id}, Job ID: {application.job_id}, Status: {application.status}")
+        session.commit()
+        print(f"Application status updated to 'Submitted' for all jobs")
+
+        # Log the state of the database after commit
+        committed_applications = session.query(Application).filter_by(candidate_id=candidate_id).all()
+        for application in committed_applications:
+            print(f"Committed Application ID: {application.id}, Job ID: {application.job_id}, Status: {application.status}")
 
         return True
     except SQLAlchemyError as e:
