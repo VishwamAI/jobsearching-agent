@@ -34,7 +34,8 @@ class TestCandidateManagementSystem(unittest.TestCase):
 
     def generate_unique_email(self, base_email):
         unique_id = uuid.uuid4().hex[:6]
-        return f"{base_email.split('@')[0]}_{unique_id}@{base_email.split('@')[1]}"
+        return f"{base_email.split('@')[0]}_{unique_id}@" \
+               f"{base_email.split('@')[1]}"
 
     def generate_unique_phone(self, base_phone):
         unique_id = uuid.uuid4().hex[:10]
