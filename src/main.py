@@ -1,11 +1,7 @@
-import sys
 import os
 from datetime import datetime
 from sqlalchemy import create_engine
 import uuid
-
-# Append the parent directory to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from scripts.create_db_schema import Base
 from scripts.candidate_management_system import (
@@ -80,12 +76,18 @@ def main():
     print("Removing candidate from watchlist...")
     removed_watchlist_entry = remove_from_watchlist(candidate_id=candidate.id, job_id=1)
     if removed_watchlist_entry:
-        print(f"Candidate removed from watchlist for job ID: {removed_watchlist_entry.job_id}")
+        print(
+            f"Candidate removed from watchlist for job ID: "
+            f"{removed_watchlist_entry.job_id}"
+        )
 
     # Example usage of interview scheduling functions
     print("Scheduling an interview for candidate...")
     interview_schedule = schedule_interview(
-        candidate_id=candidate.id, job_id=1, interview_date=datetime.now(), status="Scheduled"
+        candidate_id=candidate.id,
+        job_id=1,
+        interview_date=datetime.now(),
+        status="Scheduled",
     )
     if interview_schedule:
         print(
@@ -102,9 +104,9 @@ def main():
 
     # Apply job level categorization
     print("Applying job level categorization...")
-    input_csv = '../data/preprocessed_job_listings.csv'
+    input_csv = "../data/preprocessed_job_listings.csv"
     df = redefine_job_levels(input_csv)
-    output_csv = '../data/preprocessed_job_listings_updated.csv'
+    output_csv = "../data/preprocessed_job_listings_updated.csv"
     df.to_csv(output_csv, index=False)
     print(f"Updated job levels saved to {output_csv}")
 
