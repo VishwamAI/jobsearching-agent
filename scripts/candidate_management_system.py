@@ -99,6 +99,43 @@ def update_interview_status(interview_id, status):
         print(f"Error updating interview status: {e}")
         return None
 
+def auto_apply_to_jobs(candidate_id, job_listings):
+    try:
+        candidate = session.query(Candidate).filter_by(id=candidate_id).first()
+        if not candidate:
+            print(f"Candidate with ID {candidate_id} not found.")
+            return None
+
+        for job in job_listings:
+            job_id = job.get('id')
+            if not job_id:
+                print(f"Job ID not found for job: {job}")
+                continue
+
+            application = Application(
+                candidate_id=candidate_id,
+                job_id=job_id,
+                application_date=datetime.now(),
+                status='Pending'
+            )
+            session.add(application)
+            session.commit()
+
+            # Simulate application submission process
+            # This is where you would add code to fill out and submit the application form
+            # For now, we'll just print a message
+            print(f"Applied to job ID {job_id} for candidate ID {candidate_id}")
+
+            # Update application status to 'Submitted'
+            application.status = 'Submitted'
+            session.commit()
+
+        return True
+    except SQLAlchemyError as e:
+        session.rollback()
+        print(f"Error during auto-application process: {e}")
+        return None
+
 if __name__ == "__main__":
     # Example usage
     new_candidate = add_candidate("John", "Doe", "john.doe@example.com", "1234567890", "resume.pdf")
