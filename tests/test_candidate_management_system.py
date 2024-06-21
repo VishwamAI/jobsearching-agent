@@ -94,7 +94,9 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.session.commit()
         candidate = get_candidate_by_email(email)
         print(f"Candidate retrieved: {candidate}")
-        self.assertIsNotNone(candidate, "Failed to retrieve candidate by email.")
+        self.assertIsNotNone(
+            candidate, "Failed to retrieve candidate by email."
+        )
         self.assertEqual(candidate.first_name, "John")
         self.assertEqual(candidate.last_name, "Doe")
 
@@ -144,7 +146,9 @@ class TestCandidateManagementSystem(unittest.TestCase):
         print(f"Candidate added: {candidate}")
         add_to_watchlist(candidate.id, 1)
         removed_watchlist_entry = remove_from_watchlist(candidate.id, 1)
-        self.assertIsNotNone(removed_watchlist_entry, "Failed to remove from watchlist.")
+        self.assertIsNotNone(
+            removed_watchlist_entry, "Failed to remove from watchlist."
+        )
         self.assertIsNone(
             self.session.query(Watchlist).filter_by(
                 candidate_id=candidate.id, job_id=1
@@ -161,7 +165,9 @@ class TestCandidateManagementSystem(unittest.TestCase):
         interview_schedule = schedule_interview(
             candidate.id, 1, datetime.now(), "Scheduled"
         )
-        self.assertIsNotNone(interview_schedule, "Failed to schedule interview.")
+        self.assertIsNotNone(
+            interview_schedule, "Failed to schedule interview."
+        )
         self.assertEqual(interview_schedule.candidate_id, candidate.id)
         self.assertEqual(interview_schedule.job_id, 1)
         self.assertEqual(interview_schedule.status, "Scheduled")
@@ -176,11 +182,15 @@ class TestCandidateManagementSystem(unittest.TestCase):
         interview_schedule = schedule_interview(
             candidate.id, 1, datetime.now(), "Scheduled"
         )
-        self.assertIsNotNone(interview_schedule, "Failed to schedule interview.")
+        self.assertIsNotNone(
+            interview_schedule, "Failed to schedule interview."
+        )
         updated_interview = update_interview_status(
             interview_schedule.id, "Completed"
         )
-        self.assertIsNotNone(updated_interview, "Failed to update interview status.")
+        self.assertIsNotNone(
+            updated_interview, "Failed to update interview status."
+        )
         self.assertEqual(updated_interview.status, "Completed")
 
     def test_auto_apply_to_jobs(self):
