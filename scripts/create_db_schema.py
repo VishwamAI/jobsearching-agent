@@ -87,8 +87,9 @@ def create_database():
     database_url = os.getenv('DATABASE_URL', 'sqlite:///default.db')
     print(f"Using DATABASE_URL: {database_url}")
     engine = create_engine(database_url)
-    directory = os.path.dirname(database_url.split('///')[-1])
-    if not os.path.exists(directory):
+    db_path = database_url.split('///')[-1]
+    directory = os.path.dirname(db_path)
+    if directory and not os.path.exists(directory):
         print(f"Directory does not exist: {directory}. Creating directory.")
         os.makedirs(directory)
     else:
