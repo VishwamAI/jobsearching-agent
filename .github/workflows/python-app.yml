@@ -80,6 +80,9 @@ jobs:
     - name: Create data directory
       run: mkdir -p data
 
+    - name: Set permissions for data directory
+      run: chmod -R 777 data
+
     - name: Print contents of data directory before running tests
       run: |
         ls -la data/
