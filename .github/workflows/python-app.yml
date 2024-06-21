@@ -55,6 +55,8 @@ jobs:
       run: |
         source venv/bin/activate
         python -m flake8 src tests
+      env:
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./
 
     - name: Activate virtual environment and list installed packages before running tests
       run: |
