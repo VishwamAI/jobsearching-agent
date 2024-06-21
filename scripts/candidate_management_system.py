@@ -4,7 +4,7 @@ from scripts.create_db_schema import Candidate, Job, Application, Base, Watchlis
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 
-DATABASE_URL = 'sqlite:///../data/jobsearching_agent.db'
+DATABASE_URL = 'sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db'
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
@@ -14,11 +14,18 @@ def add_candidate(first_name, last_name, email, phone=None, resume=None):
     try:
         candidate = Candidate(first_name=first_name, last_name=last_name, email=email, phone=phone, resume=resume)
         session.add(candidate)
+        session.flush()
         session.commit()
+        print(f"Candidate committed: {candidate}")
         return candidate
     except SQLAlchemyError as e:
         session.rollback()
-        print(f"Error adding candidate: {e}")
+        if "UNIQUE constraint failed: candidates.email" in str(e):
+            print(f"Error adding candidate: Email {email} already exists.")
+        elif "UNIQUE constraint failed: candidates.phone" in str(e):
+            print(f"Error adding candidate: Phone {phone} already exists.")
+        else:
+            print(f"Error adding candidate: {e}")
         return None
 
 def get_candidate_by_email(email):
@@ -97,6 +104,57 @@ def update_interview_status(interview_id, status):
     except SQLAlchemyError as e:
         session.rollback()
         print(f"Error updating interview status: {e}")
+        return None
+
+def auto_apply_to_jobs(candidate_id, job_listings, session):
+    try:
+        print(f"Session ID in auto_apply_to_jobs: {id(session)}")
+        print(f"Querying candidate with ID: {candidate_id}")
+        candidate = session.query(Candidate).filter_by(id=candidate_id).first()
+        if not candidate:
+            print(f"Candidate with ID {candidate_id} not found.")
+            return None
+        print(f"Candidate found: {candidate}")
+
+        for job in job_listings:
+            job_id = job.get('id')
+            if not job_id:
+                print(f"Job ID not found for job: {job}")
+                continue
+            print(f"Processing job ID: {job_id}")
+
+            application = Application(
+                candidate_id=candidate_id,
+                job_id=job_id,
+                application_date=datetime.now(),
+                status='Pending'
+            )
+            session.add(application)
+            print(f"Application created for job ID {job_id} with status 'Pending', Application ID: {application.id}")
+
+            # Simulate application submission process
+            # This is where you would add code to fill out and submit the application form
+            # For now, we'll just print a message
+            print(f"Applied to job ID {job_id} for candidate ID {candidate_id}")
+
+            # Update application status to 'Submitted'
+            application.status = 'Submitted'
+
+        session.flush()  # Ensure all objects are persisted and IDs are generated
+        for application in session.query(Application).filter_by(candidate_id=candidate_id).all():
+            print(f"Application ID after flush: {application.id}, Job ID: {application.job_id}, Status: {application.status}")
+        session.commit()
+        print(f"Application status updated to 'Submitted' for all jobs")
+
+        # Log the state of the database after commit
+        committed_applications = session.query(Application).filter_by(candidate_id=candidate_id).all()
+        for application in committed_applications:
+            print(f"Committed Application ID: {application.id}, Job ID: {application.job_id}, Status: {application.status}")
+
+        return True
+    except SQLAlchemyError as e:
+        session.rollback()
+        print(f"Error during auto-application process: {e}")
         return None
 
 if __name__ == "__main__":

@@ -83,7 +83,7 @@ class CandidateEvaluation(Base):
     candidate = relationship('Candidate', back_populates='evaluations')
 
 def create_database():
-    engine = create_engine('sqlite:///../data/jobsearching_agent.db')
+    engine = create_engine('sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db')
     Base.metadata.create_all(engine)
 
 if __name__ == "__main__":
