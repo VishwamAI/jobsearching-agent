@@ -32,7 +32,9 @@ class TestCandidateManagement(unittest.TestCase):
 
         # Check if the candidates table exists
         if not cls.engine.dialect.has_table(cls.engine, 'candidates'):
-            raise RuntimeError("Candidates table was not created successfully.")
+            raise RuntimeError(
+                "Candidates table was not created successfully."
+            )
 
     @classmethod
     def tearDownClass(cls):
