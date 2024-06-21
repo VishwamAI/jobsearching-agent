@@ -4,7 +4,10 @@ import pytest
 from job_scraping import scrape_job_listings
 
 sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts"))
+    os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+)
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "../src"))
 )
 
 

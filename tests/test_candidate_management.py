@@ -21,9 +21,10 @@ from candidate_management import (
 )
 
 sys.path.append(
-    os.path.abspath(
-        os.path.join(os.path.dirname(__file__), "../scripts")
-    )
+    os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+)
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "../src"))
 )
 
 DATABASE_URL = "sqlite:///../data/test_jobsearching_agent.db"
