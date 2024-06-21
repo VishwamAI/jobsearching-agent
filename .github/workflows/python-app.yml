@@ -34,7 +34,7 @@ jobs:
         python -m pip install pandas
         python -m pip install scikit-learn==1.3.2
       env:
-        PYTHONPATH: venv/lib/python3.8/site-packages:./:./scripts
+        PYTHONPATH: venv/lib/python3.8/site-packages:./:./scripts:./src
 
     - name: List installed packages
       run: venv/bin/pip list
