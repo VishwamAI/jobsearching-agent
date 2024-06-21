@@ -132,6 +132,8 @@ jobs:
         else
           echo "Database file does not exist."
         fi
+        echo "Absolute path of the database file:"
+        readlink -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
         echo "Contents of candidates table before running tests:"
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
         python -m pytest
