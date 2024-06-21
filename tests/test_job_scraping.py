@@ -2,6 +2,7 @@ import pytest
 from bs4 import BeautifulSoup
 from job_scraping import scrape_job_listings
 
+
 def test_scrape_job_listings():
     # Mock HTML data for testing
     mock_html = """
@@ -18,7 +19,6 @@ def test_scrape_job_listings():
     </body>
     </html>
     """
-    soup = BeautifulSoup(mock_html, 'html.parser')
     title_selector = "h2.job-title"
     description_selector = "div.job-description"
 
@@ -41,6 +41,7 @@ def test_scrape_job_listings():
 
     assert job_listings == expected_job_listings
 
+
 def test_scrape_job_listings_with_error():
     # Mock HTML data with missing description for testing error handling
     mock_html = """
@@ -56,7 +57,6 @@ def test_scrape_job_listings_with_error():
     </body>
     </html>
     """
-    soup = BeautifulSoup(mock_html, 'html.parser')
     title_selector = "h2.job-title"
     description_selector = "div.job-description"
 
@@ -78,6 +78,7 @@ def test_scrape_job_listings_with_error():
     ]
 
     assert job_listings == expected_job_listings
+
 
 if __name__ == "__main__":
     pytest.main()
