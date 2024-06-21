@@ -29,7 +29,9 @@ def generate_unique_phone(base_phone):
 
 DATABASE_URL = 'sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db'
 
+
 class TestCandidateManagementSystem(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         cls.engine = create_engine(DATABASE_URL)
@@ -66,7 +68,10 @@ class TestCandidateManagementSystem(unittest.TestCase):
         print(f"Remaining applications after setup: {remaining_applications}")
 
     def test_add_candidate(self):
-        candidate = add_candidate("John", "Doe", generate_unique_email("john.doe@example.com"), generate_unique_phone("1234567890"), "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", generate_unique_email("john.doe@example.com"),
+            generate_unique_phone("1234567890"), "resume.pdf"
+        )
         print(f"Candidate added: {candidate}")
         self.assertIsNotNone(candidate)
         self.assertEqual(candidate.first_name, "John")
@@ -75,7 +80,10 @@ class TestCandidateManagementSystem(unittest.TestCase):
 
     def test_get_candidate_by_email(self):
         email = generate_unique_email("john.doe2@example.com")
-        add_candidate("John", "Doe", email, generate_unique_phone("1234567891"), "resume.pdf")
+        add_candidate(
+            "John", "Doe", email, generate_unique_phone("1234567891"),
+            "resume.pdf"
+        )
         self.session.commit()
         candidate = get_candidate_by_email(email)
         print(f"Candidate retrieved: {candidate}")
@@ -84,7 +92,10 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.assertEqual(candidate.last_name, "Doe")
 
     def test_update_candidate(self):
-        candidate = add_candidate("John", "Doe", generate_unique_email("john.doe3@example.com"), generate_unique_phone("1234567892"), "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", generate_unique_email("john.doe3@example.com"),
+            generate_unique_phone("1234567892"), "resume.pdf"
+        )
         print(f"Candidate added: {candidate}")
         updated_phone = generate_unique_phone("0987654321")
         updated_candidate = update_candidate(candidate.id, phone=updated_phone)
@@ -92,14 +103,20 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.assertEqual(updated_candidate.phone, updated_phone)
 
     def test_delete_candidate(self):
-        candidate = add_candidate("John", "Doe", generate_unique_email("john.doe4@example.com"), generate_unique_phone("1234567893"), "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", generate_unique_email("john.doe4@example.com"),
+            generate_unique_phone("1234567893"), "resume.pdf"
+        )
         print(f"Candidate added: {candidate}")
         deleted_candidate = delete_candidate(candidate.id)
         self.assertIsNotNone(deleted_candidate)
         self.assertIsNone(get_candidate_by_email("john.doe4@example.com"))
 
     def test_add_to_watchlist(self):
-        candidate = add_candidate("John", "Doe", generate_unique_email("john.doe5@example.com"), generate_unique_phone("1234567894"), "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", generate_unique_email("john.doe5@example.com"),
+            generate_unique_phone("1234567894"), "resume.pdf"
+        )
         print(f"Candidate added: {candidate}")
         watchlist_entry = add_to_watchlist(candidate.id, 1)
         self.assertIsNotNone(watchlist_entry)
@@ -107,26 +124,43 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.assertEqual(watchlist_entry.job_id, 1)
 
     def test_remove_from_watchlist(self):
-        candidate = add_candidate("John", "Doe", generate_unique_email("john.doe6@example.com"), generate_unique_phone("1234567895"), "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", generate_unique_email("john.doe6@example.com"),
+            generate_unique_phone("1234567895"), "resume.pdf"
+        )
         print(f"Candidate added: {candidate}")
         add_to_watchlist(candidate.id, 1)
         removed_watchlist_entry = remove_from_watchlist(candidate.id, 1)
         self.assertIsNotNone(removed_watchlist_entry)
-        self.assertIsNone(self.session.query(Watchlist).filter_by(candidate_id=candidate.id, job_id=1).first())
+        self.assertIsNone(
+            self.session.query(Watchlist).filter_by(
+                candidate_id=candidate.id, job_id=1
+            ).first()
+        )
 
     def test_schedule_interview(self):
-        candidate = add_candidate("John", "Doe", generate_unique_email("john.doe7@example.com"), generate_unique_phone("1234567896"), "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", generate_unique_email("john.doe7@example.com"),
+            generate_unique_phone("1234567896"), "resume.pdf"
+        )
         print(f"Candidate added: {candidate}")
-        interview_schedule = schedule_interview(candidate.id, 1, datetime.now(), "Scheduled")
+        interview_schedule = schedule_interview(
+            candidate.id, 1, datetime.now(), "Scheduled"
+        )
         self.assertIsNotNone(interview_schedule)
         self.assertEqual(interview_schedule.candidate_id, candidate.id)
         self.assertEqual(interview_schedule.job_id, 1)
         self.assertEqual(interview_schedule.status, "Scheduled")
 
     def test_update_interview_status(self):
-        candidate = add_candidate("John", "Doe", generate_unique_email("john.doe8@example.com"), generate_unique_phone("1234567897"), "resume.pdf")
+        candidate = add_candidate(
+            "John", "Doe", generate_unique_email("john.doe8@example.com"),
+            generate_unique_phone("1234567897"), "resume.pdf"
+        )
         print(f"Candidate added: {candidate}")
-        interview_schedule = schedule_interview(candidate.id, 1, datetime.now(), "Scheduled")
+        interview_schedule = schedule_interview(
+            candidate.id, 1, datetime.now(), "Scheduled"
+        )
         updated_interview = update_interview_status(interview_schedule.id, "Completed")
         self.assertIsNotNone(updated_interview)
         self.assertEqual(updated_interview.status, "Completed")
