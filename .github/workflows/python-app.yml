@@ -77,6 +77,10 @@ jobs:
       run: |
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
 
+    - name: Print contents of data directory before running tests
+      run: |
+        ls -la data/
+
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
