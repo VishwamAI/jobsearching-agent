@@ -165,7 +165,8 @@ class TestCandidateManagement(unittest.TestCase):
         self.session.add(job)
         self.session.commit()
         interview_schedule = schedule_interview(
-            candidate.id, job.id, datetime.now(), "Scheduled", session=self.session
+            candidate.id, job.id, datetime.now(), "Scheduled",
+            session=self.session
         )
         self.assertIsNotNone(interview_schedule)
         self.assertEqual(interview_schedule.candidate_id, candidate.id)
@@ -186,7 +187,8 @@ class TestCandidateManagement(unittest.TestCase):
         self.session.add(job)
         self.session.commit()
         interview_schedule = schedule_interview(
-            candidate.id, job.id, datetime.now(), "Scheduled", session=self.session
+            candidate.id, job.id, datetime.now(), "Scheduled",
+            session=self.session
         )
         updated_interview = update_interview_status(
             interview_schedule.id, "Completed", session=self.session
