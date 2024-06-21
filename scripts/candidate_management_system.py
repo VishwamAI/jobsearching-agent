@@ -18,7 +18,12 @@ def add_candidate(first_name, last_name, email, phone=None, resume=None):
         return candidate
     except SQLAlchemyError as e:
         session.rollback()
-        print(f"Error adding candidate: {e}")
+        if "UNIQUE constraint failed: candidates.email" in str(e):
+            print(f"Error adding candidate: Email {email} already exists.")
+        elif "UNIQUE constraint failed: candidates.phone" in str(e):
+            print(f"Error adding candidate: Phone {phone} already exists.")
+        else:
+            print(f"Error adding candidate: {e}")
         return None
 
 def get_candidate_by_email(email):
