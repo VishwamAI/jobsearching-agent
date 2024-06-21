@@ -49,6 +49,10 @@ class TestCandidateManagement(unittest.TestCase):
             result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
             tables = result.fetchall()
             print("Tables in the database after setup:", tables)
+            # Print the contents of the candidates table
+            result = connection.execute("SELECT * FROM candidates;")
+            candidates = result.fetchall()
+            print("Contents of the candidates table after setup:", candidates)
 
     @classmethod
     def tearDownClass(cls):
