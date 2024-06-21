@@ -6,6 +6,8 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import uuid
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts")))
+
 from create_db_schema import (
     Base, Candidate, Job, Watchlist, InterviewSchedule
 )
@@ -18,10 +20,6 @@ from candidate_management import (
     remove_from_watchlist,
     schedule_interview,
     update_interview_status,
-)
-
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "../scripts"))
 )
 
 DATABASE_URL = "sqlite:///../data/test_jobsearching_agent.db"
