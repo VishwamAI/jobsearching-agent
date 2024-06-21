@@ -33,6 +33,7 @@ class TestCandidateManagementSystem(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.engine = create_engine(DATABASE_URL)
+        print(f"Using DATABASE_URL: {DATABASE_URL}")
         Base.metadata.create_all(cls.engine)
         cls.Session = sessionmaker(bind=cls.engine)
         cls.session = cls.Session()
@@ -130,19 +131,25 @@ class TestCandidateManagementSystem(unittest.TestCase):
 
     def test_auto_apply_to_jobs(self):
         candidate = add_candidate("John", "Doe", generate_unique_email("john.doe9@example.com"), generate_unique_phone("1234567898"), "resume.pdf")
+        self.session.flush()
+        self.assertIsNotNone(candidate, "Candidate was not added successfully.")
+        self.assertIsNotNone(candidate.id, "Candidate ID is None after addition.")
         print(f"Candidate added: {candidate}")
+        print(f"Candidate ID: {candidate.id}")
         job1 = Job(id=1, title='Software Engineer', description='Job Description A', location='Location A')
         job2 = Job(id=2, title='Data Scientist', description='Job Description B', location='Location B')
         self.session.add(job1)
         self.session.add(job2)
         self.session.commit()
+        print(f"Job 1 ID: {job1.id}, Job 2 ID: {job2.id}")
         job_listings = [
             {'id': 1, 'title': 'Software Engineer'},
             {'id': 2, 'title': 'Data Scientist'}
         ]
-        result = auto_apply_to_jobs(candidate.id, job_listings)
+        result = auto_apply_to_jobs(candidate.id, job_listings, self.session)
         self.assertTrue(result)
-        self.session.refresh(candidate)  # Refresh the session to ensure it is up-to-date
+
+        # Query the applications using the same session
         applications = self.session.query(Application).filter_by(candidate_id=candidate.id).all()
         self.assertEqual(len(applications), 2)
         for application in applications:
