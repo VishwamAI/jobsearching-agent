@@ -7,6 +7,7 @@ from datetime import datetime
 DATABASE_URL = "sqlite:///:memory:"
 
 engine = create_engine(DATABASE_URL)
+Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
 def add_candidate(first_name, last_name, email, phone=None, resume=None):
