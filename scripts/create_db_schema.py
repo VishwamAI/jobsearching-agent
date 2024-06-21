@@ -97,6 +97,11 @@ def create_database():
     try:
         Base.metadata.create_all(engine)
         print("Database schema created successfully.")
+        # Add diagnostic output to list tables
+        with engine.connect() as connection:
+            result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            tables = result.fetchall()
+            print("Tables in the database:", tables)
     except Exception as e:
         print(f"Error creating database schema: {e}")
 
