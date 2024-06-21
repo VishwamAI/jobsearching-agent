@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import uuid
+import os
 
 from scripts.create_db_schema import (
     Base, Candidate, Job, Watchlist, InterviewSchedule
@@ -18,10 +19,7 @@ from scripts.candidate_management import (
     update_interview_status,
 )
 
-DATABASE_URL = (
-    "sqlite:////home/runner/work/jobsearching-agent/jobsearching-agent/data/"
-    "test_jobsearching_agent.db"
-)
+DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///default.db')
 
 
 class TestCandidateManagement(unittest.TestCase):
