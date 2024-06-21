@@ -103,6 +103,15 @@ jobs:
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
 
+    - name: Check database file existence and permissions
+      run: |
+        if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
+          echo "Database file exists."
+          ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+        else
+          echo "Database file does not exist."
+        fi
+
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
