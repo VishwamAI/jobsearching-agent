@@ -93,8 +93,9 @@ def main():
     )
     if interview_schedule:
         print(
-            f"Interview scheduled for candidate ID: {interview_schedule.candidate_id} "
-            f"for job ID: {interview_schedule.job_id}"
+            f"Interview scheduled for candidate ID: "
+            f"{interview_schedule.candidate_id} for job ID: "
+            f"{interview_schedule.job_id}"
         )
 
     print("Updating interview status...")
