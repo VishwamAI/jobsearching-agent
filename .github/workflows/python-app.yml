@@ -119,7 +119,19 @@ jobs:
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
+        echo "Contents of data directory before running tests:"
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+        echo "Tables in the database before running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
         python -m pytest
+        echo "Contents of data directory after running tests:"
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+        echo "Tables in the database after running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
         DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
