@@ -98,6 +98,11 @@ jobs:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
         DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
 
+    - name: Print contents of data directory after setting up database schema
+      run: |
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
