@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from scripts.create_db_schema import Candidate, Job, Application, Base, Watchlist, InterviewSchedule
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
+import sqlite3
 
 DATABASE_URL = "sqlite:///:memory:"
 
@@ -18,7 +19,10 @@ def add_candidate(first_name, last_name, email, phone=None, resume=None):
             return candidate
         except SQLAlchemyError as e:
             session.rollback()
-            print(f"Error adding candidate: {e}")
+            if isinstance(e.orig, sqlite3.OperationalError):
+                print(f"OperationalError: {e.orig}")
+            else:
+                print(f"Error adding candidate: {e}")
             return None
 
 def get_candidate_by_email(email):

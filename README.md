@@ -13,6 +13,7 @@ This repository contains the code for the jobsearching-agent, an advanced AI job
   - **Cover Letter Customization**: Customizes cover letters based on the job description and user profile.
   - **Application Tracking**: Tracks the status of job applications and provides updates to the user.
   - **Error Handling**: Includes robust error handling to ensure that applications are submitted correctly and retries in case of failures.
+  - For more details, see the "Advanced Features" section below.
 
 ## How to Earn the Galaxy Brain Badge on GitHub
 
@@ -118,7 +119,17 @@ Candidates can add jobs to a watchlist and manage their job search process effec
 
 ### Auto-Applying to Job Listings
 
-The jobsearching-agent includes a feature to automatically apply to job listings across various online platforms. This feature uses predefined candidate information to submit applications and updates the application status in the database.
+The jobsearching-agent includes a feature to automatically apply to job listings across various online platforms. This feature has been enhanced with the following capabilities:
+
+- **Resume Submission**: Automatically submits the user's resume to job listings that match the user's criteria.
+- **Cover Letter Customization**: Customizes cover letters based on the job description and user profile, ensuring a personalized application for each job.
+- **Application Tracking**: Tracks the status of job applications and provides updates to the user, including notifications for application status changes.
+- **Error Handling**: Includes robust error handling to ensure that applications are submitted correctly and retries in case of failures.
+- **Platform Integration**: Supports integration with multiple job platforms, allowing the agent to apply to jobs across the entire internet.
+- **User Preferences**: Allows users to set preferences for job applications, such as job title, location, salary range, and more.
+- **Logging and Reporting**: Provides detailed logs and reports of the auto-applying process, helping users to monitor and review their job applications.
+
+These enhancements make the auto-applying feature more powerful and user-friendly, enabling users to efficiently apply to job listings and manage their job search process.
 
 ## Contributing
 

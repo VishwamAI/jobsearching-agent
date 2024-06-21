@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import uuid
+import os
 
 from scripts.create_db_schema import (
     Base, Candidate, Job, Watchlist, InterviewSchedule
@@ -18,17 +19,26 @@ from scripts.candidate_management import (
     update_interview_status,
 )
 
-DATABASE_URL = "sqlite:///:memory:"
+DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///default.db')
 
 
 class TestCandidateManagement(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        print(f"Using DATABASE_URL in tests: {DATABASE_URL}")
         cls.engine = create_engine(DATABASE_URL)
         Base.metadata.create_all(cls.engine)
         cls.Session = sessionmaker(bind=cls.engine)
         cls.session = cls.Session()
+
+        # Check if the candidates table exists
+        from sqlalchemy import inspect
+        inspector = inspect(cls.engine)
+        if not inspector.has_table('candidates'):
+            raise RuntimeError(
+                "Candidates table was not created successfully."
+            )
 
     @classmethod
     def tearDownClass(cls):

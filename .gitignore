@@ -9,3 +9,16 @@ venv/
 
 # Ignore downloaded package files
 *.deb
+
+# Ignore pytest cache files
+.pytest_cache/
+
+# Ignore test output files
+test_output/
+
+# Ignore SQLite database files
+data/test_jobsearching_agent.db
+default.db
+
+# Ignore home directory
+home/

@@ -77,12 +77,77 @@ jobs:
       run: |
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
 
+    - name: Create data directory
+      run: mkdir -p /home/runner/work/jobsearching-agent/jobsearching-agent/data
+
+    - name: Set permissions for data directory
+      run: chmod -R 777 /home/runner/work/jobsearching-agent/jobsearching-agent/data
+
+    - name: Print contents of data directory before setting up database schema
+      run: ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+
+    - name: Activate virtual environment and set up database schema
+      run: |
+        source venv/bin/activate
+        python scripts/create_db_schema.py
+        echo "Database schema setup completed."
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+      env:
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
+        DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+
+    - name: Print contents of data directory after setting up database schema
+      run: |
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+
+    - name: Check database file existence and permissions
+      run: |
+        if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
+          echo "Database file exists."
+          ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+        else
+          echo "Database file does not exist."
+        fi
+
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
+        echo "Contents of data directory before running tests:"
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+        echo "Tables in the database before running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+        echo "Checking database file existence and permissions before running tests:"
+        if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
+          echo "Database file exists."
+          ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+        else
+          echo "Database file does not exist."
+        fi
+        echo "Absolute path of the database file:"
+        readlink -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+        echo "Contents of candidates table before running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+        export DATABASE_URL=sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+        echo "DATABASE_URL=${DATABASE_URL}"
         python -m pytest
+        echo "Contents of data directory after running tests:"
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+        echo "Tables in the database after running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
+        DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
 
     - name: Activate virtual environment and test prediction functionality
       run: |
@@ -90,3 +155,4 @@ jobs:
         python scripts/predict_job_level.py
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
+        DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db

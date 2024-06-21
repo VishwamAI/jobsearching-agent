@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
+import os
 
 Base = declarative_base()
 
@@ -83,9 +84,26 @@ class CandidateEvaluation(Base):
     candidate = relationship('Candidate', back_populates='evaluations')
 
 def create_database():
-    engine = create_engine('sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db')
-    Base.metadata.create_all(engine)
+    database_url = os.getenv('DATABASE_URL', 'sqlite:///default.db')
+    print(f"Using DATABASE_URL: {database_url}")
+    engine = create_engine(database_url)
+    db_path = database_url.split('///')[-1]
+    directory = os.path.dirname(db_path)
+    if (directory and not os.path.exists(directory)):
+        print(f"Directory does not exist: {directory}. Creating directory.")
+        os.makedirs(directory)
+    else:
+        print(f"Directory exists: {directory}")
+    try:
+        Base.metadata.create_all(engine)
+        print("Database schema created successfully.")
+        # Add diagnostic output to list tables
+        with engine.connect() as connection:
+            result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            tables = result.fetchall()
+            print("Tables in the database:", tables)
+    except Exception as e:
+        print(f"Error creating database schema: {e}")
 
 if __name__ == "__main__":
     create_database()
-    print("Database schema created successfully.")
