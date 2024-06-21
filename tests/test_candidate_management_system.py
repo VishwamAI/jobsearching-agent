@@ -31,7 +31,7 @@ def generate_unique_phone(base_phone):
     return unique_phone
 
 
-DATABASE_URL = "sqlite:///data/test_jobsearching_agent.db"
+DATABASE_URL = "sqlite:////home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db"
 
 
 class TestCandidateManagementSystem(unittest.TestCase):
