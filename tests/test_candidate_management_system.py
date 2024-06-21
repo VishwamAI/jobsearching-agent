@@ -27,7 +27,7 @@ def generate_unique_phone(base_phone):
     print(f"Generated unique phone: {unique_phone}")
     return unique_phone
 
-DATABASE_URL = 'sqlite:///../data/test_jobsearching_agent.db'
+DATABASE_URL = 'sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db'
 
 class TestCandidateManagementSystem(unittest.TestCase):
     @classmethod
@@ -74,8 +74,10 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.assertEqual(candidate.email.split('@')[0].startswith("john.doe"), True)
 
     def test_get_candidate_by_email(self):
-        add_candidate("John", "Doe", generate_unique_email("john.doe2@example.com"), generate_unique_phone("1234567891"), "resume.pdf")
-        candidate = get_candidate_by_email("john.doe2@example.com")
+        email = generate_unique_email("john.doe2@example.com")
+        add_candidate("John", "Doe", email, generate_unique_phone("1234567891"), "resume.pdf")
+        self.session.commit()
+        candidate = get_candidate_by_email(email)
         print(f"Candidate retrieved: {candidate}")
         self.assertIsNotNone(candidate)
         self.assertEqual(candidate.first_name, "John")
@@ -130,12 +132,25 @@ class TestCandidateManagementSystem(unittest.TestCase):
         self.assertEqual(updated_interview.status, "Completed")
 
     def test_auto_apply_to_jobs(self):
+        print(f"Session ID before adding candidate: {id(self.session)}")
+        print("Candidates before adding new candidate:")
+        candidates_before = self.session.query(Candidate).all()
+        for candidate in candidates_before:
+            print(candidate)
+
         candidate = add_candidate("John", "Doe", generate_unique_email("john.doe9@example.com"), generate_unique_phone("1234567898"), "resume.pdf")
         self.session.flush()
         self.assertIsNotNone(candidate, "Candidate was not added successfully.")
         self.assertIsNotNone(candidate.id, "Candidate ID is None after addition.")
         print(f"Candidate added: {candidate}")
         print(f"Candidate ID: {candidate.id}")
+        print(f"Session ID after adding candidate: {id(self.session)}")
+
+        print("Candidates after adding new candidate:")
+        candidates_after = self.session.query(Candidate).all()
+        for candidate in candidates_after:
+            print(candidate)
+
         job1 = Job(id=1, title='Software Engineer', description='Job Description A', location='Location A')
         job2 = Job(id=2, title='Data Scientist', description='Job Description B', location='Location B')
         self.session.add(job1)
@@ -146,6 +161,7 @@ class TestCandidateManagementSystem(unittest.TestCase):
             {'id': 1, 'title': 'Software Engineer'},
             {'id': 2, 'title': 'Data Scientist'}
         ]
+        print(f"Session ID before calling auto_apply_to_jobs: {id(self.session)}")
         result = auto_apply_to_jobs(candidate.id, job_listings, self.session)
         self.assertTrue(result)
 

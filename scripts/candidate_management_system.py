@@ -4,7 +4,7 @@ from scripts.create_db_schema import Candidate, Job, Application, Base, Watchlis
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 
-DATABASE_URL = 'sqlite:///../data/jobsearching_agent.db'
+DATABASE_URL = 'sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db'
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
@@ -16,6 +16,7 @@ def add_candidate(first_name, last_name, email, phone=None, resume=None):
         session.add(candidate)
         session.flush()
         session.commit()
+        print(f"Candidate committed: {candidate}")
         return candidate
     except SQLAlchemyError as e:
         session.rollback()
@@ -107,6 +108,7 @@ def update_interview_status(interview_id, status):
 
 def auto_apply_to_jobs(candidate_id, job_listings, session):
     try:
+        print(f"Session ID in auto_apply_to_jobs: {id(session)}")
         print(f"Querying candidate with ID: {candidate_id}")
         candidate = session.query(Candidate).filter_by(id=candidate_id).first()
         if not candidate:
