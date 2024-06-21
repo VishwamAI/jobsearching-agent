@@ -30,6 +30,10 @@ class TestCandidateManagement(unittest.TestCase):
         cls.Session = sessionmaker(bind=cls.engine)
         cls.session = cls.Session()
 
+        # Check if the candidates table exists
+        if not cls.engine.dialect.has_table(cls.engine, 'candidates'):
+            raise RuntimeError("Candidates table was not created successfully.")
+
     @classmethod
     def tearDownClass(cls):
         Base.metadata.drop_all(cls.engine)
