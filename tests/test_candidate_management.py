@@ -193,7 +193,7 @@ class TestCandidateManagement(unittest.TestCase):
             print(f"Error in test_delete_candidate: {e}")
             raise
 
-    def test_add_to_watchlist(self):
+    def test_schedule_and_update_interview(self):
         try:
             with self.Session() as session:
                 candidate = add_candidate(
@@ -219,7 +219,7 @@ class TestCandidateManagement(unittest.TestCase):
                 self.assertEqual(updated_interview.status, "Completed")
         except Exception as e:
             session.rollback()
-            print(f"Error in test_update_interview_status: {e}")
+            print(f"Error in test_schedule_and_update_interview: {e}")
             raise
 
 
