@@ -112,7 +112,9 @@ class TestCandidateManagement(unittest.TestCase):
     def test_add_candidate(self):
         try:
             with self.Session() as session:
-                unique_email = self.generate_unique_email("john.doe@example.com")
+                unique_email = self.generate_unique_email(
+                    "john.doe@example.com"
+                )
                 candidate = add_candidate(
                     "John", "Doe", unique_email,
                     self.generate_unique_phone("1234567890"),
@@ -132,7 +134,9 @@ class TestCandidateManagement(unittest.TestCase):
     def test_get_candidate_by_email(self):
         try:
             with self.Session() as session:
-                unique_email = self.generate_unique_email("john.doe@example.com")
+                unique_email = self.generate_unique_email(
+                    "john.doe@example.com"
+                )
                 add_candidate(
                     "John", "Doe", unique_email,
                     self.generate_unique_phone("1234567890"),
@@ -152,13 +156,17 @@ class TestCandidateManagement(unittest.TestCase):
         try:
             with self.Session() as session:
                 candidate = add_candidate(
-                    "John", "Doe", self.generate_unique_email("john.doe@example.com"),
+                    "John", "Doe", self.generate_unique_email(
+                        "john.doe@example.com"
+                    ),
                     self.generate_unique_phone("1234567890"),
                     "resume.pdf"
                 )
                 self.assertIsNotNone(candidate)
                 new_phone = self.generate_unique_phone("0987654321")
-                updated_candidate = update_candidate(candidate.id, phone=new_phone)
+                updated_candidate = update_candidate(
+                    candidate.id, phone=new_phone
+                )
                 self.assertIsNotNone(updated_candidate)
                 self.assertEqual(updated_candidate.phone, new_phone)
         except Exception as e:
@@ -169,7 +177,9 @@ class TestCandidateManagement(unittest.TestCase):
     def test_delete_candidate(self):
         try:
             with self.Session() as session:
-                unique_email = self.generate_unique_email("john.doe@example.com")
+                unique_email = self.generate_unique_email(
+                    "john.doe@example.com"
+                )
                 candidate = add_candidate(
                     "John", "Doe", unique_email,
                     self.generate_unique_phone("1234567890"),
@@ -187,14 +197,24 @@ class TestCandidateManagement(unittest.TestCase):
         try:
             with self.Session() as session:
                 candidate = add_candidate(
-                    "John", "Doe", self.generate_unique_email("john.doe@example.com"),
+                    "John", "Doe", self.generate_unique_email(
+                        "john.doe@example.com"
+                    ),
                     self.generate_unique_phone("1234567890"), "resume.pdf"
                 )
-                job = Job(title="Software Engineer", description="Develop software", location="Remote")
+                job = Job(
+                    title="Software Engineer",
+                    description="Develop software",
+                    location="Remote"
+                )
                 session.add(job)
                 session.commit()
-                interview_schedule = schedule_interview(candidate.id, job.id, datetime.now(), "Scheduled")
-                updated_interview = update_interview_status(interview_schedule.id, "Completed")
+                interview_schedule = schedule_interview(
+                    candidate.id, job.id, datetime.now(), "Scheduled"
+                )
+                updated_interview = update_interview_status(
+                    interview_schedule.id, "Completed"
+                )
                 self.assertIsNotNone(updated_interview)
                 self.assertEqual(updated_interview.status, "Completed")
         except Exception as e:
