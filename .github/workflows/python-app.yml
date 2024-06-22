@@ -210,15 +210,15 @@ jobs:
         else
           echo "Database file does not exist."
         fi
-        export DATABASE_URL=sqlite:///home/runner/work/jobsearching-agent/jobsearching_agent/data/test_jobsearching_agent.db
+        export DATABASE_URL=sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
         echo "DATABASE_URL=${DATABASE_URL}"
         echo "Contents of candidates table before running tests:"
-        sqlite3 /home/runner/work/jobsearching-agent/jobsearching_agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
         echo "Inode number of database file before running tests:"
-        ls -i /home/runner/work/jobsearching-agent/jobsearching_agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
         python -m pytest
       env:
-        DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching_agent/data/test_jobsearching_agent.db
+        DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
     - name: Activate virtual environment and test prediction functionality
