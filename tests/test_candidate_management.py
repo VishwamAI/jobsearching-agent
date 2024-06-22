@@ -14,8 +14,6 @@ from scripts.candidate_management import (
     get_candidate_by_email,
     update_candidate,
     delete_candidate,
-    add_to_watchlist,
-    remove_from_watchlist,
     schedule_interview,
     update_interview_status,
 )
@@ -114,7 +112,9 @@ class TestCandidateManagement(unittest.TestCase):
     def test_add_candidate(self):
         try:
             with self.Session() as session:
-                unique_email = self.generate_unique_email("john.doe@example.com")
+                unique_email = self.generate_unique_email(
+                    "john.doe@example.com"
+                )
                 candidate = add_candidate(
                     "John", "Doe", unique_email,
                     self.generate_unique_phone("1234567890"), "resume.pdf"
@@ -131,7 +131,9 @@ class TestCandidateManagement(unittest.TestCase):
     def test_get_candidate_by_email(self):
         try:
             with self.Session() as session:
-                unique_email = self.generate_unique_email("john.doe@example.com")
+                unique_email = self.generate_unique_email(
+                    "john.doe@example.com"
+                )
                 add_candidate(
                     "John", "Doe", unique_email,
                     self.generate_unique_phone("1234567890"), "resume.pdf"
@@ -157,7 +159,9 @@ class TestCandidateManagement(unittest.TestCase):
                 )
                 self.assertIsNotNone(candidate)
                 new_phone = self.generate_unique_phone("0987654321")
-                updated_candidate = update_candidate(candidate.id, phone=new_phone)
+                updated_candidate = update_candidate(
+                    candidate.id, phone=new_phone
+                )
                 self.assertIsNotNone(updated_candidate)
                 self.assertEqual(updated_candidate.phone, new_phone)
         except Exception as e:
@@ -168,7 +172,9 @@ class TestCandidateManagement(unittest.TestCase):
     def test_delete_candidate(self):
         try:
             with self.Session() as session:
-                unique_email = self.generate_unique_email("john.doe@example.com")
+                unique_email = self.generate_unique_email(
+                    "john.doe@example.com"
+                )
                 candidate = add_candidate(
                     "John", "Doe", unique_email,
                     self.generate_unique_phone("1234567890"), "resume.pdf"
