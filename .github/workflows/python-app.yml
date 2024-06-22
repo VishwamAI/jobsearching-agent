@@ -12,7 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: sqlite:///home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db
+      DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
       PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
     steps:
@@ -96,10 +96,10 @@ jobs:
         python scripts/create_db_schema.py
         echo "Database schema setup completed."
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db .tables
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
@@ -111,21 +111,21 @@ jobs:
     - name: Check inode number of database file after setting up schema
       run: |
         echo "Inode number of database file after setting up schema:"
-        ls -i /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found after schema setup."
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found after schema setup."
 
     - name: Print inode number and contents of data directory after setting up database schema
       run: |
         echo "Inode number of database file after setting up schema:"
-        ls -i /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found after schema setup."
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found after schema setup."
         echo "Contents of data directory after setting up database schema:"
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
         echo "Tables in the database after setting up schema:"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db .tables
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
         echo "Inode number of database file before running tests:"
-        ls -i /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
 
     - name: Print DATABASE_URL before running tests
       run: |
@@ -136,11 +136,11 @@ jobs:
           echo "Database file exists."
           ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
           echo "Tables in the database before running tests:"
-          sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db .tables
-          sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
-          sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
           echo "Contents of candidates table before running tests:"
-          sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
         else
           echo "Database file does not exist."
         fi
@@ -148,7 +148,7 @@ jobs:
     - name: Print contents of database file before running tests
       run: |
         echo "Contents of database file before running tests:"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
@@ -164,11 +164,11 @@ jobs:
           echo "Database file exists."
           ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
           echo "Tables in the database before running tests:"
-          sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db .tables
-          sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
-          sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
           echo "Contents of candidates table before running tests:"
-          sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
         else
           echo "Database file does not exist."
         fi
@@ -179,9 +179,9 @@ jobs:
         echo "Contents of data directory before running tests:"
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
         echo "Tables in the database before running tests:"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db .tables
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
         echo "Checking database file existence and permissions before running tests:"
         if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
           echo "Database file exists."
@@ -190,22 +190,22 @@ jobs:
           echo "Database file does not exist."
         fi
         echo "Absolute path of the database file:"
-        readlink -f /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db
+        readlink -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
         echo "Inode number of database file before running tests:"
-        ls -i /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
         echo "Contents of candidates table before running tests:"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
         export DATABASE_URL=${{ env.DATABASE_URL }}
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
         python -m pytest
         echo "Contents of data directory after running tests:"
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
         echo "Tables in the database after running tests:"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db .tables
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
         echo "Contents of candidates table after running tests:"
-        sqlite3 /home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
