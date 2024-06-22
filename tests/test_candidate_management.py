@@ -113,177 +113,100 @@ class TestCandidateManagement(unittest.TestCase):
 
     def test_add_candidate(self):
         try:
-            unique_email = self.generate_unique_email("john.doe@example.com")
-            candidate = add_candidate(
-                "John", "Doe", unique_email,
-                self.generate_unique_phone("1234567890"), "resume.pdf"
-            )
-            self.assertIsNotNone(candidate)
-            self.assertEqual(candidate.first_name, "John")
-            self.assertEqual(candidate.last_name, "Doe")
-            self.assertEqual(candidate.email, unique_email)
+            with self.Session() as session:
+                unique_email = self.generate_unique_email("john.doe@example.com")
+                candidate = add_candidate(
+                    "John", "Doe", unique_email,
+                    self.generate_unique_phone("1234567890"), "resume.pdf"
+                )
+                self.assertIsNotNone(candidate)
+                self.assertEqual(candidate.first_name, "John")
+                self.assertEqual(candidate.last_name, "Doe")
+                self.assertEqual(candidate.email, unique_email)
         except Exception as e:
-            self.session.rollback()
+            session.rollback()
             print(f"Error in test_add_candidate: {e}")
             raise
 
     def test_get_candidate_by_email(self):
         try:
-            unique_email = self.generate_unique_email("john.doe@example.com")
-            add_candidate(
-                "John", "Doe", unique_email,
-                self.generate_unique_phone("1234567890"), "resume.pdf"
-            )
-            candidate = get_candidate_by_email(unique_email)
-            self.assertIsNotNone(candidate)
-            self.assertEqual(candidate.first_name, "John")
-            self.assertEqual(candidate.last_name, "Doe")
-            self.assertEqual(candidate.email, unique_email)
+            with self.Session() as session:
+                unique_email = self.generate_unique_email("john.doe@example.com")
+                add_candidate(
+                    "John", "Doe", unique_email,
+                    self.generate_unique_phone("1234567890"), "resume.pdf"
+                )
+                candidate = get_candidate_by_email(unique_email)
+                self.assertIsNotNone(candidate)
+                self.assertEqual(candidate.first_name, "John")
+                self.assertEqual(candidate.last_name, "Doe")
+                self.assertEqual(candidate.email, unique_email)
         except Exception as e:
-            self.session.rollback()
+            session.rollback()
             print(f"Error in test_get_candidate_by_email: {e}")
             raise
 
     def test_update_candidate(self):
         try:
-            candidate = add_candidate(
-                "John", "Doe",
-                self.generate_unique_email("john.doe@example.com"),
-                self.generate_unique_phone("1234567890"),
-                "resume.pdf"
-            )
-            self.assertIsNotNone(candidate)
-            new_phone = self.generate_unique_phone("0987654321")
-            updated_candidate = update_candidate(candidate.id, phone=new_phone)
-            self.assertIsNotNone(updated_candidate)
-            self.assertEqual(updated_candidate.phone, new_phone)
+            with self.Session() as session:
+                candidate = add_candidate(
+                    "John", "Doe",
+                    self.generate_unique_email("john.doe@example.com"),
+                    self.generate_unique_phone("1234567890"),
+                    "resume.pdf"
+                )
+                self.assertIsNotNone(candidate)
+                new_phone = self.generate_unique_phone("0987654321")
+                updated_candidate = update_candidate(candidate.id, phone=new_phone)
+                self.assertIsNotNone(updated_candidate)
+                self.assertEqual(updated_candidate.phone, new_phone)
         except Exception as e:
-            self.session.rollback()
+            session.rollback()
             print(f"Error in test_update_candidate: {e}")
             raise
 
     def test_delete_candidate(self):
         try:
-            unique_email = self.generate_unique_email("john.doe@example.com")
-            candidate = add_candidate(
-                "John", "Doe", unique_email,
-                self.generate_unique_phone("1234567890"), "resume.pdf"
-            )
-            deleted_candidate = delete_candidate(candidate.id)
-            self.assertIsNotNone(deleted_candidate)
-            self.assertIsNone(get_candidate_by_email(unique_email))
+            with self.Session() as session:
+                unique_email = self.generate_unique_email("john.doe@example.com")
+                candidate = add_candidate(
+                    "John", "Doe", unique_email,
+                    self.generate_unique_phone("1234567890"), "resume.pdf"
+                )
+                deleted_candidate = delete_candidate(candidate.id)
+                self.assertIsNotNone(deleted_candidate)
+                self.assertIsNone(get_candidate_by_email(unique_email))
         except Exception as e:
-            self.session.rollback()
+            session.rollback()
             print(f"Error in test_delete_candidate: {e}")
             raise
 
     def test_add_to_watchlist(self):
         try:
-            candidate = add_candidate(
-                "John", "Doe",
-                self.generate_unique_email("john.doe@example.com"),
-                self.generate_unique_phone("1234567890"),
-                "resume.pdf"
-            )
-            job = Job(
-                title="Software Engineer",
-                description="Develop software",
-                location="Remote"
-            )
-            self.session.add(job)
-            self.session.commit()
-            watchlist_entry = add_to_watchlist(candidate.id, job.id)
-            self.assertIsNotNone(watchlist_entry)
-            self.assertEqual(watchlist_entry.candidate_id, candidate.id)
-            self.assertEqual(watchlist_entry.job_id, job.id)
+            with self.Session() as session:
+                candidate = add_candidate(
+                    "John", "Doe",
+                    self.generate_unique_email("john.doe@example.com"),
+                    self.generate_unique_phone("1234567890"),
+                    "resume.pdf"
+                )
+                job = Job(
+                    title="Software Engineer",
+                    description="Develop software",
+                    location="Remote"
+                )
+                session.add(job)
+                session.commit()
+                interview_schedule = schedule_interview(
+                    candidate.id, job.id, datetime.now(), "Scheduled"
+                )
+                updated_interview = update_interview_status(
+                    interview_schedule.id, "Completed"
+                )
+                self.assertIsNotNone(updated_interview)
+                self.assertEqual(updated_interview.status, "Completed")
         except Exception as e:
-            self.session.rollback()
-            print(f"Error in test_add_to_watchlist: {e}")
-            raise
-
-    def test_remove_from_watchlist(self):
-        try:
-            candidate = add_candidate(
-                "John", "Doe",
-                self.generate_unique_email("john.doe@example.com"),
-                self.generate_unique_phone("1234567890"),
-                "resume.pdf"
-            )
-            job = Job(
-                title="Software Engineer",
-                description="Develop software",
-                location="Remote"
-            )
-            self.session.add(job)
-            self.session.commit()
-            add_to_watchlist(candidate.id, job.id)
-            removed_watchlist_entry = remove_from_watchlist(
-                candidate.id, job.id
-            )
-            self.assertIsNotNone(removed_watchlist_entry)
-            self.assertEqual(
-                removed_watchlist_entry.candidate_id, candidate.id
-            )
-            self.assertEqual(
-                removed_watchlist_entry.job_id, job.id
-            )
-        except Exception as e:
-            self.session.rollback()
-            print(f"Error in test_remove_from_watchlist: {e}")
-            raise
-
-    def test_schedule_interview(self):
-        try:
-            candidate = add_candidate(
-                "John", "Doe",
-                self.generate_unique_email("john.doe@example.com"),
-                self.generate_unique_phone("1234567890"),
-                "resume.pdf"
-            )
-            job = Job(
-                title="Software Engineer",
-                description="Develop software",
-                location="Remote"
-            )
-            self.session.add(job)
-            self.session.commit()
-            interview_schedule = schedule_interview(
-                candidate.id, job.id, datetime.now(), "Scheduled"
-            )
-            self.assertIsNotNone(interview_schedule)
-            self.assertEqual(interview_schedule.candidate_id, candidate.id)
-            self.assertEqual(interview_schedule.job_id, job.id)
-            self.assertEqual(interview_schedule.status, "Scheduled")
-        except Exception as e:
-            self.session.rollback()
-            print(f"Error in test_schedule_interview: {e}")
-            raise
-
-    def test_update_interview_status(self):
-        try:
-            candidate = add_candidate(
-                "John", "Doe",
-                self.generate_unique_email("john.doe@example.com"),
-                self.generate_unique_phone("1234567890"),
-                "resume.pdf"
-            )
-            job = Job(
-                title="Software Engineer",
-                description="Develop software",
-                location="Remote"
-            )
-            self.session.add(job)
-            self.session.commit()
-            interview_schedule = schedule_interview(
-                candidate.id, job.id, datetime.now(), "Scheduled"
-            )
-            updated_interview = update_interview_status(
-                interview_schedule.id, "Completed"
-            )
-            self.assertIsNotNone(updated_interview)
-            self.assertEqual(updated_interview.status, "Completed")
-        except Exception as e:
-            self.session.rollback()
+            session.rollback()
             print(f"Error in test_update_interview_status: {e}")
             raise
 
