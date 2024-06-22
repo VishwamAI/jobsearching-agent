@@ -152,8 +152,8 @@ jobs:
 
     - name: Sleep to ensure database file is fully written to disk before running tests
       run: |
-        echo "Sleeping for 10 seconds to ensure database file is fully written to disk before running tests..."
-        sleep 10
+        echo "Sleeping for 20 seconds to ensure database file is fully written to disk before running tests..."
+        sleep 20
 
     - name: Activate virtual environment and run tests with pytest
       run: |
