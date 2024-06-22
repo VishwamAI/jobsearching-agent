@@ -110,9 +110,7 @@ jobs:
     - name: Copy database file to a different location
       run: |
         cp /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent_copy.db
-
-    - name: Export DATABASE_URL environment variable
-      run: echo "DATABASE_URL=sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent_copy.db" >> $GITHUB_ENV
+        echo "DATABASE_URL=sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent_copy.db" >> $GITHUB_ENV
 
     - name: Print inode number and contents of data directory after setting up database schema
       run: |
