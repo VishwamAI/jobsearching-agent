@@ -206,6 +206,7 @@ jobs:
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
         python -m pytest
       env:
+        DATABASE_URL: ${{ env.DATABASE_URL }}
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
     - name: Activate virtual environment and test prediction functionality
