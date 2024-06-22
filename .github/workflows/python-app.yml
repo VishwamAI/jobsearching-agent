@@ -188,15 +188,6 @@ jobs:
         echo "Contents of candidates table before running tests:"
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
 
-    - name: Print absolute path of database file before running tests
-      run: |
-        echo "Absolute path of database file before running tests:"
-        readlink -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
-        echo "Sleeping for 5 seconds to ensure database file is fully written to disk..."
-        sleep 5
-        echo "Inode number of database file before running tests:"
-        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
-
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
@@ -224,6 +215,8 @@ jobs:
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+        echo "Contents of candidates table after running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
