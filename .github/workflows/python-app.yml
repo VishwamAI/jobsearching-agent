@@ -108,10 +108,12 @@ jobs:
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
         export DATABASE_URL=${{ env.DATABASE_URL }}
 
-    - name: Sleep to ensure database file is fully written to disk
+    - name: Check database schema setup
       run: |
-        echo "Sleeping for 10 seconds to ensure database file is fully written to disk..."
-        sleep 10
+        echo "Checking database schema setup:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+      env:
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
     - name: Check inode number of database file after setting up schema
       run: |
@@ -156,11 +158,6 @@ jobs:
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
-
-    - name: Sleep to ensure database file is fully written to disk before running tests
-      run: |
-        echo "Sleeping for 30 seconds to ensure database file is fully written to disk before running tests..."
-        sleep 30
 
     - name: Check database file status before running tests
       run: |
