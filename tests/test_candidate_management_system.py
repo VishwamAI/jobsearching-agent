@@ -18,6 +18,7 @@ from scripts.candidate_management_system import (
 )
 
 import uuid
+import os
 
 
 def generate_unique_email(base_email):
@@ -31,10 +32,9 @@ def generate_unique_phone(base_phone):
     return unique_phone
 
 
-DATABASE_URL = (
-    "sqlite:////home/runner/work/jobsearching-agent/jobsearching-agent/data/"
-    "test_jobsearching_agent.db"
-)
+DATABASE_URL = os.getenv('DATABASE_URL')
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL environment variable is not set.")
 
 
 class TestCandidateManagementSystem(unittest.TestCase):
@@ -43,6 +43,8 @@ class TestCandidateManagementSystem(unittest.TestCase):
     def setUpClass(cls):
         cls.engine = create_engine(DATABASE_URL)
         print(f"Using DATABASE_URL: {DATABASE_URL}")
+        print("Inode number of database file during setUpClass:")
+        os.system(f"ls -i {DATABASE_URL.split('///')[-1]}")
         Base.metadata.create_all(cls.engine)
         cls.Session = sessionmaker(bind=cls.engine)
         cls.session = cls.Session()
@@ -50,7 +52,7 @@ class TestCandidateManagementSystem(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         print("Tearing down the test class.")
-        Base.metadata.drop_all(cls.engine)
+        # Base.metadata.drop_all(cls.engine)
         cls.session.close()
         print("Database tables dropped and session closed.")
 

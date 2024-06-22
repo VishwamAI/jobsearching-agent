@@ -84,7 +84,7 @@ class CandidateEvaluation(Base):
     candidate = relationship('Candidate', back_populates='evaluations')
 
 def create_database():
-    database_url = os.getenv('DATABASE_URL', 'sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db')
+    database_url = os.getenv('DATABASE_URL', 'sqlite:///home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db')
     print(f"Using DATABASE_URL: {database_url}")
     engine = create_engine(database_url)
     db_path = database_url.split('///')[-1]
