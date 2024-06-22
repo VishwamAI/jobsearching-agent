@@ -68,8 +68,10 @@ class TestCandidateManagement(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        # Base.metadata.drop_all(cls.engine)
+        print("Tearing down the test class.")
+        Base.metadata.drop_all(cls.engine)
         cls.session.close()
+        print("Database tables dropped and session closed.")
 
     def setUp(self):
         self.session.query(Candidate).delete()
