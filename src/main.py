@@ -26,7 +26,9 @@ def initialize_database():
     if not os.path.exists(
         "/home/runner/work/jobsearching-agent/jobsearching-agent/data"
     ):
-        os.makedirs("/home/runner/work/jobsearching-agent/jobsearching-agent/data")
+        os.makedirs(
+            "/home/runner/work/jobsearching-agent/jobsearching-agent/data"
+        )
     engine = create_engine(DATABASE_URL)
     Base.metadata.create_all(engine)
     print("Database initialized successfully.")

@@ -19,7 +19,11 @@ from scripts.candidate_management import (
     update_interview_status,
 )
 
-DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db')
+DATABASE_URL = os.getenv(
+    'DATABASE_URL',
+    'sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/'
+    'test_jobsearching_agent.db'
+)
 
 
 class TestCandidateManagement(unittest.TestCase):
@@ -46,7 +50,9 @@ class TestCandidateManagement(unittest.TestCase):
         # Additional diagnostics
         print(f"Database URL: {DATABASE_URL}")
         with cls.engine.connect() as connection:
-            result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            result = connection.execute(
+                "SELECT name FROM sqlite_master WHERE type='table';"
+            )
             tables = result.fetchall()
             print("Tables in the database after setup:", tables)
             # Print the contents of the candidates table
@@ -66,14 +72,17 @@ class TestCandidateManagement(unittest.TestCase):
         self.session.query(InterviewSchedule).delete()
         self.session.commit()
         # Diagnostic print statement to check session status and table accessibility
-        print("Session status before test:")
+        print("Session status:")
         with self.engine.connect() as connection:
-            result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            result = connection.execute(
+                "SELECT name FROM sqlite_master WHERE type='table';"
+            )
             tables = result.fetchall()
             print("Tables in the database before test:", tables)
             result = connection.execute("SELECT * FROM candidates;")
             candidates = result.fetchall()
-            print("Contents of the candidates table before test:", candidates)
+            print("Contents of the candidates table before test:")
+            print(candidates)
 
     def generate_unique_phone(self, base_phone):
         unique_id = uuid.uuid4().hex[:10]
