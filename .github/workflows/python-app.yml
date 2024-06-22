@@ -253,7 +253,7 @@ jobs:
       run: echo "DATABASE_URL=${{ env.DATABASE_URL }}" >> $GITHUB_ENV
 
     - name: Activate virtual environment and run tests with pytest
-      needs: Activate virtual environment and set up database schema
+      needs: [Activate virtual environment and set up database schema]
       run: |
         source venv/bin/activate
         echo "Contents of data directory before running tests:"
