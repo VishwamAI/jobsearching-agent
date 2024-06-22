@@ -256,6 +256,9 @@ jobs:
         echo "Permissions of database file before running tests:"
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
 
+    - name: Print DATABASE_URL before running tests
+      run: echo "DATABASE_URL=${{ env.DATABASE_URL }}"
+
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
