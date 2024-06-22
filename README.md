@@ -1,5 +1,5 @@
 # jobsearching-agent
-
+[![Python application](https://github.com/VishwamAI/jobsearching-agent/actions/workflows/python-app.yml/badge.svg)](https://github.com/VishwamAI/jobsearching-agent/actions/workflows/python-app.yml)
 ## Overview
 
 This repository contains the code for the jobsearching-agent, an advanced AI job searching agent that analyzes job listings from various portals to match job roles with users' skills and experience. The agent is designed to be free and legal, similar to "whitecarrot.io".
