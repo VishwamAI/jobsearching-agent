@@ -2,9 +2,9 @@ name: Python application
 
 on:
   push:
-    branches: [ main, setup-project-structure, feature/auto-apply ]
+    branches: [ main, setup-project-structure, feature/auto-apply, fix-ci-cd-errors ]
   pull_request:
-    branches: [ main, setup-project-structure, feature/auto-apply ]
+    branches: [ main, setup-project-structure, feature/auto-apply, fix-ci-cd-errors ]
   workflow_dispatch:
 
 jobs:
