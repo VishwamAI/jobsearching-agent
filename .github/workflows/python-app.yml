@@ -169,6 +169,11 @@ jobs:
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
+    - name: Print inode number of database file before running tests
+      run: |
+        echo "Inode number of database file before running tests:"
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+
     - name: Check database file status before running tests
       run: |
         echo "Checking database file status before running tests:"
