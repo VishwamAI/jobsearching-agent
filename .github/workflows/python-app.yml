@@ -188,6 +188,15 @@ jobs:
         echo "Contents of candidates table before running tests:"
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
 
+    - name: Print absolute path and permissions of database file before running tests
+      run: |
+        echo "Absolute path of database file before running tests:"
+        readlink -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        echo "Inode number of database file before running tests:"
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        echo "Permissions of database file before running tests:"
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
