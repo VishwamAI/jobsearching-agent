@@ -64,7 +64,7 @@ class TestCandidateManagement(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        Base.metadata.drop_all(cls.engine)
+        # Base.metadata.drop_all(cls.engine)
         cls.session.close()
 
     def setUp(self):
