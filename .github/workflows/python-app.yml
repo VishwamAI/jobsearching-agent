@@ -12,7 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+      DATABASE_URL: sqlite:///home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db
       PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
     steps:
