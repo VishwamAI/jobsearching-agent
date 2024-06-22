@@ -108,10 +108,7 @@ jobs:
         echo "Sleeping for 10 seconds to ensure database file is fully written to disk..."
         sleep 10
 
-    - name: Copy database file to a different location
-      run: |
-        cp /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent_copy.db
-        echo "DATABASE_URL=sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent_copy.db" >> $GITHUB_ENV
+    # Removed the step that copies the database file to a different location
 
     - name: Print inode number and contents of data directory after setting up database schema
       run: |
