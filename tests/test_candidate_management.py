@@ -19,11 +19,9 @@ from scripts.candidate_management import (
     update_interview_status,
 )
 
-DATABASE_URL = os.getenv(
-    'DATABASE_URL',
-    'sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/'
-    'test_jobsearching_agent.db'
-)
+DATABASE_URL = os.getenv('DATABASE_URL')
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL environment variable is not set.")
 
 
 class TestCandidateManagement(unittest.TestCase):

@@ -102,6 +102,13 @@ def create_database():
             result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
             tables = result.fetchall()
             print("Tables in the database:", tables)
+            # Confirm creation of each table
+            for table in tables:
+                print(f"Table created: {table[0]}")
+            # Print contents of 'candidates' table
+            result = connection.execute("SELECT * FROM candidates;")
+            candidates = result.fetchall()
+            print("Contents of 'candidates' table:", candidates)
     except Exception as e:
         print(f"Error creating database schema: {e}")
 

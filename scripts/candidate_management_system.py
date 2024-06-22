@@ -3,8 +3,11 @@ from sqlalchemy.orm import sessionmaker
 from scripts.create_db_schema import Candidate, Job, Application, Base, Watchlist, InterviewSchedule
 from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
+import os
 
-DATABASE_URL = 'sqlite:////home/ubuntu/jobsearching-agent/data/test_jobsearching_agent.db'
+DATABASE_URL = os.getenv('DATABASE_URL')
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL environment variable is not set.")
 
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
