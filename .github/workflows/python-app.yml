@@ -103,6 +103,7 @@ jobs:
         echo "Contents of database file after schema setup:"
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
       env:
+        DATABASE_URL: ${{ env.DATABASE_URL }}
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
     - name: Print inode number of database file after setting up schema
