@@ -79,6 +79,7 @@ jobs:
     - name: Print DATABASE_URL before running tests
       run: |
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
+        export DATABASE_URL=${{ env.DATABASE_URL }}
 
     - name: Create data directory
       run: mkdir -p /home/runner/work/jobsearching-agent/jobsearching-agent/data
