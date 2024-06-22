@@ -178,6 +178,9 @@ jobs:
           echo "Database file does not exist."
         fi
 
+    - name: Print current working directory before running tests
+      run: pwd
+
     - name: Activate virtual environment and run tests with pytest
       run: |
         source venv/bin/activate
