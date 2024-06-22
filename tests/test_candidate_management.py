@@ -171,6 +171,7 @@ class TestCandidateManagement(unittest.TestCase):
             session.rollback()
             print(f"Error in test_update_candidate: {e}")
             raise
+
     def test_delete_candidate(self):
         try:
             with self.Session() as session:
@@ -184,7 +185,9 @@ class TestCandidateManagement(unittest.TestCase):
                 )
                 deleted_candidate = delete_candidate(session, candidate.id)
                 self.assertIsNotNone(deleted_candidate)
-                self.assertIsNone(get_candidate_by_email(session, unique_email))
+                self.assertIsNone(
+                    get_candidate_by_email(session, unique_email)
+                )
         except Exception as e:
             session.rollback()
             print(f"Error in test_delete_candidate: {e}")
