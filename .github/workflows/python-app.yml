@@ -18,14 +18,11 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-      with:
-        node-version: '20'
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.8'
-        node-version: '20'
 
     - name: Make CI/CD workflow script executable
       run: chmod +x ./scripts/ci_cd_workflow.sh
