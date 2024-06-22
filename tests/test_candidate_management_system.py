@@ -43,6 +43,8 @@ class TestCandidateManagementSystem(unittest.TestCase):
     def setUpClass(cls):
         cls.engine = create_engine(DATABASE_URL)
         print(f"Using DATABASE_URL: {DATABASE_URL}")
+        print("Inode number of database file during setUpClass:")
+        os.system(f"ls -i {DATABASE_URL.split('///')[-1]}")
         Base.metadata.create_all(cls.engine)
         cls.Session = sessionmaker(bind=cls.engine)
         cls.session = cls.Session()
