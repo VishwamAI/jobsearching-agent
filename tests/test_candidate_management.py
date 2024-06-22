@@ -73,7 +73,7 @@ class TestCandidateManagement(unittest.TestCase):
         self.session.query(Watchlist).delete()
         self.session.query(InterviewSchedule).delete()
         self.session.commit()
-        # Diagnostic print statement to check session status and table accessibility
+        # Diagnostic print to check session status and table accessibility
         print("Session status:")
         with self.engine.connect() as connection:
             result = connection.execute(
