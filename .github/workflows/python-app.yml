@@ -116,6 +116,13 @@ jobs:
         ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
         echo "Contents of database file before running tests:"
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+        echo "Verifying database file existence and permissions after schema setup:"
+        if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
+          echo "Database file exists."
+          ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+        else
+          echo "Database file does not exist."
+        fi
       env:
         DATABASE_URL: ${{ env.DATABASE_URL }}
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
