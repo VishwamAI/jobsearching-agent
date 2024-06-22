@@ -274,6 +274,7 @@ jobs:
         ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
         echo "Contents of candidates table before running tests:"
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+        export DATABASE_URL=${{ env.DATABASE_URL }}
         python -m pytest
         echo "Contents of data directory after running tests:"
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
