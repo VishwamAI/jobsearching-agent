@@ -196,6 +196,58 @@ jobs:
         ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
         echo "Permissions of database file before running tests:"
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        echo "Contents of data directory before running tests:"
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+        echo "Tables in the database before running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+        echo "Checking database file existence and permissions before running tests:"
+        if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
+          echo "Database file exists."
+          ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+        else
+          echo "Database file does not exist."
+        fi
+        echo "Absolute path of the database file:"
+        readlink -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+        echo "Contents of candidates table before running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+
+    - name: Print absolute path of database file before running tests
+      run: |
+        echo "Absolute path of database file before running tests:"
+        readlink -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        echo "Sleeping for 5 seconds to ensure database file is fully written to disk..."
+        sleep 5
+        echo "Inode number of database file before running tests:"
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        echo "Contents of data directory before running tests:"
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
+        echo "Tables in the database before running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
+        echo "Checking database file existence and permissions before running tests:"
+        if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
+          echo "Database file exists."
+          ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+        else
+          echo "Database file does not exist."
+        fi
+        echo "Absolute path of the database file:"
+        readlink -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+        echo "Contents of candidates table before running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+
+    - name: Print absolute path and permissions of database file before running tests
+      run: |
+        echo "Absolute path of database file before running tests:"
+        readlink -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        echo "Inode number of database file before running tests:"
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        echo "Permissions of database file before running tests:"
+        ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
 
     - name: Activate virtual environment and run tests with pytest
       run: |
