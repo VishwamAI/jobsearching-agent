@@ -108,7 +108,10 @@ jobs:
         echo "Sleeping for 10 seconds to ensure database file is fully written to disk..."
         sleep 10
 
-    # Removed the step that copies the database file to a different location
+    - name: Check inode number of database file after setting up schema
+      run: |
+        echo "Inode number of database file after setting up schema:"
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found after schema setup."
 
     - name: Print inode number and contents of data directory after setting up database schema
       run: |
@@ -141,6 +144,11 @@ jobs:
         else
           echo "Database file does not exist."
         fi
+
+    - name: Check inode number of database file before running tests
+      run: |
+        echo "Inode number of database file before running tests:"
+        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
 
     - name: Activate virtual environment and run tests with pytest
       run: |
