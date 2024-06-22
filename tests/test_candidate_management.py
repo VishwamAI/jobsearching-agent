@@ -116,12 +116,10 @@ class TestCandidateManagement(unittest.TestCase):
                     "john.doe@example.com"
                 )
                 candidate = add_candidate(
-                    "John", "Doe", unique_email,
+                    session, "John", "Doe", unique_email,
                     self.generate_unique_phone("1234567890"),
                     "resume.pdf"
                 )
-                session.add(candidate)
-                session.commit()
                 self.assertIsNotNone(candidate)
                 self.assertEqual(candidate.first_name, "John")
                 self.assertEqual(candidate.last_name, "Doe")
@@ -138,11 +136,11 @@ class TestCandidateManagement(unittest.TestCase):
                     "john.doe@example.com"
                 )
                 add_candidate(
-                    "John", "Doe", unique_email,
+                    session, "John", "Doe", unique_email,
                     self.generate_unique_phone("1234567890"),
                     "resume.pdf"
                 )
-                candidate = get_candidate_by_email(unique_email)
+                candidate = get_candidate_by_email(session, unique_email)
                 self.assertIsNotNone(candidate)
                 self.assertEqual(candidate.first_name, "John")
                 self.assertEqual(candidate.last_name, "Doe")
@@ -156,7 +154,7 @@ class TestCandidateManagement(unittest.TestCase):
         try:
             with self.Session() as session:
                 candidate = add_candidate(
-                    "John", "Doe", self.generate_unique_email(
+                    session, "John", "Doe", self.generate_unique_email(
                         "john.doe@example.com"
                     ),
                     self.generate_unique_phone("1234567890"),
@@ -165,7 +163,7 @@ class TestCandidateManagement(unittest.TestCase):
                 self.assertIsNotNone(candidate)
                 new_phone = self.generate_unique_phone("0987654321")
                 updated_candidate = update_candidate(
-                    candidate.id, phone=new_phone
+                    session, candidate.id, phone=new_phone
                 )
                 self.assertIsNotNone(updated_candidate)
                 self.assertEqual(updated_candidate.phone, new_phone)
@@ -173,7 +171,6 @@ class TestCandidateManagement(unittest.TestCase):
             session.rollback()
             print(f"Error in test_update_candidate: {e}")
             raise
-
     def test_delete_candidate(self):
         try:
             with self.Session() as session:
@@ -181,13 +178,13 @@ class TestCandidateManagement(unittest.TestCase):
                     "john.doe@example.com"
                 )
                 candidate = add_candidate(
-                    "John", "Doe", unique_email,
+                    session, "John", "Doe", unique_email,
                     self.generate_unique_phone("1234567890"),
                     "resume.pdf"
                 )
-                deleted_candidate = delete_candidate(candidate.id)
+                deleted_candidate = delete_candidate(session, candidate.id)
                 self.assertIsNotNone(deleted_candidate)
-                self.assertIsNone(get_candidate_by_email(unique_email))
+                self.assertIsNone(get_candidate_by_email(session, unique_email))
         except Exception as e:
             session.rollback()
             print(f"Error in test_delete_candidate: {e}")
@@ -197,7 +194,7 @@ class TestCandidateManagement(unittest.TestCase):
         try:
             with self.Session() as session:
                 candidate = add_candidate(
-                    "John", "Doe", self.generate_unique_email(
+                    session, "John", "Doe", self.generate_unique_email(
                         "john.doe@example.com"
                     ),
                     self.generate_unique_phone("1234567890"), "resume.pdf"
@@ -210,10 +207,10 @@ class TestCandidateManagement(unittest.TestCase):
                 session.add(job)
                 session.commit()
                 interview_schedule = schedule_interview(
-                    candidate.id, job.id, datetime.now(), "Scheduled"
+                    session, candidate.id, job.id, datetime.now(), "Scheduled"
                 )
                 updated_interview = update_interview_status(
-                    interview_schedule.id, "Completed"
+                    session, interview_schedule.id, "Completed"
                 )
                 self.assertIsNotNone(updated_interview)
                 self.assertEqual(updated_interview.status, "Completed")
