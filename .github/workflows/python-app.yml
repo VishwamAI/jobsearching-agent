@@ -79,7 +79,7 @@ jobs:
     - name: Print DATABASE_URL before running tests
       run: |
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
-        export DATABASE_URL=${{ env.DATABASE_URL }}
+        export DATABASE_URL=${{ env.DATABASE_URL }}  # Ensure DATABASE_URL is exported
 
     - name: Create data directory
       run: mkdir -p /home/runner/work/jobsearching-agent/jobsearching-agent/data
@@ -125,7 +125,7 @@ jobs:
     - name: Check database schema setup and print contents before running tests
       run: |
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
-        export DATABASE_URL=${{ env.DATABASE_URL }}
+        export DATABASE_URL=${{ env.DATABASE_URL }}  # Ensure DATABASE_URL is exported
         echo "Checking database file existence and contents before running tests:"
         if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
           echo "Database file exists."
