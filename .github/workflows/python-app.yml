@@ -107,6 +107,7 @@ jobs:
         echo "Sleeping for 10 seconds to ensure database file is fully written to disk..."
         sleep 10
 
+    - name: Print inode number and contents of data directory after setting up database schema
       run: |
         echo "Inode number of database file after setting up schema:"
         ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found after schema setup."
@@ -252,7 +253,7 @@ jobs:
       run: echo "DATABASE_URL=${{ env.DATABASE_URL }}" >> $GITHUB_ENV
 
     - name: Activate virtual environment and run tests with pytest
-      needs: [Activate virtual environment and set up database schema]
+      needs: [build]
       run: |
         source venv/bin/activate
         echo "Contents of data directory before running tests:"
