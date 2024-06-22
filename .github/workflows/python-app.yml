@@ -93,6 +93,7 @@ jobs:
     - name: Activate virtual environment and set up database schema
       run: |
         source venv/bin/activate
+        export DATABASE_URL=${{ env.DATABASE_URL }}
         python scripts/create_db_schema.py
         echo "Database schema setup completed."
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
@@ -205,6 +206,8 @@ jobs:
         fi
         export DATABASE_URL=${{ env.DATABASE_URL }}
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
+        echo "Contents of candidates table before running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
         python -m pytest
       env:
         DATABASE_URL: ${{ env.DATABASE_URL }}
