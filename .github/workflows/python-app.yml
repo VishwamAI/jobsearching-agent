@@ -111,7 +111,7 @@ jobs:
     - name: Check inode number and contents of data directory after setting up database schema
       run: |
         echo "Inode number of database file after setting up schema:"
-        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found after schema setup."
+        ls -i /home/runner/work/jobsearching-agent/jobsearching_agent.db || echo "Database file not found after schema setup."
         echo "Contents of data directory after setting up database schema:"
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
         echo "Tables in the database after setting up schema:"
@@ -120,16 +120,16 @@ jobs:
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching_agent.db "PRAGMA table_info(candidates);"
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching_agent.db "SELECT * FROM candidates;"
         echo "Inode number of database file before running tests:"
-        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
+        ls -i /home/runner/work/jobsearching-agent/jobsearching_agent.db || echo "Database file not found before running tests."
 
     - name: Check database schema setup and print contents before running tests
       run: |
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
         export DATABASE_URL=${{ env.DATABASE_URL }}
         echo "Checking database file existence and contents before running tests:"
-        if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
+        if [ -f /home/runner/work/jobsearching-agent/jobsearching_agent.db ]; then
           echo "Database file exists."
-          ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+          ls -la /home/runner/work/jobsearching-agent/jobsearching_agent.db
           echo "Tables in the database before running tests:"
           sqlite3 /home/runner/work/jobsearching-agent/jobsearching_agent.db .tables
           sqlite3 /home/runner/work/jobsearching-agent/jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
@@ -152,9 +152,9 @@ jobs:
     - name: Check database file status before running tests
       run: |
         echo "Checking database file status before running tests:"
-        if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
+        if [ -f /home/runner/work/jobsearching-agent/jobsearching_agent.db ]; then
           echo "Database file exists."
-          ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
+          ls -la /home/runner/work/jobsearching-agent/jobsearching_agent.db
           echo "Tables in the database before running tests:"
           sqlite3 /home/runner/work/jobsearching-agent/jobsearching_agent.db .tables
           sqlite3 /home/runner/work/jobsearching-agent/jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
