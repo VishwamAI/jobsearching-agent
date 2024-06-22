@@ -18,6 +18,7 @@ from scripts.candidate_management_system import (
 )
 
 import uuid
+import os
 
 
 def generate_unique_email(base_email):
