@@ -217,10 +217,16 @@ class TestCandidateManagement(unittest.TestCase):
             self.session.add(job)
             self.session.commit()
             add_to_watchlist(candidate.id, job.id)
-            removed_watchlist_entry = remove_from_watchlist(candidate.id, job.id)
+            removed_watchlist_entry = remove_from_watchlist(
+                candidate.id, job.id
+            )
             self.assertIsNotNone(removed_watchlist_entry)
-            self.assertEqual(removed_watchlist_entry.candidate_id, candidate.id)
-            self.assertEqual(removed_watchlist_entry.job_id, job.id)
+            self.assertEqual(
+                removed_watchlist_entry.candidate_id, candidate.id
+            )
+            self.assertEqual(
+                removed_watchlist_entry.job_id, job.id
+            )
         except Exception as e:
             self.session.rollback()
             print(f"Error in test_remove_from_watchlist: {e}")
