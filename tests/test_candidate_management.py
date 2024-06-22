@@ -113,7 +113,11 @@ class TestCandidateManagement(unittest.TestCase):
         try:
             with self.Session() as session:
                 unique_email = self.generate_unique_email("john.doe@example.com")
-                candidate = add_candidate("John", "Doe", unique_email, self.generate_unique_phone("1234567890"), "resume.pdf")
+                candidate = add_candidate(
+                    "John", "Doe", unique_email,
+                    self.generate_unique_phone("1234567890"),
+                    "resume.pdf"
+                )
                 session.add(candidate)
                 session.commit()
                 self.assertIsNotNone(candidate)
@@ -129,7 +133,11 @@ class TestCandidateManagement(unittest.TestCase):
         try:
             with self.Session() as session:
                 unique_email = self.generate_unique_email("john.doe@example.com")
-                add_candidate("John", "Doe", unique_email, self.generate_unique_phone("1234567890"), "resume.pdf")
+                add_candidate(
+                    "John", "Doe", unique_email,
+                    self.generate_unique_phone("1234567890"),
+                    "resume.pdf"
+                )
                 candidate = get_candidate_by_email(unique_email)
                 self.assertIsNotNone(candidate)
                 self.assertEqual(candidate.first_name, "John")
@@ -143,7 +151,11 @@ class TestCandidateManagement(unittest.TestCase):
     def test_update_candidate(self):
         try:
             with self.Session() as session:
-                candidate = add_candidate("John", "Doe", self.generate_unique_email("john.doe@example.com"), self.generate_unique_phone("1234567890"), "resume.pdf")
+                candidate = add_candidate(
+                    "John", "Doe", self.generate_unique_email("john.doe@example.com"),
+                    self.generate_unique_phone("1234567890"),
+                    "resume.pdf"
+                )
                 self.assertIsNotNone(candidate)
                 new_phone = self.generate_unique_phone("0987654321")
                 updated_candidate = update_candidate(candidate.id, phone=new_phone)
@@ -158,7 +170,11 @@ class TestCandidateManagement(unittest.TestCase):
         try:
             with self.Session() as session:
                 unique_email = self.generate_unique_email("john.doe@example.com")
-                candidate = add_candidate("John", "Doe", unique_email, self.generate_unique_phone("1234567890"), "resume.pdf")
+                candidate = add_candidate(
+                    "John", "Doe", unique_email,
+                    self.generate_unique_phone("1234567890"),
+                    "resume.pdf"
+                )
                 deleted_candidate = delete_candidate(candidate.id)
                 self.assertIsNotNone(deleted_candidate)
                 self.assertIsNone(get_candidate_by_email(unique_email))
@@ -170,7 +186,10 @@ class TestCandidateManagement(unittest.TestCase):
     def test_add_to_watchlist(self):
         try:
             with self.Session() as session:
-                candidate = add_candidate("John", "Doe", self.generate_unique_email("john.doe@example.com"), self.generate_unique_phone("1234567890"), "resume.pdf")
+                candidate = add_candidate(
+                    "John", "Doe", self.generate_unique_email("john.doe@example.com"),
+                    self.generate_unique_phone("1234567890"), "resume.pdf"
+                )
                 job = Job(title="Software Engineer", description="Develop software", location="Remote")
                 session.add(job)
                 session.commit()
