@@ -102,6 +102,11 @@ jobs:
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
+    - name: Sleep to ensure database file is fully written to disk
+      run: |
+        echo "Sleeping for 5 seconds to ensure database file is fully written to disk..."
+        sleep 5
+
     - name: Check database file inode number after setting up database schema
       run: |
         echo "Inode number of database file after setting up schema:"
