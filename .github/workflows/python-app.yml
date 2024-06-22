@@ -103,6 +103,11 @@ jobs:
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
+    - name: Print DATABASE_URL before running tests
+      run: |
+        echo "DATABASE_URL=${{ env.DATABASE_URL }}"
+        export DATABASE_URL=${{ env.DATABASE_URL }}
+
     - name: Sleep to ensure database file is fully written to disk
       run: |
         echo "Sleeping for 10 seconds to ensure database file is fully written to disk..."
@@ -189,27 +194,8 @@ jobs:
         else
           echo "Database file does not exist."
         fi
-        echo "Absolute path of the database file:"
-        readlink -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
-        echo "Inode number of database file before running tests:"
-        ls -i /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db || echo "Database file not found before running tests."
-        echo "Contents of candidates table before running tests:"
-        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
         export DATABASE_URL=${{ env.DATABASE_URL }}
         echo "DATABASE_URL=${{ env.DATABASE_URL }}"
-        echo "Final check of database file existence and contents before running tests:"
-        if [ -f /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db ]; then
-          echo "Database file exists."
-          ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db
-          echo "Tables in the database before running tests:"
-          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db .tables
-          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
-          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
-          echo "Contents of candidates table before running tests:"
-          sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
-        else
-          echo "Database file does not exist."
-        fi
         python -m pytest
         echo "Contents of data directory after running tests:"
         ls -la /home/runner/work/jobsearching-agent/jobsearching-agent/data/
@@ -218,7 +204,7 @@ jobs:
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT name FROM sqlite_master WHERE type='table';"
         sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "PRAGMA table_info(candidates);"
         echo "Contents of candidates table after running tests:"
-        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching_agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
       env:
         PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
 
