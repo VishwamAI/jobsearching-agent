@@ -19,7 +19,11 @@ from scripts.candidate_management import (
     update_interview_status,
 )
 
-DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///default.db')
+DATABASE_URL = os.getenv(
+    'DATABASE_URL',
+    'sqlite:///home/runner/work/jobsearching-agent/jobsearching-agent/data/'
+    'test_jobsearching_agent.db'
+)
 
 
 class TestCandidateManagement(unittest.TestCase):
@@ -27,22 +31,46 @@ class TestCandidateManagement(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print(f"Using DATABASE_URL in tests: {DATABASE_URL}")
+        print("Inode number of database file at test setup:")
+        os.system(f"ls -i {DATABASE_URL.split('///')[-1]}")
+        print("Absolute path of database file at test setup:")
+        os.system(f"readlink -f {DATABASE_URL.split('///')[-1]}")
+        print("Contents of DATABASE_URL environment variable:")
+        os.system("echo $DATABASE_URL")
+        print("Checking if database file exists and is accessible:")
+        os.system(f"ls -la {DATABASE_URL.split('///')[-1]}")
         cls.engine = create_engine(DATABASE_URL)
         Base.metadata.create_all(cls.engine)
         cls.Session = sessionmaker(bind=cls.engine)
         cls.session = cls.Session()
 
-        # Check if the candidates table exists
+        # Diagnostic print statements
         from sqlalchemy import inspect
         inspector = inspect(cls.engine)
+        tables = inspector.get_table_names()
+        print(f"Tables in the database at test setup: {tables}")
+
         if not inspector.has_table('candidates'):
             raise RuntimeError(
                 "Candidates table was not created successfully."
             )
 
+        # Additional diagnostics
+        print(f"Database URL: {DATABASE_URL}")
+        with cls.engine.connect() as connection:
+            result = connection.execute(
+                "SELECT name FROM sqlite_master WHERE type='table';"
+            )
+            tables = result.fetchall()
+            print("Tables in the database after setup:", tables)
+            # Print the contents of the candidates table
+            result = connection.execute("SELECT * FROM candidates;")
+            candidates = result.fetchall()
+            print("Contents of the candidates table after setup:", candidates)
+
     @classmethod
     def tearDownClass(cls):
-        Base.metadata.drop_all(cls.engine)
+        # Base.metadata.drop_all(cls.engine)
         cls.session.close()
 
     def setUp(self):
@@ -51,6 +79,18 @@ class TestCandidateManagement(unittest.TestCase):
         self.session.query(Watchlist).delete()
         self.session.query(InterviewSchedule).delete()
         self.session.commit()
+        # Diagnostic print to check session status and table accessibility
+        print("Session status:")
+        with self.engine.connect() as connection:
+            result = connection.execute(
+                "SELECT name FROM sqlite_master WHERE type='table';"
+            )
+            tables = result.fetchall()
+            print("Tables in the database before test:", tables)
+            result = connection.execute("SELECT * FROM candidates;")
+            candidates = result.fetchall()
+            print("Contents of the candidates table before test:")
+            print(candidates)
 
     def generate_unique_phone(self, base_phone):
         unique_id = uuid.uuid4().hex[:10]
