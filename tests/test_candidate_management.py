@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import uuid
 import os
+from sqlalchemy.sql import text  # Importing text function from sqlalchemy.sql
 
 from scripts.create_db_schema import (
     Base, Candidate, Job, Watchlist, InterviewSchedule
@@ -89,7 +90,9 @@ class TestCandidateManagement(unittest.TestCase):
             )
             tables = result.fetchall()
             print("Tables in the database before test:", tables)
-            result = connection.execute(text("SELECT * FROM candidates;"))
+            result = connection.execute(
+                text("SELECT * FROM candidates;")
+            )
             candidates = result.fetchall()
             print("Contents of the candidates table before test:")
             print(candidates)
@@ -144,8 +147,10 @@ class TestCandidateManagement(unittest.TestCase):
     def test_update_candidate(self):
         try:
             candidate = add_candidate(
-                "John", "Doe", self.generate_unique_email("john.doe@example.com"),
-                self.generate_unique_phone("1234567890"), "resume.pdf"
+                "John", "Doe",
+                self.generate_unique_email("john.doe@example.com"),
+                self.generate_unique_phone("1234567890"),
+                "resume.pdf"
             )
             self.assertIsNotNone(candidate)
             new_phone = self.generate_unique_phone("0987654321")
@@ -175,8 +180,10 @@ class TestCandidateManagement(unittest.TestCase):
     def test_add_to_watchlist(self):
         try:
             candidate = add_candidate(
-                "John", "Doe", self.generate_unique_email("john.doe@example.com"),
-                self.generate_unique_phone("1234567890"), "resume.pdf"
+                "John", "Doe",
+                self.generate_unique_email("john.doe@example.com"),
+                self.generate_unique_phone("1234567890"),
+                "resume.pdf"
             )
             job = Job(
                 title="Software Engineer",
@@ -197,8 +204,10 @@ class TestCandidateManagement(unittest.TestCase):
     def test_remove_from_watchlist(self):
         try:
             candidate = add_candidate(
-                "John", "Doe", self.generate_unique_email("john.doe@example.com"),
-                self.generate_unique_phone("1234567890"), "resume.pdf"
+                "John", "Doe",
+                self.generate_unique_email("john.doe@example.com"),
+                self.generate_unique_phone("1234567890"),
+                "resume.pdf"
             )
             job = Job(
                 title="Software Engineer",
@@ -220,8 +229,10 @@ class TestCandidateManagement(unittest.TestCase):
     def test_schedule_interview(self):
         try:
             candidate = add_candidate(
-                "John", "Doe", self.generate_unique_email("john.doe@example.com"),
-                self.generate_unique_phone("1234567890"), "resume.pdf"
+                "John", "Doe",
+                self.generate_unique_email("john.doe@example.com"),
+                self.generate_unique_phone("1234567890"),
+                "resume.pdf"
             )
             job = Job(
                 title="Software Engineer",
@@ -245,8 +256,10 @@ class TestCandidateManagement(unittest.TestCase):
     def test_update_interview_status(self):
         try:
             candidate = add_candidate(
-                "John", "Doe", self.generate_unique_email("john.doe@example.com"),
-                self.generate_unique_phone("1234567890"), "resume.pdf"
+                "John", "Doe",
+                self.generate_unique_email("john.doe@example.com"),
+                self.generate_unique_phone("1234567890"),
+                "resume.pdf"
             )
             job = Job(
                 title="Software Engineer",
