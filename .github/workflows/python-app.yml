@@ -145,6 +145,13 @@ jobs:
           echo "Database file does not exist."
         fi
 
+    - name: Print contents of database file before running tests
+      run: |
+        echo "Contents of database file before running tests:"
+        sqlite3 /home/runner/work/jobsearching-agent/jobsearching-agent/data/test_jobsearching_agent.db "SELECT * FROM candidates;"
+      env:
+        PYTHONPATH: venv/lib/python3.8/site-packages:./src:./scripts:./
+
     - name: Sleep to ensure database file is fully written to disk before running tests
       run: |
         echo "Sleeping for 20 seconds to ensure database file is fully written to disk before running tests..."
